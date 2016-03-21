@@ -7,15 +7,29 @@ import android.support.v7.app.AppCompatActivity;
 /**
  * Created by Administrator on 2016/3/21.
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         initView();
+        setListener();
+        bind();
     }
 
-    private void initView() {
-
+    @Override
+    protected void onDestroy() {
+        unBind();
+        super.onDestroy();
     }
+
+    protected abstract void initView();
+
+    protected abstract void setListener();
+
+    protected abstract void bind();
+
+    protected abstract void unBind();
+
+
 }
