@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/global_include_toolbar" />
+
+    <FrameLayout
+        android:id="@+id/containerFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></FrameLayout>
+
+    <com.example.administrator.gc.widget.BottomNav
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal">
+
+        <com.example.administrator.gc.widget.BottomNavItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:bni_icon="@mipmap/ic_launcher"
+            app:bni_text="11" />
+
+        <com.example.administrator.gc.widget.BottomNavItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:bni_icon="@mipmap/ic_launcher"
+            app:bni_text="11" />
+
+        <com.example.administrator.gc.widget.BottomNavItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:bni_icon="@mipmap/ic_launcher"
+            app:bni_text="11" />
+    </com.example.administrator.gc.widget.BottomNav>
+
+
+</LinearLayout>
