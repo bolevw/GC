@@ -2,6 +2,7 @@ package com.example.administrator.gc.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -28,16 +29,19 @@ public class BottomNav extends LinearLayout implements View.OnClickListener {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
+        setOrientation(HORIZONTAL);
         int count = getChildCount();
         for (int i = 0; i < count; i++) {
             View view = getChildAt(i);
             if (!(view instanceof BottomNavItem)) {
                 throw new RuntimeException("widget must extends BottomNavItem");
             }
+
             BottomNavItem item = (BottomNavItem) view;
             item.setTag(i);
             item.setOnClickListener(this);
             bottoms.add(item);
+
         }
     }
 
@@ -51,6 +55,7 @@ public class BottomNav extends LinearLayout implements View.OnClickListener {
     }
 
     private void selectItem(int position) {
+        Log.d("liubo", "position " + position);
         if (position == currentPosition) {
             return;
         }

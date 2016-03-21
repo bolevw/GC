@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.administrator.gc.R;
@@ -16,7 +17,7 @@ import com.example.administrator.gc.R;
 /**
  * Created by Administrator on 2016/3/21.
  */
-public class BottomNavItem extends View {
+public class BottomNavItem extends LinearLayout {
 
     private ImageView itemNavBottomImageView;
     private TextView itemNavBottomTextView;
@@ -34,12 +35,13 @@ public class BottomNavItem extends View {
 
     public BottomNavItem(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BottomNavItem, 0, 0);
         text = ta.getString(R.styleable.BottomNavItem_bni_text);
         iconRes = ta.getResourceId(R.styleable.BottomNavItem_bni_icon, 0);
         ta.recycle();
 
-        View v = LayoutInflater.from(context).inflate(R.layout.item_bottom_nav, null);
+        View v = LayoutInflater.from(context).inflate(R.layout.item_bottom_nav, this, true);
         itemNavBottomTextView = (TextView) v.findViewById(R.id.itemNavBottomTextView);
         itemNavBottomImageView = (ImageView) v.findViewById(R.id.itemNavBottomImageView);
         itemNavBottomImageView.setImageResource(iconRes);
@@ -51,6 +53,8 @@ public class BottomNavItem extends View {
         animatorOut = AnimatorInflater.loadAnimator(context, R.animator.scale_with_alpha);
         animatorOut.setInterpolator(new RetrieveInterpolator());
         animatorOut.setDuration(300);
+
+
     }
 
 
@@ -60,7 +64,8 @@ public class BottomNavItem extends View {
         if (animatorIn.isRunning())
             animatorIn.end();
 
-        animatorIn.setTarget(itemNavBottomTextView);
+        animatorIn.setTarget(itemNavBottomImageView);
+        animatorIn.start();
         itemNavBottomImageView.setEnabled(false);
     }
 
@@ -70,7 +75,8 @@ public class BottomNavItem extends View {
         if (animatorOut.isRunning())
             animatorOut.end();
 
-        animatorOut.setTarget(itemNavBottomTextView);
+        animatorOut.setTarget(itemNavBottomImageView);
+        animatorOut.start();
         itemNavBottomImageView.setEnabled(true);
     }
 

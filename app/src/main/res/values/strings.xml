@@ -2,4 +2,11 @@
     <string name="app_name">GC</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    
+
+    <!--bottom bar text-->
+    <string name="index_page">首页</string>
+    <string name="forum">论坛</string>
+    <string name="attention">关注</string>
+    <string name="mine">我的</string>
 </resources>

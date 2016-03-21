@@ -12,7 +12,12 @@
         android:id="@+id/containerFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></FrameLayout>
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/cut_line" />
 
     <com.example.administrator.gc.widget.BottomNav
         android:layout_width="match_parent"
@@ -24,21 +29,29 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:bni_icon="@mipmap/ic_launcher"
-            app:bni_text="11" />
+            app:bni_text="@string/index_page" />
 
         <com.example.administrator.gc.widget.BottomNavItem
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:bni_icon="@mipmap/ic_launcher"
-            app:bni_text="11" />
+            app:bni_text="@string/forum" />
 
         <com.example.administrator.gc.widget.BottomNavItem
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:bni_icon="@mipmap/ic_launcher"
-            app:bni_text="11" />
+            app:bni_text="@string/attention" />
+
+
+        <com.example.administrator.gc.widget.BottomNavItem
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:bni_icon="@mipmap/ic_launcher"
+            app:bni_text="@string/mine" />
     </com.example.administrator.gc.widget.BottomNav>
 
 
