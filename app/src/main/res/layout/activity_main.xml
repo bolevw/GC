@@ -20,6 +20,7 @@
         android:background="@color/cut_line" />
 
     <com.example.administrator.gc.widget.BottomNav
+        android:id="@+id/mainBottomNav"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal">
@@ -28,21 +29,21 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:bni_icon="@mipmap/ic_launcher"
+            app:bni_icon="@mipmap/ic_index_home"
             app:bni_text="@string/index_page" />
 
         <com.example.administrator.gc.widget.BottomNavItem
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:bni_icon="@mipmap/ic_launcher"
+            app:bni_icon="@mipmap/ic_forum"
             app:bni_text="@string/forum" />
 
         <com.example.administrator.gc.widget.BottomNavItem
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:bni_icon="@mipmap/ic_launcher"
+            app:bni_icon="@mipmap/ic_favourite"
             app:bni_text="@string/attention" />
 
 
@@ -50,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:bni_icon="@mipmap/ic_launcher"
+            app:bni_icon="@mipmap/ic_mine"
             app:bni_text="@string/mine" />
     </com.example.administrator.gc.widget.BottomNav>
 

@@ -2,7 +2,6 @@ package com.example.administrator.gc.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -38,11 +37,14 @@ public class BottomNav extends LinearLayout implements View.OnClickListener {
             }
 
             BottomNavItem item = (BottomNavItem) view;
+            item.out();
             item.setTag(i);
             item.setOnClickListener(this);
             bottoms.add(item);
 
         }
+        BottomNavItem item = (BottomNavItem) getChildAt(0);
+        item.in();
     }
 
     OnNavItemClickListener listener;
@@ -55,7 +57,7 @@ public class BottomNav extends LinearLayout implements View.OnClickListener {
     }
 
     private void selectItem(int position) {
-        Log.d("liubo", "position " + position);
+
         if (position == currentPosition) {
             return;
         }
@@ -69,6 +71,14 @@ public class BottomNav extends LinearLayout implements View.OnClickListener {
         if (listener != null) {
             listener.onItemClick(position);
         }
+    }
+
+    public OnNavItemClickListener getListener() {
+        return listener;
+    }
+
+    public void setListener(OnNavItemClickListener listener) {
+        this.listener = listener;
     }
 
     public interface OnNavItemClickListener {

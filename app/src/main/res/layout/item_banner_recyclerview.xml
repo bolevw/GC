@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.administrator.gc.widget.FixRatioFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:baseOnWith="true"
+    app:ratio="0.3">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/bannerViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
+    <com.example.administrator.gc.widget.VPIndicator
+        android:id="@+id/bannerVpIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"></com.example.administrator.gc.widget.VPIndicator>
+</com.example.administrator.gc.widget.FixRatioFrameLayout>

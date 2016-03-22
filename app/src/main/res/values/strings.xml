@@ -9,4 +9,13 @@
     <string name="forum">论坛</string>
     <string name="attention">关注</string>
     <string name="mine">我的</string>
+    
+    
+    <!--index home fragment inner viewpager title-->
+    <string name="recommend">推荐</string>
+    <string name="game">游戏</string>
+    <string name="recreation">娱乐</string>
+    <string name="joke">段子</string>
+    <string name="picture">热图</string>
+
 </resources>
