@@ -75,6 +75,10 @@ public class RecommendCFragment extends BaseFragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new RecyclerViewAdapter());
+
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+        recyclerView.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
+
     }
 
     @Override
@@ -295,9 +299,10 @@ public class RecommendCFragment extends BaseFragment {
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            if (parent.getChildLayoutPosition(view) != 0) {
-                outRect.top = space;
+            if (parent.getChildLayoutPosition(view) == 0 || parent.getChildLayoutPosition(view) == 1) {
+                return;
             }
+            outRect.top = space;
         }
     }
 
