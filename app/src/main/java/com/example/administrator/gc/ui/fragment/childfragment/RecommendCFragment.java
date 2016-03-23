@@ -140,7 +140,6 @@ public class RecommendCFragment extends BaseFragment {
         }
 
         class BannerVH extends RecyclerView.ViewHolder {
-            ViewPager bannerViewPager;
             VPIndicator vpIndicator;
 
             public BannerVH(View itemView) {
@@ -185,25 +184,7 @@ public class RecommendCFragment extends BaseFragment {
                 }, 2000);
             }
 
-            private Handler handler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-                    if (msg.what == 1) {
-                        if (currentPosition > colors.length) {
-                            currentPosition = 0;
-                        }
-                        bannerViewPager.setCurrentItem(currentPosition);
-                        currentPosition++;
 
-                        handler.removeMessages(1);
-
-                        Message message = handler.obtainMessage();
-                        message.what = 1;
-                        handler.sendMessageDelayed(message, 2000);
-                    }
-                }
-            };
         }
 
         class HotVh extends RecyclerView.ViewHolder {
@@ -289,7 +270,7 @@ public class RecommendCFragment extends BaseFragment {
         }
     }
 
-
+    ViewPager bannerViewPager;
     class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
@@ -306,5 +287,25 @@ public class RecommendCFragment extends BaseFragment {
         }
     }
 
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1) {
+                if (currentPosition > colors.length) {
+                    currentPosition = 0;
+                }
+                bannerViewPager.setCurrentItem(currentPosition);
+                currentPosition++;
+
+                handler.removeMessages(1);
+
+                Message message = handler.obtainMessage();
+                message.what = 1;
+                handler.sendMessageDelayed(message, 2000);
+            }
+        }
+    };
 
 }
