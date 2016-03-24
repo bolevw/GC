@@ -58,6 +58,7 @@ public class RecommendCFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         currentPosition = 0;
+        presenter.getData();
     }
 
 
@@ -271,6 +272,7 @@ public class RecommendCFragment extends BaseFragment {
     }
 
     ViewPager bannerViewPager;
+
     class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
