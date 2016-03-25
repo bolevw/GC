@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
+import com.example.administrator.gc.model.GroupItemModel;
 import com.example.administrator.gc.model.HotRankingModel;
 import com.example.administrator.gc.model.IndexModel;
 import com.example.administrator.gc.model.PreviewGroup;
@@ -25,6 +26,13 @@ import rx.schedulers.Schedulers;
  */
 public class IndexApi {
 
+
+    /**
+     * 获取首页数据
+     *
+     * @param url
+     * @param subscriber
+     */
     public static void getIndex(final String url, Subscriber<IndexModel> subscriber) {
 
 /*        Retrofit retrofit = new Retrofit.Builder()
@@ -43,83 +51,18 @@ public class IndexApi {
         GetWebObservable.getInstance(url).map(new Func1<Document, IndexModel>() {
             @Override
             public IndexModel call(Document document) {
+                IndexModel model = new IndexModel();
                 List<PreviewGroup> previewGroups = new ArrayList<PreviewGroup>();
                 List<HotRankingModel> hotRankingModels = new ArrayList<HotRankingModel>();
-                IndexModel model = new IndexModel();
 
                 Document doc = document;
-                Element e = doc.body();
+                Element bodyE = doc.body();
+                hotRankingModels = getHotRankingLit(bodyE);
+                previewGroups = getPreviewGroupList(bodyE);
 
-                Elements mostPopularEl = e.getElementsByAttributeValue("data-list", Fields.GroupGategory.mostPopular);
-                for (Element element : mostPopularEl) {
-                    Log.d("web", "element " + element.toString());
-                    HotRankingModel hotRankingModel = new HotRankingModel();
-                    hotRankingModel.setUrls(element.getElementsByTag(Fields.WebField.A).get(0).attr(Fields.WebField.HREF));
-                    hotRankingModel.setImageSrc(element.getElementsByTag(Fields.WebField.IMG).get(0).attr(Fields.WebField.SRC));
-                    hotRankingModel.setName(element.getElementsByTag(Fields.WebField.P).get(0).text());
-                    hotRankingModels.add(hotRankingModel);
-                    Log.d("web", "name" + hotRankingModel.getName());
-
-                }
-
-                Log.d("web", "elements " + mostPopularEl.toString());
-            /*    for (Element element : es4) {
-                    if (element.toString().contains(Fields.GroupGategory.mostPopular)) {
-                        Log.d("web", element.toString());
-*//*
-                        Elements es3 = e.getElementsByAttributeValue("class", "m-channel__list--con");
-
-                        for (Element el : es3) {
-                            HotRankingModel hotRankingModel = new HotRankingModel();
-
-                            Elements imgEl = el.getElementsByTag("img");
-                            Elements hrefEl = el.getElementsByTag("a");
-                            Elements nameEl = el.getElementsByTag("p");
-
-                            hotRankingModel.setImageSrc(imgEl.get(0).attr("src"));
-                            hotRankingModel.setName(nameEl.get(0).text().toString());
-                            hotRankingModel.setUrls(hrefEl.get(0).attr("href"));
-
-                            hotRankingModels.add(hotRankingModel);
-                            Log.d("hotRankingModel", "img" + hotRankingModel.getImageSrc() + " href" + hotRankingModel.getUrls() + " name " + hotRankingModel.getName() + " size " + previewGroups.size());
-
-                        }*//*
-                    } else if (element.toString().contains(Fields.GroupGategory.mobileGame)) {
-
-                    } else if (element.toString().contains(Fields.GroupGategory.recommend)) {
-
-                    }
-                }*/
-    /*            for (Element el : es2) {
-
-
-                    for (Element el2 : es3) {
-                        if (el2.toString().contains("img")) {
-                            String herf = el2.attr("href");
-                            PreviewGroup group = new PreviewGroup();
-                            group.setUrls(herf);
-                            Log.d("web href", herf);
-                            Elements es4 = el2.getElementsByTag("img");
-                            for (Element el3 : es4) {
-                                String imgsrc = el3.attr("src");
-                                group.setImageSrc(imgsrc);
-                            }
-                        } else {
-
-                        }
-
-                    }
-                }*/
-
-             /*   for (Element el : es2) {
-                    Elements es3 = el.getElementsByTag("p");
-                    for (Element el1 : es3) {
-                        String groupName = el.attr("p");
-                        Log.d("web el1 ", "group name " + groupName);
-                    }
-
-                    String imgSrc = el.attr("img");
-                }*/
+                model.setPreviewGroupList(previewGroups);
+                model.setHotRankingList(hotRankingModels);
+                Log.d("web", model.toString());
                 return model;
             }
         }).subscribeOn(Schedulers.io())
@@ -127,5 +70,69 @@ public class IndexApi {
                 .subscribe(subscriber);
     }
 
+    private static List<HotRankingModel> getHotRankingLit(Element bodyE) {
+        List<HotRankingModel> hotRankingModels = new ArrayList<>();
+        Elements mostPopularEs = bodyE.getElementsByAttributeValue(Fields.WebField.DATA_LIST, Fields.GroupGategory.mostPopular);
+        for (Element element : mostPopularEs) {
+            Elements itemEs = element.getElementsByTag(Fields.WebField.LI);
+            for (Element itemE : itemEs) {
+
+                Elements tagAEl = itemE.getElementsByTag(Fields.WebField.A);
+                Elements tagImg = itemE.getElementsByTag(Fields.WebField.IMG);
+                Elements tagP = itemE.getElementsByTag(Fields.WebField.P);
+
+                HotRankingModel hotRankingModel = new HotRankingModel();
+                hotRankingModel.setName(tagP.text().toString());
+                hotRankingModel.setUrls(tagAEl.attr(Fields.WebField.HREF));
+                hotRankingModel.setImageSrc(tagImg.attr(Fields.WebField.SRC));
+
+                hotRankingModels.add(hotRankingModel);
+            }
+        }
+        return hotRankingModels;
+    }
+
+    private static List<PreviewGroup> getPreviewGroupList(Element bodyE) {
+        List<PreviewGroup> previewGroups = new ArrayList<>();
+        PreviewGroup recommendGroup = new PreviewGroup();
+        recommendGroup = getPreviewGroup(bodyE, Fields.GroupGategory.recommend);
+        previewGroups.add(recommendGroup);
+
+        PreviewGroup mobileGroup = new PreviewGroup();
+        mobileGroup = getPreviewGroup(bodyE, Fields.GroupGategory.mobileGame);
+        previewGroups.add(mobileGroup);
+
+        return previewGroups;
+    }
+
+    private static PreviewGroup getPreviewGroup(Element bodyE, String fields) {
+        PreviewGroup group = new PreviewGroup();
+        group.setName(fields);
+        Elements urlEs = bodyE.getElementsByTag(Fields.WebField.A);
+        if (urlEs.toString().contains(fields)) {
+            Element urlEl = urlEs.get(0);
+            group.setUrls(urlEl.attr(Fields.WebField.HREF));
+        }
+        List<GroupItemModel> groupItemModels = new ArrayList<>();
+        Elements mostPopularEs = bodyE.getElementsByAttributeValue(Fields.WebField.DATA_LIST, fields);
+        for (Element element : mostPopularEs) {
+            Elements itemEs = element.getElementsByTag(Fields.WebField.LI);
+            for (Element itemE : itemEs) {
+                Elements tagAEl = itemE.getElementsByTag(Fields.WebField.A);
+                Elements tagImg = itemE.getElementsByTag(Fields.WebField.IMG);
+                Elements tagP = itemE.getElementsByTag(Fields.WebField.P);
+
+                GroupItemModel groupItemModel = new GroupItemModel();
+                groupItemModel.setName(tagP.text().toString());
+                groupItemModel.setUrl(tagAEl.attr(Fields.WebField.HREF));
+                groupItemModel.setImageSrc(tagImg.attr(Fields.WebField.SRC));
+                groupItemModels.add(groupItemModel);
+            }
+        }
+
+        group.setGroupItemList(groupItemModels);
+
+        return group;
+    }
 
 }

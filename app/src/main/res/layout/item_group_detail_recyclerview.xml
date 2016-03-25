@@ -7,8 +7,11 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/groupTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="4dp"
@@ -28,6 +31,7 @@
             tools:src="@mipmap/ic_icon" />
 
         <TextView
+            android:id="@+id/groupName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_normal"
@@ -51,21 +55,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:splitMotionEvents="false">
 
         <LinearLayout
+            android:id="@+id/group_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:id="@+id/image_1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/name_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -73,18 +84,24 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/group_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:id="@+id/image_2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/name_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -95,21 +112,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:splitMotionEvents="false">
 
         <LinearLayout
+            android:id="@+id/group_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:id="@+id/image_3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/name_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -117,18 +141,24 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/group_4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:id="@+id/image_4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
+                android:id="@+id/name_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

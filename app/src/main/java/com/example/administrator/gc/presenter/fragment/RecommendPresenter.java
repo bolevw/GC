@@ -1,15 +1,10 @@
 package com.example.administrator.gc.presenter.fragment;
 
-import android.util.Log;
-
 import com.example.administrator.gc.api.IndexApi;
 import com.example.administrator.gc.api.Urls;
 import com.example.administrator.gc.base.BasePresenter;
 import com.example.administrator.gc.model.IndexModel;
 import com.example.administrator.gc.ui.fragment.childfragment.RecommendCFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import rx.Subscriber;
 
@@ -23,18 +18,8 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
     @Override
     public void bind(RecommendCFragment view) {
         this.view = view;
-        getHotList();
+
     }
-
-    private void getHotList() {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            list.add("i" + i);
-        }
-
-        view.notifyHotDataChange(list);
-    }
-
 
     public void getData() {
         IndexApi.getIndex(Urls.INDEX_URL, new Subscriber<IndexModel>() {
@@ -51,7 +36,9 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
 
             @Override
             public void onNext(IndexModel indexModel) {
-                Log.d("web", "onNext");
+                if (null != view) {
+                    view.notifyHotDataChange(indexModel);
+                }
             }
         });
     }

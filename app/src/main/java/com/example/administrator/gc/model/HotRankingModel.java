@@ -1,13 +1,23 @@
 package com.example.administrator.gc.model;
 
+import com.example.administrator.gc.base.BaseModel;
+
 /**
  * Created by Administrator on 2016/3/24.
  */
-public class HotRankingModel {
+public class HotRankingModel extends BaseModel{
     private String imageSrc;
     private String name;
     private String urls;
 
+    @Override
+    public String toString() {
+        return "HotRankingModel{" +
+                "imageSrc='" + imageSrc + '\'' +
+                ", name='" + name + '\'' +
+                ", urls='" + urls + '\'' +
+                '}';
+    }
 
     public String getImageSrc() {
         return imageSrc;

@@ -12,6 +12,8 @@ public class Fields {
         public static final String IMG = "img";
         public static final String SRC = "src";
         public static final String P = "p";
+        public static final String LI = "li";
+        public static final String DATA_LIST = "data-list";
     }
 
     public static final class GroupGategory {
