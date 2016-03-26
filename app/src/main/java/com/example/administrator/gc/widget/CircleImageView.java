@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.example.administrator.gc.R;
 
 /**
+ * 通过在原来的imageView增加一个layer，然后通过XFerMode.SRC_IN"
  * Created by Administrator on 2016/3/25.
  */
 public class CircleImageView extends ImageView {

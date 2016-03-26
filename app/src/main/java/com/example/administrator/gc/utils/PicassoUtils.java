@@ -15,6 +15,7 @@ public class PicassoUtils {
         picasso
                 .with(context)
                 .load(urls)
+                .fit()
                 .into(imageView);
     }
 
