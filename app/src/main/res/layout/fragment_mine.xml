@@ -11,14 +11,13 @@
         android:layout_height="wrap_content"
         android:background="@color/orange_500">
 
-   <com.example.administrator.gc.widget.CircleImageView
-       android:layout_width="50dp"
-       android:layout_height="50dp"
-       android:scaleType="fitXY"
-       android:src="@mipmap/ic_mine"  />
+        <com.example.administrator.gc.widget.CircleImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_test" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>

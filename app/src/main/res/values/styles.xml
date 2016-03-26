@@ -29,4 +29,12 @@
         <attr name="ratio" format="float" />
     </declare-styleable>
 
+
+    <declare-styleable name="CircleImageView">
+        <attr name="style" format="enum">
+            <enum name="circle" value="0" />
+            <enum name="roundRect" value="1" />
+        </attr>
+    </declare-styleable>
+
 </resources>

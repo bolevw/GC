@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -67,13 +68,14 @@
             android:clickable="true"
             android:orientation="vertical">
 
-            <ImageView
+            <com.example.administrator.gc.widget.CircleImageView
                 android:id="@+id/image_1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                app:style="roundRect" />
 
             <TextView
                 android:id="@+id/name_1"
@@ -92,13 +94,14 @@
             android:clickable="true"
             android:orientation="vertical">
 
-            <ImageView
+            <com.example.administrator.gc.widget.CircleImageView
                 android:id="@+id/image_2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                app:style="roundRect" />
 
             <TextView
                 android:id="@+id/name_2"
@@ -124,13 +127,14 @@
             android:clickable="true"
             android:orientation="vertical">
 
-            <ImageView
+            <com.example.administrator.gc.widget.CircleImageView
                 android:id="@+id/image_3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                app:style="roundRect" />
 
             <TextView
                 android:id="@+id/name_3"
@@ -149,13 +153,14 @@
             android:clickable="true"
             android:orientation="vertical">
 
-            <ImageView
+            <com.example.administrator.gc.widget.CircleImageView
                 android:id="@+id/image_4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                app:style="roundRect" />
 
             <TextView
                 android:id="@+id/name_4"
