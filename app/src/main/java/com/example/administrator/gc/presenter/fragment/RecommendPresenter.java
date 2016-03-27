@@ -31,7 +31,6 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
-
             }
 
             @Override

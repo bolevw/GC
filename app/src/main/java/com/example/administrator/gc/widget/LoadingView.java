@@ -1,6 +1,7 @@
 package com.example.administrator.gc.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.administrator.gc.R;
+import com.example.administrator.gc.base.BaseApplication;
 
 /**
  * Created by Administrator on 2016/3/26.
@@ -31,8 +33,8 @@ public class LoadingView extends ViewGroup {
 
     public LoadingView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mContext = context;
-        setWillNotDraw(true);
+        this.mContext = BaseApplication.getContext();
+//        setWillNotDraw(false);
         Log.d("LoadingView", "LoadingView");
         init();
     }
@@ -60,20 +62,13 @@ public class LoadingView extends ViewGroup {
         Log.d("LoadingView", "size" + getChildCount());
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
-            view.layout(itemMargin * i, getHeight() / 2, getWidth() - itemMargin * i - view.getWidth(), view.getMeasuredHeight() + getHeight() / 2);
+            view.layout(itemMargin * i, getHeight() / 2, getWidth() - itemMargin * i - view.getMeasuredWidth(), view.getMeasuredHeight() + getHeight() / 2);
+            Log.d(TAG, "view left %s " +
+                    view.getLeft() + "right %s" +
+                    view.getRight() + " top %s " +
+                    view.getTop() + "bottom %s" +
+                    view.getBottom());
         }
-    }
-
-
-    @Override
-    protected Parcelable onSaveInstanceState() {
-
-        return super.onSaveInstanceState();
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(state);
     }
 
     public void setPointCount(int count) {
@@ -89,7 +84,7 @@ public class LoadingView extends ViewGroup {
     private void createPoint(int count) {
         for (int i = 0; i < count; i++) {
             View view = new View(this.mContext);
-            view.setBackgroundResource(R.drawable.orange_circle);
+            view.setBackgroundColor(Color.BLACK);
             ViewGroup.LayoutParams lp = new LayoutParams(dip2px(8), dip2px(8));
             this.addView(view, lp);
         }
