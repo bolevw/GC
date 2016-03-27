@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         setContentView(R.layout.activity_main);
         bottomNav = (BottomNav) findViewById(R.id.mainBottomNav);
-        switchFragment(1);
+        switchFragment(0);
 
     }
 

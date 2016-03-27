@@ -67,7 +67,6 @@ public class IndexHomeFragment extends BaseFragment {
         indexHomeTabLayout.setupWithViewPager(indexHomeViewPager);
 
         indexHomeViewPager.setOffscreenPageLimit(5);
-        indexHomeViewPager.setCurrentItem(1);
 
     }
 
