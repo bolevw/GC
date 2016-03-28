@@ -10,9 +10,9 @@
         android:layout_height="200dp"
         android:id="@+id/loadingView"></com.example.administrator.gc.widget.LoadingView>
 
-    <TextView
+    <Button
+        android:id="@+id/button"
+        android:text="strat"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1111111111" />
-
+        android:layout_height="wrap_content" />
 </LinearLayout>

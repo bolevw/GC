@@ -31,8 +31,13 @@ public class GameCFragment extends BaseFragment {
 
     @Override
     protected void initView(View v) {
-//        mLoadingView = (LoadingView) v.findViewById(R.id.loadingView);
-//        mLoadingView.notifyChange();
+        mLoadingView = (LoadingView) v.findViewById(R.id.loadingView);
+        v.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLoadingView.startLoading();
+            }
+        });
 
 
     }
