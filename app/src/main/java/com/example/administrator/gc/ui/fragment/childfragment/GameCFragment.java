@@ -35,7 +35,7 @@ public class GameCFragment extends BaseFragment {
         v.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLoadingView.startLoading();
+                mLoadingView.start();
             }
         });
 

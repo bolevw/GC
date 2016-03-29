@@ -10,17 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseApplication;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Administrator on 2016/3/26.
@@ -31,14 +28,15 @@ public class LoadingView extends ViewGroup {
 
     private static final int DEFAULT_COUNT = 4;
 
+    private List<Integer> roadList = new ArrayList<>();
+    private int i = 1;
     private int pointCount;
 
     private ImageView moveView;
-
     private Context mContext;
-    AnimatorSet set;
+    private String loadingText = "正在加载...";
 
-    private List<Integer> roadList = new ArrayList<>();
+    private boolean isAnim = false;
 
     public LoadingView(Context context) {
         super(context);
@@ -70,19 +68,21 @@ public class LoadingView extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int width = getWidth();
         int itemMargin = width / pointCount;
-
+        roadList.clear();
         Log.d("LoadingView", "contain view size：" + getChildCount());
 
-        for (int i = 0; i < getChildCount(); i++) {
+        for (int i = 0; i < getChildCount() - 1; i++) {
             View view = getChildAt(i);
-            view.layout(itemMargin * i, getHeight() / 2 - view.getMeasuredHeight() / 2, itemMargin * i + view.getMeasuredWidth(), view.getMeasuredHeight() / 2 + getHeight() / 2);
-            roadList.add(itemMargin * i + view.getMeasuredWidth() / 2);
+            view.layout(itemMargin * i + 40, getHeight() / 2 - view.getMeasuredHeight() / 2, itemMargin * i + view.getMeasuredWidth() + 40, view.getMeasuredHeight() / 2 + getHeight() / 2);
+            roadList.add(itemMargin * i + view.getMeasuredWidth() / 2 + 40);
             Log.d(TAG, "view left:" +
                     view.getLeft() + "right:" +
                     view.getRight() + " top:" +
                     view.getTop() + "bottom:" +
                     view.getBottom());
         }
+        View view = getChildAt(getChildCount() - 1);
+        view.layout(getWidth() / 2 - view.getMeasuredWidth() / 2, getHeight() / 2 + getChildAt(0).getMeasuredHeight(), getWidth() / 2 + view.getMeasuredWidth() / 2, getHeight() / 2 + getChildAt(0).getMeasuredHeight() + view.getMeasuredHeight());
     }
 
     public void setPointCount(int count) {
@@ -102,65 +102,72 @@ public class LoadingView extends ViewGroup {
             ViewGroup.LayoutParams lp = new LayoutParams(dip2px(8), dip2px(8));
             this.addView(view, lp);
         }
+
+        TextView textView = new TextView(this.mContext);
+        textView.setText(loadingText);
+        ViewGroup.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        this.addView(textView, lp);
     }
 
-    public void startLoading() {
-        set = new AnimatorSet();
-        for (int i = 0; i < roadList.size(); i++) {
-            final int finalI = i;
-            Observable<Integer> observable = Observable.create(new Observable.OnSubscribe<Integer>() {
-                @Override
-                public void call(Subscriber<? super Integer> subscriber) {
-                    subscriber.onNext(finalI);
-                    subscriber.onCompleted();
-                }
-            });
 
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .debounce(400, TimeUnit.MILLISECONDS)
-                    .subscribe(new Subscriber<Integer>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(Integer integer) {
-                            Log.d(TAG, "i " + integer);
-                            final int i = integer;
-                            final ObjectAnimator moveAnim = ObjectAnimator.ofFloat(getChildAt(0), View.TRANSLATION_X, getChildAt(0).getLeft(), roadList.get(1));
-                            moveAnim.addListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    super.onAnimationEnd(animation);
-
-                                    ObjectAnimator.ofFloat(getChildAt(0), View.TRANSLATION_X, getChildAt(0).getLeft(), roadList.get(i)).setDuration(300).start();
-                                }
-                            });
-                            View vi = null;
-                            if (i > 0 && i < getChildCount()) {
-                                vi = getChildAt(i);
-
-                                ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(vi, "alpha", 1f, 0f);
-                                set.playSequentially(moveAnim, alphaAnim);
-                                set.setDuration(3000);
-                                set.start();
-                            } else {
-                                set.play(moveAnim);
-                                set.setDuration(3000);
-                                set.start();
-                            }
-
-                        }
-                    });
+    public void start() {
+        if (isAnim) {
+            return;
         }
 
+
+        if (i < roadList.size()) {
+            isAnim = true;
+        } else {
+            isAnim = false;
+        }
+        startLoading();
+    }
+
+    private void startLoading() {
+
+        final View moveView = getChildAt(0);
+
+        if (i < roadList.size()) {
+            Log.d(TAG, "left:" + roadList.get(i));
+            final ObjectAnimator moveAnim = ObjectAnimator.ofFloat(moveView, View.TRANSLATION_X, i == 1 ? moveView.getLeft() : roadList.get(i - 1) - moveView.getMeasuredWidth() / 2, i == roadList.size() - 1 ? roadList.get(i) : roadList.get(i) - moveView.getMeasuredWidth() / 2);
+            moveAnim.setDuration(300);
+            moveAnim.start();
+
+            moveAnim.addListener(new AnimatorListenerAdapter() {
+
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (i < getChildCount() - 1) {
+                        View vi = getChildAt(i);
+
+                        ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(vi, "alpha", 1f, 0f);
+                        alphaAnim.setDuration(0);
+                        alphaAnim.start();
+                        ObjectAnimator.ofFloat(moveView, View.ALPHA, moveView.getAlpha(), moveView.getAlpha() + (float) (1f / (getChildCount() - 1) * i)).setDuration(0).start();
+
+                        i++;
+                        startLoading();
+                    }
+
+                }
+            });
+        } else {
+            Log.d(TAG, "end");
+            i = 1;
+            isAnim = false;
+            AnimatorSet set = new AnimatorSet();
+            set.playSequentially(ObjectAnimator.ofFloat(moveView, View.ALPHA, 1f, 0f)
+                    , ObjectAnimator.ofFloat(moveView, View.TRANSLATION_X, 0, moveView.getLeft())
+                    , ObjectAnimator.ofFloat(moveView, View.ALPHA, 0f, 1f / (getChildCount() - 1)));
+            set.setDuration(0);
+            set.start();
+
+            for (int i = 1; i < getChildCount() - 1; i++) {
+                getChildAt(i).setAlpha(1f);
+            }
+        }
     }
 
     private int dip2px(int value) {
