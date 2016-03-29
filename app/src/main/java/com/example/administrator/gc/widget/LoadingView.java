@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.administrator.gc.R;
-import com.example.administrator.gc.base.BaseApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class LoadingView extends ViewGroup {
 
     private static final int DEFAULT_COUNT = 4;
 
-    private int moveSpeed = 300;
+    private int moveSpeed = 100;
 
     private List<Integer> roadList = new ArrayList<>();
     private int i = 1;
@@ -47,7 +46,7 @@ public class LoadingView extends ViewGroup {
 
     public LoadingView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mContext = BaseApplication.getContext();
+        this.mContext = context;
         setWillNotDraw(false);
         init();
     }

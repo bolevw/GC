@@ -72,7 +72,7 @@ public class IndexApi {
 
     private static List<HotRankingModel> getHotRankingLit(Element bodyE) {
         List<HotRankingModel> hotRankingModels = new ArrayList<>();
-        Elements mostPopularEs = bodyE.getElementsByAttributeValue(Fields.WebField.DATA_LIST, Fields.GroupGategory.mostPopular);
+        Elements mostPopularEs = bodyE.getElementsByAttributeValue(Fields.WebField.DATA_LIST, Fields.GroupCategory.mostPopular);
         for (Element element : mostPopularEs) {
             Elements itemEs = element.getElementsByTag(Fields.WebField.LI);
             for (Element itemE : itemEs) {
@@ -95,11 +95,11 @@ public class IndexApi {
     private static List<PreviewGroup> getPreviewGroupList(Element bodyE) {
         List<PreviewGroup> previewGroups = new ArrayList<>();
         PreviewGroup recommendGroup = new PreviewGroup();
-        recommendGroup = getPreviewGroup(bodyE, Fields.GroupGategory.recommend);
+        recommendGroup = getPreviewGroup(bodyE, Fields.GroupCategory.recommend);
         previewGroups.add(recommendGroup);
 
         PreviewGroup mobileGroup = new PreviewGroup();
-        mobileGroup = getPreviewGroup(bodyE, Fields.GroupGategory.mobileGame);
+        mobileGroup = getPreviewGroup(bodyE, Fields.GroupCategory.mobileGame);
         previewGroups.add(mobileGroup);
 
         return previewGroups;

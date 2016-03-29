@@ -16,11 +16,15 @@ public class Fields {
         public static final String DATA_LIST = "data-list";
     }
 
-    public static final class GroupGategory {
+    public static final class GroupCategory {
         public static final String mostPopular = "最受欢迎游戏专区";
         public static final String recommend = "推荐游戏专区";
         public static final String mobileGame = "手机网游专区";
         public static final String TGS = "电玩&单机广场";
+    }
+
+    public static final class AllGame{
+        public static final String TAG = "m-channel__list--con";
     }
 
 }

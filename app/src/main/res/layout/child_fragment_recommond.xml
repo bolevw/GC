@@ -6,9 +6,19 @@
     android:background="@color/common_background_white"
     android:orientation="vertical">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recommendRecyclerView"
+    <com.example.administrator.gc.widget.LoadingView
+        android:id="@+id/loadingView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"></com.example.administrator.gc.widget.LoadingView>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/recommendSwipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recommendRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

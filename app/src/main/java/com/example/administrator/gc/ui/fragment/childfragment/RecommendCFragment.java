@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -47,6 +48,8 @@ public class RecommendCFragment extends BaseFragment {
 
     private RecommendPresenter presenter;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     int[] colors = new int[]{Color.RED, Color.WHITE, Color.BLACK, Color.YELLOW, Color.BLUE};
 
@@ -69,7 +72,7 @@ public class RecommendCFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         currentPosition = 0;
-        presenter.getData();
+        presenter.getData(false);
     }
 
 
@@ -107,6 +110,8 @@ public class RecommendCFragment extends BaseFragment {
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
         recyclerView.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
 
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.recommendSwipeRefreshLayout);
+
     }
 
     @Override
@@ -117,8 +122,20 @@ public class RecommendCFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+    }
 
+    SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            presenter.getData(true);
+        }
+    };
 
+    public void stopRefresh() {
+        if (null != swipeRefreshLayout && swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override

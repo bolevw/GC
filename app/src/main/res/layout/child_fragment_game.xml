@@ -8,11 +8,17 @@
     <com.example.administrator.gc.widget.LoadingView
         android:id="@+id/loadingView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"></com.example.administrator.gc.widget.LoadingView>
+        android:layout_height="match_parent"></com.example.administrator.gc.widget.LoadingView>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="strat" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/gameSwipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/gameRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

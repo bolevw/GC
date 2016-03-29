@@ -21,7 +21,11 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
 
     }
 
-    public void getData() {
+    public void getData(final boolean swipe) {
+        if (null != view) {
+            if (!swipe)
+                view.startLoading();
+        }
         IndexApi.getIndex(Urls.INDEX_URL, new Subscriber<IndexModel>() {
             @Override
             public void onCompleted() {
@@ -31,11 +35,17 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
+                if (null != view) {
+                    view.stopRefresh();
+                }
             }
 
             @Override
             public void onNext(IndexModel indexModel) {
                 if (null != view) {
+                    view.stopRefresh();
+                    if (!swipe)
+                        view.stopLoading();
                     view.notifyHotDataChange(indexModel);
                 }
             }
