@@ -46,6 +46,8 @@ public class GamePresenter implements BasePresenter<GameCFragment> {
                 if (null != view) {
                     if (!swipe) {
                         view.stopLoading();
+                    } else {
+                        view.stopRefresh();
                     }
                 }
             }
@@ -55,6 +57,8 @@ public class GamePresenter implements BasePresenter<GameCFragment> {
                 if (null != view) {
                     if (!swipe) {
                         view.stopLoading();
+                    } else {
+                        view.stopRefresh();
                     }
 
                     view.notifyChange(gameItemModels);

@@ -72,6 +72,20 @@ public class GameCFragment extends BaseFragment {
 
     }
 
+    SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            presener.getData(true);
+        }
+    };
+
+
+    public void stopRefresh() {
+        if (null != swipeRefreshLayout && swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
     @Override
     protected void bind() {
         this.presener = new GamePresenter();
@@ -88,6 +102,7 @@ public class GameCFragment extends BaseFragment {
     @Override
     protected void setListener() {
         recyclerView.addItemDecoration(new RecyclerViewItemDirection(getResources().getDimensionPixelSize(R.dimen.cut_line)));
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
     }
 
     class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -102,8 +117,8 @@ public class GameCFragment extends BaseFragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             VH vh = (VH) holder;
             GameItemModel model = recyclerData.get(position);
-                vh.name1.setText(model.getName());
-                PicassoUtils.normalShowImage(getActivity(), model.getImageSrc(), vh.image1);
+            vh.name1.setText(model.getName());
+            PicassoUtils.normalShowImage(getActivity(), model.getImageSrc(), vh.image1);
 
         }
 
@@ -114,21 +129,14 @@ public class GameCFragment extends BaseFragment {
 
         class VH extends RecyclerView.ViewHolder {
             private LinearLayout item1;
-
             private ImageView image1;
-
             private TextView name1;
-
 
             public VH(View itemView) {
                 super(itemView);
                 item1 = (LinearLayout) itemView.findViewById(R.id.itemGameLinearLayout1);
-
                 image1 = (ImageView) itemView.findViewById(R.id.itemGameImageView1);
-
-
                 name1 = (TextView) itemView.findViewById(R.id.itemGameTextView1);
-
             }
         }
 

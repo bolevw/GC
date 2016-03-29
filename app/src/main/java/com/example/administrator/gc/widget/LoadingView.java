@@ -116,10 +116,10 @@ public class LoadingView extends ViewGroup {
         }
     };
 
-    Handler handler = new Handler();
+    Handler handler;
 
     public void start() {
-
+        handler = new Handler();
 
         if (isAnim) {
             return;
