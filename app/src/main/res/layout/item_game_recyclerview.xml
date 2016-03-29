@@ -32,6 +32,7 @@
             android:gravity="center_horizontal"
             android:textColor="@color/black"
             android:textSize="@dimen/text_normal"
+            android:singleLine="true"
             tools:text="test" />
     </LinearLayout>
 

@@ -116,10 +116,10 @@ public class LoadingView extends ViewGroup {
         }
     };
 
-    Handler handler;
+    static Handler handler = new Handler();
 
     public void start() {
-        handler = new Handler();
+
 
         if (isAnim) {
             return;
@@ -131,6 +131,7 @@ public class LoadingView extends ViewGroup {
             isAnim = false;
         }
         startLoading();
+        handler.removeCallbacks(ru);
         handler.postDelayed(ru, moveSpeed * (getChildCount() - 2));
     }
 
@@ -138,18 +139,21 @@ public class LoadingView extends ViewGroup {
     public void setVisibility(int visibility) {
         if (visibility == GONE) {
             handler.removeCallbacks(ru);
-            handler = null;
         }
         super.setVisibility(visibility);
 
     }
+
+    ObjectAnimator moveAnim;
+    ObjectAnimator alphaAnim;
+    AnimatorSet set;
 
     private void startLoading() {
 
         final View moveView = getChildAt(0);
 
         if (i < roadList.size()) {
-            final ObjectAnimator moveAnim = ObjectAnimator.ofFloat(
+            moveAnim = ObjectAnimator.ofFloat(
                     moveView,
                     View.TRANSLATION_X, i == 1 ? moveView.getLeft() : roadList.get(i - 1) - moveView.getMeasuredWidth() / 2,
                     i == roadList.size() - 1 ? roadList.get(i) : roadList.get(i) - moveView.getMeasuredWidth() / 2);
@@ -163,7 +167,7 @@ public class LoadingView extends ViewGroup {
                     if (i < getChildCount() - 1) {
                         View vi = getChildAt(i);
 
-                        ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(vi, "alpha", 1f, 0f);
+                        alphaAnim = ObjectAnimator.ofFloat(vi, "alpha", 1f, 0f);
                         alphaAnim.setDuration(0);
                         alphaAnim.start();
                         ObjectAnimator.ofFloat(moveView, View.ALPHA, moveView.getAlpha(), moveView.getAlpha() + (float) (1f / (getChildCount() - 1) * i))
@@ -178,7 +182,7 @@ public class LoadingView extends ViewGroup {
         } else {
             i = 1;
             isAnim = false;
-            AnimatorSet set = new AnimatorSet();
+            set = new AnimatorSet();
             set.playSequentially(
                     ObjectAnimator.ofFloat(moveView, View.ALPHA, 1f, 0f)
                     , ObjectAnimator.ofFloat(moveView, View.TRANSLATION_X, 0, moveView.getLeft())

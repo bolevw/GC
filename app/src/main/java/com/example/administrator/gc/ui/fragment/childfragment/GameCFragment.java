@@ -103,6 +103,7 @@ public class GameCFragment extends BaseFragment {
     protected void setListener() {
         recyclerView.addItemDecoration(new RecyclerViewItemDirection(getResources().getDimensionPixelSize(R.dimen.cut_line)));
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+        recyclerView.setMotionEventSplittingEnabled(false);
     }
 
     class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
