@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,8 @@ public class LoadingView extends ViewGroup {
     private static final String TAG = "LoadingView";
 
     private static final int DEFAULT_COUNT = 4;
+
+    private int moveSpeed = 300;
 
     private List<Integer> roadList = new ArrayList<>();
     private int i = 1;
@@ -75,11 +78,6 @@ public class LoadingView extends ViewGroup {
             View view = getChildAt(i);
             view.layout(itemMargin * i + 40, getHeight() / 2 - view.getMeasuredHeight() / 2, itemMargin * i + view.getMeasuredWidth() + 40, view.getMeasuredHeight() / 2 + getHeight() / 2);
             roadList.add(itemMargin * i + view.getMeasuredWidth() / 2 + 40);
-            Log.d(TAG, "view left:" +
-                    view.getLeft() + "right:" +
-                    view.getRight() + " top:" +
-                    view.getTop() + "bottom:" +
-                    view.getBottom());
         }
         View view = getChildAt(getChildCount() - 1);
         view.layout(getWidth() / 2 - view.getMeasuredWidth() / 2, getHeight() / 2 + getChildAt(0).getMeasuredHeight(), getWidth() / 2 + view.getMeasuredWidth() / 2, getHeight() / 2 + getChildAt(0).getMeasuredHeight() + view.getMeasuredHeight());
@@ -110,11 +108,23 @@ public class LoadingView extends ViewGroup {
     }
 
 
+    Runnable ru = new Runnable() {
+        @Override
+        public void run() {
+            start();
+            removeCallbacks(this);
+            handler.postDelayed(ru, moveSpeed * (getChildCount() - 2));
+        }
+    };
+
+    Handler handler = new Handler();
+
     public void start() {
+
+
         if (isAnim) {
             return;
         }
-
 
         if (i < roadList.size()) {
             isAnim = true;
@@ -122,6 +132,17 @@ public class LoadingView extends ViewGroup {
             isAnim = false;
         }
         startLoading();
+        handler.postDelayed(ru, moveSpeed * (getChildCount() - 2));
+    }
+
+    @Override
+    public void setVisibility(int visibility) {
+        if (visibility == GONE) {
+            handler.removeCallbacks(ru);
+            handler = null;
+        }
+        super.setVisibility(visibility);
+
     }
 
     private void startLoading() {
@@ -129,14 +150,15 @@ public class LoadingView extends ViewGroup {
         final View moveView = getChildAt(0);
 
         if (i < roadList.size()) {
-            Log.d(TAG, "left:" + roadList.get(i));
-            final ObjectAnimator moveAnim = ObjectAnimator.ofFloat(moveView, View.TRANSLATION_X, i == 1 ? moveView.getLeft() : roadList.get(i - 1) - moveView.getMeasuredWidth() / 2, i == roadList.size() - 1 ? roadList.get(i) : roadList.get(i) - moveView.getMeasuredWidth() / 2);
-            moveAnim.setDuration(300);
+            final ObjectAnimator moveAnim = ObjectAnimator.ofFloat(
+                    moveView,
+                    View.TRANSLATION_X, i == 1 ? moveView.getLeft() : roadList.get(i - 1) - moveView.getMeasuredWidth() / 2,
+                    i == roadList.size() - 1 ? roadList.get(i) : roadList.get(i) - moveView.getMeasuredWidth() / 2);
+
+            moveAnim.setDuration(moveSpeed);
             moveAnim.start();
 
             moveAnim.addListener(new AnimatorListenerAdapter() {
-
-
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     if (i < getChildCount() - 1) {
@@ -145,8 +167,9 @@ public class LoadingView extends ViewGroup {
                         ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(vi, "alpha", 1f, 0f);
                         alphaAnim.setDuration(0);
                         alphaAnim.start();
-                        ObjectAnimator.ofFloat(moveView, View.ALPHA, moveView.getAlpha(), moveView.getAlpha() + (float) (1f / (getChildCount() - 1) * i)).setDuration(0).start();
-
+                        ObjectAnimator.ofFloat(moveView, View.ALPHA, moveView.getAlpha(), moveView.getAlpha() + (float) (1f / (getChildCount() - 1) * i))
+                                .setDuration(0)
+                                .start();
                         i++;
                         startLoading();
                     }
@@ -154,11 +177,11 @@ public class LoadingView extends ViewGroup {
                 }
             });
         } else {
-            Log.d(TAG, "end");
             i = 1;
             isAnim = false;
             AnimatorSet set = new AnimatorSet();
-            set.playSequentially(ObjectAnimator.ofFloat(moveView, View.ALPHA, 1f, 0f)
+            set.playSequentially(
+                    ObjectAnimator.ofFloat(moveView, View.ALPHA, 1f, 0f)
                     , ObjectAnimator.ofFloat(moveView, View.TRANSLATION_X, 0, moveView.getLeft())
                     , ObjectAnimator.ofFloat(moveView, View.ALPHA, 0f, 1f / (getChildCount() - 1)));
             set.setDuration(0);
@@ -168,6 +191,24 @@ public class LoadingView extends ViewGroup {
                 getChildAt(i).setAlpha(1f);
             }
         }
+    }
+
+
+    public String getLoadingText() {
+        return loadingText;
+    }
+
+    public void setLoadingText(String loadingText) {
+        this.loadingText = loadingText;
+        invalidate();
+    }
+
+    public int getMoveSpeed() {
+        return moveSpeed;
+    }
+
+    public void setMoveSpeed(int moveSpeed) {
+        this.moveSpeed = moveSpeed;
     }
 
     private int dip2px(int value) {
