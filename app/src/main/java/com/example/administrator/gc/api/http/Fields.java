@@ -14,6 +14,8 @@ public class Fields {
         public static final String P = "p";
         public static final String LI = "li";
         public static final String DATA_LIST = "data-list";
+        public static final String T_BODY = "tbody";
+        public static final String TR = "tr";
     }
 
     public static final class GroupCategory {

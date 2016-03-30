@@ -345,5 +345,10 @@
                 android:background="@color/cut_line" />
         </LinearLayout>
 
+
+        <TextView
+            android:id="@+id/show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>
