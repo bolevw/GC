@@ -6,13 +6,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
 import com.example.administrator.gc.presenter.fragment.MinePresenter;
 import com.example.administrator.gc.ui.activity.AboutActivity;
+import com.example.administrator.gc.ui.activity.LoginActivity;
 
 /**
  * Created by Administrator on 2016/3/22.
@@ -20,9 +21,11 @@ import com.example.administrator.gc.ui.activity.AboutActivity;
 public class MineFragment extends BaseFragment {
 
     MinePresenter presenter;
-    private TextView show;
+
 
     private LinearLayout aboutLinearLayout;
+
+    private Button loginButton;
 
     @Nullable
     @Override
@@ -34,7 +37,7 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void initView(View v) {
         aboutLinearLayout = (LinearLayout) v.findViewById(R.id.aboutLinearLayout);
-        show = (TextView) v.findViewById(R.id.show);
+        loginButton = (Button) v.findViewById(R.id.loginButton);
     }
 
     @Override
@@ -45,12 +48,13 @@ public class MineFragment extends BaseFragment {
     }
 
     public void show(String s) {
-        show.setText(s);
+
     }
 
     @Override
     protected void setListener() {
         aboutLinearLayout.setOnClickListener(listener);
+        loginButton.setOnClickListener(listener);
     }
 
     View.OnClickListener listener = new View.OnClickListener() {
@@ -59,6 +63,9 @@ public class MineFragment extends BaseFragment {
             int id = v.getId();
             if (id == aboutLinearLayout.getId()) {
                 startActivity(new Intent(getActivity(), AboutActivity.class));
+            }
+            if (id == loginButton.getId()) {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         }
     };

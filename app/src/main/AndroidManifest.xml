@@ -25,6 +25,21 @@
             android:name=".ui.activity.AboutActivity"
             android:label="@string/title_about"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ForumDetailListActivity"
+            android:label="@string/title_forum"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:label="@string/title_login"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:label="@string/title_register"
+            android:screenOrientation="portrait" />
     </application>
 
 

@@ -1,5 +1,6 @@
 package com.example.administrator.gc.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
 import com.example.administrator.gc.model.ForumModel;
 import com.example.administrator.gc.presenter.fragment.ForumPresenter;
+import com.example.administrator.gc.ui.activity.ForumDetailListActivity;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.widget.RecyclerViewCutLine;
 
@@ -94,7 +97,12 @@ public class ForumFragment extends BaseFragment {
             vh.name.setText(model.getForumName());
             PicassoUtils.normalShowImage(getActivity(), model.getImageSrc(), vh.forumImageView);
             vh.count.setText(String.format(getString(R.string.forum_count), model.getForumCount()));
-
+            vh.content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getActivity(), ForumDetailListActivity.class));
+                }
+            });
         }
 
         @Override
@@ -107,9 +115,11 @@ public class ForumFragment extends BaseFragment {
             private ImageView forumImageView;
             private TextView name;
             private TextView count;
+            private LinearLayout content;
 
             public VH(View itemView) {
                 super(itemView);
+                content = (LinearLayout) itemView.findViewById(R.id.content);
                 forumImageView = (ImageView) itemView.findViewById(R.id.itemForumImageView);
 
                 name = (TextView) itemView.findViewById(R.id.itemForumNameTextView);

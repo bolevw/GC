@@ -24,4 +24,7 @@
 
     <!--title-->
     <string name="title_about">关于</string>
+    <string name="title_forum">论坛</string>
+    <string name="title_login">登录</string>
+    <string name="title_register">注册</string>
 </resources>
