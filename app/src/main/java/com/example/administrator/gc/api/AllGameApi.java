@@ -1,7 +1,5 @@
 package com.example.administrator.gc.api;
 
-import android.util.Log;
-
 import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
 import com.example.administrator.gc.model.GameItemModel;
@@ -31,10 +29,10 @@ public class AllGameApi {
             public List<GameItemModel> call(Document document) {
                 ArrayList<GameItemModel> list = new ArrayList<GameItemModel>();
                 Element bodyEl = document.body();
-                Log.d(TAG, "body->" + bodyEl.toString());
+           //     Log.d(TAG, "body->" + bodyEl.toString());
                 Elements divEs = bodyEl.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.AllGame.TAG);
                 for (Element el : divEs) {
-                    Log.d(TAG, "div -> " + el.toString());
+             //       Log.d(TAG, "div -> " + el.toString());
                     GameItemModel item = new GameItemModel();
                     Elements tagAEl = el.getElementsByTag(Fields.WebField.A);
                     Elements tagImg = el.getElementsByTag(Fields.WebField.IMG);

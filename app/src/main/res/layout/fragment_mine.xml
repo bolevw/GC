@@ -279,6 +279,7 @@
                 android:background="@color/cut_line" />
 
             <LinearLayout
+                android:id="@+id/aboutLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?attr/selectableItemBackground"
@@ -296,7 +297,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:text="test"
+                    android:text="@string/title_about"
                     android:textSize="@dimen/text_normal" />
 
                 <ImageView

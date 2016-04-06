@@ -16,6 +16,10 @@ public class Fields {
         public static final String DATA_LIST = "data-list";
         public static final String T_BODY = "tbody";
         public static final String TR = "tr";
+        public static final String TD = "td";
+        public static final String EM = "em";
+        public static final String CHANNEL_NUM = "channel-num";
+
     }
 
     public static final class GroupCategory {

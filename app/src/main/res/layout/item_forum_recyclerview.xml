@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_click_white"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:padding="@dimen/activity_vertical_margin">
+
+    <ImageView
+        android:id="@+id/itemForumImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        tools:src="@mipmap/ic_icon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_vertical_margin">
+
+
+        <TextView
+            android:id="@+id/itemForumNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_normal"
+            tools:text="test" />
+
+        <TextView
+            android:id="@+id/itemForumCountTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:gravity="right"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="@dimen/text_normal"
+            tools:text="test" />
+    </LinearLayout>
+
+</LinearLayout>

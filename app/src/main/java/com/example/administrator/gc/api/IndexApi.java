@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
+import com.example.administrator.gc.model.ForumModel;
 import com.example.administrator.gc.model.GroupItemModel;
 import com.example.administrator.gc.model.HotRankingModel;
 import com.example.administrator.gc.model.IndexModel;
@@ -134,5 +135,38 @@ public class IndexApi {
 
         return group;
     }
+
+
+    public static void getIndexDetail(Subscriber<List<ForumModel>> subscriber) {
+        GetWebObservable.getInstance(Urls.INDEX_URL)
+                .map(new Func1<Document, List<ForumModel>>() {
+
+                    @Override
+                    public List<ForumModel> call(Document document) {
+                        ArrayList<ForumModel> list = new ArrayList<ForumModel>();
+                        Element bodyEl = document.body();
+
+                        Elements divEs = bodyEl.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.AllGame.TAG);
+                        for (Element el : divEs) {
+                            ForumModel item = new ForumModel();
+                            Elements tagAEl = el.getElementsByTag(Fields.WebField.A);
+                            Elements tagImg = el.getElementsByTag(Fields.WebField.IMG);
+                            Elements tagP = el.getElementsByTag(Fields.WebField.P);
+                            Elements tagEm = el.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.WebField.CHANNEL_NUM);
+
+                            item.setForumName(tagP.text().toString());
+                            item.setImageSrc(tagImg.attr(Fields.WebField.SRC));
+                            item.setForumCount(tagEm.text().toString());
+                            item.setUrls(tagAEl.attr(Fields.WebField.HREF));
+                            list.add(item);
+                        }
+
+                        return list;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
 
 }
