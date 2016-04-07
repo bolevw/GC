@@ -6,6 +6,7 @@ import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
 import com.example.administrator.gc.model.ForumItemDetailModel;
 import com.example.administrator.gc.model.ForumPostListItemModel;
+import com.example.administrator.gc.model.ForumPostPageListItemModel;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -68,11 +69,12 @@ public class ForumApi {
     }
 
 
-    public static final void getPost(String urls, Subscriber<ArrayList<ForumPostListItemModel>> subscriber) {
+    public static final void getPost(String urls, Subscriber<ForumPostPageListItemModel> subscriber) {
         GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls)
-                .map(new Func1<Document, ArrayList<ForumPostListItemModel>>() {
+                .map(new Func1<Document, ForumPostPageListItemModel>() {
                     @Override
-                    public ArrayList<ForumPostListItemModel> call(Document document) {
+                    public ForumPostPageListItemModel call(Document document) {
+                        ForumPostPageListItemModel itemModel = new ForumPostPageListItemModel();
                         ArrayList<ForumPostListItemModel> list = new ArrayList<ForumPostListItemModel>();
                         Element el = document.body();
                         Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.WebField.M_FORUMLIST_ITEM);
@@ -99,8 +101,14 @@ public class ForumApi {
                             list.add(model);
                         }
 
+                        Elements nextPage = el.getElementsByAttributeValue(Fields.WebField.CLASS, "m-forumList__page");
 
-                        return list;
+                        itemModel.setList(list);
+                        itemModel.setNextPageUrls(nextPage.get(0).getElementsByTag(Fields.WebField.LI).get(2).getElementsByTag(Fields.WebField.A).attr(Fields.WebField.HREF));
+
+                        Log.d("nexturls", nextPage.get(0).getElementsByTag(Fields.WebField.LI).get(2).getElementsByTag(Fields.WebField.A).attr(Fields.WebField.HREF));
+
+                        return itemModel;
                     }
 
                 }).subscribeOn(Schedulers.io())
