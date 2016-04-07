@@ -7,14 +7,15 @@
 
     <include layout="@layout/global_include_toolbar" />
 
-    <EditText
-        android:id="@+id/get"
+    <TextView
+        android:id="@+id/show"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-    <Button
-        android:id="@+id/gett"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/forumDetailRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 </LinearLayout>

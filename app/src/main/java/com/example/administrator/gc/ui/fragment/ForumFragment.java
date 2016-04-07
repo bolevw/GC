@@ -1,6 +1,5 @@
 package com.example.administrator.gc.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -92,7 +91,7 @@ public class ForumFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ForumModel model = recycleViewData.get(position);
+            final ForumModel model = recycleViewData.get(position);
             VH vh = (VH) holder;
             vh.name.setText(model.getForumName());
             PicassoUtils.normalShowImage(getActivity(), model.getImageSrc(), vh.forumImageView);
@@ -100,7 +99,7 @@ public class ForumFragment extends BaseFragment {
             vh.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), ForumDetailListActivity.class));
+                    ForumDetailListActivity.newInstance(getActivity(), model.getUrls());
                 }
             });
         }

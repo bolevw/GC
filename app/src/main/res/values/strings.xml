@@ -20,6 +20,8 @@
 
 
     <string name="forum_count">(%1$s)</string>
+    <string name="theme_count">主题：%1$s</string>
+    <string name="post_count">贴数：%1$s</string>
 
 
     <!--title-->
@@ -27,4 +29,5 @@
     <string name="title_forum">论坛</string>
     <string name="title_login">登录</string>
     <string name="title_register">注册</string>
+    <string name="title_post">帖子列表</string>
 </resources>

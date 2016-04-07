@@ -40,6 +40,11 @@
             android:name=".ui.activity.RegisterActivity"
             android:label="@string/title_register"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.ForumListActivity"
+            android:label="@string/title_post"
+            android:screenOrientation="portrait" />
     </application>
 
 

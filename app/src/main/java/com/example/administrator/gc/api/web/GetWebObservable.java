@@ -1,5 +1,7 @@
 package com.example.administrator.gc.api.web;
 
+import android.util.Log;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -13,6 +15,7 @@ import rx.Subscriber;
 public class GetWebObservable {
 
     public static rx.Observable getInstance(final String urls) {
+        Log.d("webUrls", urls);
         rx.Observable observable = rx.Observable.create(new rx.Observable.OnSubscribe<Document>() {
             @Override
             public void call(Subscriber<? super Document> subscriber) {

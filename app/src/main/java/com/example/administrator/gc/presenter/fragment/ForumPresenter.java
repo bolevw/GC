@@ -23,6 +23,9 @@ public class ForumPresenter implements BasePresenter<ForumFragment> {
 
 
     public void getData() {
+        if (view != null) {
+            view.startLoading();
+        }
         IndexApi.getIndexDetail(new Subscriber<List<ForumModel>>() {
             @Override
             public void onCompleted() {
@@ -31,12 +34,15 @@ public class ForumPresenter implements BasePresenter<ForumFragment> {
 
             @Override
             public void onError(Throwable e) {
-
+                if (view != null) {
+                    view.stopLoading();
+                }
             }
 
             @Override
             public void onNext(List<ForumModel> forumModels) {
                 if (null != view) {
+                    view.stopLoading();
                     view.notifyChange(forumModels);
                 }
             }
