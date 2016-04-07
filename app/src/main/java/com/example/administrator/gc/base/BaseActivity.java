@@ -5,21 +5,26 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.example.administrator.gc.R;
+import com.example.administrator.gc.widget.LoadingView;
 
 /**
  * Created by Administrator on 2016/3/21.
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
+    private LoadingView loadingView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         BaseApplication.setContext(getApplicationContext());
+        BaseApplication.setContext(getApplicationContext());
+
+
         initView();
         setListener();
         bind();
@@ -40,8 +45,24 @@ public abstract class BaseActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        loadingView = (LoadingView) findViewById(R.id.loadingView);
     }
 
+    public void startLoading() {
+        if (null != loadingView) {
+            loadingView.start();
+        }
+    }
+
+    public void logError(Throwable e) {
+        Log.e("error", e.toString());
+    }
+
+    public void stopLoading() {
+        if (null != loadingView) {
+            loadingView.setVisibility(View.GONE);
+        }
+    }
 
     public Toolbar getToolbar() {
         return toolbar;

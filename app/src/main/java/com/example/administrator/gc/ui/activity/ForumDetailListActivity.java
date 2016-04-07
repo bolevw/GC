@@ -56,9 +56,14 @@ public class ForumDetailListActivity extends BaseActivity {
     }
 
     public void nofityChange(ArrayList<ForumItemDetailModel> list) {
-        recyclerViewData.clear();
-        recyclerViewData.addAll(list);
-        forumDetailRecyclerView.getAdapter().notifyDataSetChanged();
+        if (list.size() == 0) {
+            ForumPostListActivity.newInstance(ForumDetailListActivity.this, urls);
+            finish();
+        } else {
+            recyclerViewData.clear();
+            recyclerViewData.addAll(list);
+            forumDetailRecyclerView.getAdapter().notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -76,7 +81,7 @@ public class ForumDetailListActivity extends BaseActivity {
         this.presenter.unBind();
     }
 
-    class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -93,7 +98,7 @@ public class ForumDetailListActivity extends BaseActivity {
             vh.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ForumListActivity.newInstance(ForumDetailListActivity.this, model.getUrls());
+                    ForumPostListActivity.newInstance(ForumDetailListActivity.this, model.getUrls());
                 }
             });
         }
@@ -103,7 +108,7 @@ public class ForumDetailListActivity extends BaseActivity {
             return recyclerViewData.size();
         }
 
-        class VH extends RecyclerView.ViewHolder {
+        private class VH extends RecyclerView.ViewHolder {
             private LinearLayout content;
             private TextView name;
             private TextView theme;

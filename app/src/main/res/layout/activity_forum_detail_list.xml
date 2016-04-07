@@ -7,11 +7,10 @@
 
     <include layout="@layout/global_include_toolbar" />
 
-    <TextView
-        android:id="@+id/show"
+    <com.example.administrator.gc.widget.LoadingView
+        android:id="@+id/loadingView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_height="match_parent"></com.example.administrator.gc.widget.LoadingView>
 
 
     <android.support.v7.widget.RecyclerView

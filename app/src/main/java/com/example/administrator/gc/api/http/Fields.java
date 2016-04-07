@@ -24,6 +24,7 @@ public class Fields {
         public static final String H_4 = "h4";
         public static final String ITEM_DETAIL = "item-detail";
         public static final String M_CHANNEL_LIST_ITEM = "m-channel__list--item";
+        public static final String M_FORUMLIST_ITEM = "m-forumList__item";
 
 
     }

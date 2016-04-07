@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
 import com.example.administrator.gc.model.ForumItemDetailModel;
+import com.example.administrator.gc.model.ForumPostListItemModel;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -67,12 +68,39 @@ public class ForumApi {
     }
 
 
-    public static final void getPost(String urls, Subscriber<String> subscriber) {
+    public static final void getPost(String urls, Subscriber<ArrayList<ForumPostListItemModel>> subscriber) {
         GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls)
-                .map(new Func1<Document, String>() {
+                .map(new Func1<Document, ArrayList<ForumPostListItemModel>>() {
                     @Override
-                    public String call(Document document) {
-                        return null;
+                    public ArrayList<ForumPostListItemModel> call(Document document) {
+                        ArrayList<ForumPostListItemModel> list = new ArrayList<ForumPostListItemModel>();
+                        Element el = document.body();
+                        Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.WebField.M_FORUMLIST_ITEM);
+                        for (Element ele : els) {
+                            ForumPostListItemModel model = new ForumPostListItemModel();
+                            Elements tagAEls = ele.getElementsByTag(Fields.WebField.A);
+                            Elements tagPEls = ele.getElementsByTag(Fields.WebField.P);
+
+
+                            Element element = tagPEls.get(1);
+                            Elements spanEls = element.getElementsByTag(Fields.WebField.SPAN);
+                            String authName = spanEls.get(0).getElementsByTag(Fields.WebField.EM).get(0).text();
+                            String date = spanEls.get(0).getElementsByTag(Fields.WebField.EM).get(1).text();
+
+                            String commentCount = spanEls.get(1).getElementsByTag(Fields.WebField.EM).get(1).text();
+
+                            model.setName(tagPEls.get(0).text());
+                            model.setUrls(tagAEls.attr(Fields.WebField.HREF));
+                            model.setAuthName(authName);
+                            model.setDate(date);
+                            model.setCommentCount(commentCount);
+
+                            Log.d("ForumPostListItemModel", model.toString());
+                            list.add(model);
+                        }
+
+
+                        return list;
                     }
 
                 }).subscribeOn(Schedulers.io())

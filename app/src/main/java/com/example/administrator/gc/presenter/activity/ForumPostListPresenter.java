@@ -1,11 +1,9 @@
 package com.example.administrator.gc.presenter.activity;
 
-import android.util.Log;
-
 import com.example.administrator.gc.api.ForumApi;
 import com.example.administrator.gc.base.BasePresenter;
-import com.example.administrator.gc.model.ForumItemDetailModel;
-import com.example.administrator.gc.ui.activity.ForumDetailListActivity;
+import com.example.administrator.gc.model.ForumPostListItemModel;
+import com.example.administrator.gc.ui.activity.ForumPostListActivity;
 
 import java.util.ArrayList;
 
@@ -14,12 +12,13 @@ import rx.Subscriber;
 /**
  * Created by Administrator on 2016/4/7.
  */
-public class ForumDetailListPresenter implements BasePresenter<ForumDetailListActivity> {
+public class ForumPostListPresenter implements BasePresenter<ForumPostListActivity> {
 
-    ForumDetailListActivity view;
+
+    ForumPostListActivity view;
 
     @Override
-    public void bind(ForumDetailListActivity view) {
+    public void bind(ForumPostListActivity view) {
         this.view = view;
     }
 
@@ -27,7 +26,7 @@ public class ForumDetailListPresenter implements BasePresenter<ForumDetailListAc
         if (null != view) {
             view.startLoading();
         }
-        ForumApi.getForum(urls, new Subscriber<ArrayList<ForumItemDetailModel>>() {
+        ForumApi.getPost(urls, new Subscriber<ArrayList<ForumPostListItemModel>>() {
             @Override
             public void onCompleted() {
 
@@ -35,19 +34,17 @@ public class ForumDetailListPresenter implements BasePresenter<ForumDetailListAc
 
             @Override
             public void onError(Throwable e) {
-                Log.d("error", e.toString());
                 if (null != view) {
                     view.stopLoading();
+                    view.logError(e);
                 }
-
             }
 
             @Override
-            public void onNext(ArrayList<ForumItemDetailModel> list) {
+            public void onNext(ArrayList<ForumPostListItemModel> list) {
                 if (null != view) {
                     view.stopLoading();
-                    view.nofityChange(list);
-
+                    view.notifyChange(list);
                 }
             }
         });

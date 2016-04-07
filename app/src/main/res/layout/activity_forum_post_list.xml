@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_background_white"
+    android:orientation="vertical">
+
+    <include layout="@layout/global_include_toolbar_with_loadingview" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/forumPostRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"></android.support.v7.widget.RecyclerView>
+
+
+</LinearLayout>
