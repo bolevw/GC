@@ -7,9 +7,9 @@
 
     <include layout="@layout/global_include_toolbar" />
 
-    <TextView
-        android:id="@+id/show"
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"></WebView>
 
 </LinearLayout>

@@ -122,7 +122,7 @@ public class ForumApi {
             @Override
             public String call(Document document) {
 
-                return document.body().text();
+                return document.body().toString();
             }
 
         })
