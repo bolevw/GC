@@ -29,6 +29,7 @@ import com.example.administrator.gc.model.HotRankingModel;
 import com.example.administrator.gc.model.IndexModel;
 import com.example.administrator.gc.model.PreviewGroup;
 import com.example.administrator.gc.presenter.fragment.RecommendPresenter;
+import com.example.administrator.gc.ui.activity.ForumDetailListActivity;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.widget.VPIndicator;
 import com.squareup.picasso.Callback;
@@ -165,7 +166,7 @@ public class RecommendCFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ItemData itemData = (ItemData) data.get(position);
+            final ItemData itemData = (ItemData) data.get(position);
             switch (getItemViewType(position)) {
                 case TYPE_BANNER:
                     BannerVH vh = (BannerVH) holder;
@@ -181,7 +182,7 @@ public class RecommendCFragment extends BaseFragment {
                     NormalVh normalVh = (NormalVh) holder;
                     PreviewGroup group = (PreviewGroup) itemData.getValue();
                     normalVh.groupName.setText(group.getName());
-                    List<GroupItemModel> itemList = group.getGroupItemList();
+                    final List<GroupItemModel> itemList = group.getGroupItemList();
                     normalVh.name_1.setText(itemList.get(0).getName());
                     normalVh.name_2.setText(itemList.get(1).getName());
                     normalVh.name_3.setText(itemList.get(2).getName());
@@ -190,6 +191,17 @@ public class RecommendCFragment extends BaseFragment {
                     PicassoUtils.normalShowImage(getActivity(), itemList.get(1).getImageSrc(), normalVh.image_2);
                     PicassoUtils.normalShowImage(getActivity(), itemList.get(2).getImageSrc(), normalVh.image_3);
                     PicassoUtils.normalShowImage(getActivity(), itemList.get(3).getImageSrc(), normalVh.image_4);
+                    for (int i = 0; i < normalVh.layouts.size(); i++) {
+                        LinearLayout layout = normalVh.layouts.get(i);
+                        final int finalI = i;
+                        layout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ForumDetailListActivity.newInstance(getActivity(), itemList.get(finalI).getUrl());
+                            }
+                        });
+                    }
+
                     break;
                 default:
                     break;
@@ -304,7 +316,8 @@ public class RecommendCFragment extends BaseFragment {
                 public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                     Vh vh = (Vh) holder;
                     if (position < hotList.size()) {
-                        HotRankingModel model = hotList.get(position);
+                        final HotRankingModel model = hotList.get(position);
+                        Log.d("urls", model.getUrls());
                         vh.textView.setText(model.getName());
                         Picasso.with(getActivity())
                                 .load(model.getImageSrc())
@@ -319,9 +332,23 @@ public class RecommendCFragment extends BaseFragment {
 
                                     }
                                 });
+                        vh.content.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ForumDetailListActivity.newInstance(getActivity(), model.getUrls());
+                            }
+                        });
                     } else if (position == hotList.size()) {
                         vh.textView.setText("get more");
                         vh.imageView.setImageResource(android.R.drawable.ic_menu_more);
+                        vh.content.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (getMoreListener != null) {
+                                    getMoreListener.click();
+                                }
+                            }
+                        });
                     }
                 }
 
@@ -333,9 +360,11 @@ public class RecommendCFragment extends BaseFragment {
                 class Vh extends RecyclerView.ViewHolder {
                     ImageView imageView;
                     TextView textView;
+                    private LinearLayout content;
 
                     public Vh(View itemView) {
                         super(itemView);
+                        content = (LinearLayout) itemView.findViewById(R.id.hotContainer);
                         imageView = (ImageView) itemView.findViewById(R.id.itemHotImageView);
                         textView = (TextView) itemView.findViewById(R.id.itemHotTextView);
                     }
@@ -358,6 +387,7 @@ public class RecommendCFragment extends BaseFragment {
             private TextView name_4;
 
             private LinearLayout groupTitle, group_1, group_2, group_3, group_4;
+            List<LinearLayout> layouts = new ArrayList<>();
 
             public NormalVh(View itemView) {
                 super(itemView);
@@ -378,6 +408,11 @@ public class RecommendCFragment extends BaseFragment {
                 image_2 = (ImageView) itemView.findViewById(R.id.image_2);
                 image_3 = (ImageView) itemView.findViewById(R.id.image_3);
                 image_4 = (ImageView) itemView.findViewById(R.id.image_4);
+
+                layouts.add(group_1);
+                layouts.add(group_2);
+                layouts.add(group_3);
+                layouts.add(group_4);
             }
         }
     }
@@ -446,5 +481,18 @@ public class RecommendCFragment extends BaseFragment {
             }
         }
     };
+    ClickGetMoreListener getMoreListener;
+
+    public ClickGetMoreListener getGetMoreListener() {
+        return getMoreListener;
+    }
+
+    public void setGetMoreListener(ClickGetMoreListener getMoreListener) {
+        this.getMoreListener = getMoreListener;
+    }
+
+    public interface ClickGetMoreListener {
+        void click();
+    }
 
 }

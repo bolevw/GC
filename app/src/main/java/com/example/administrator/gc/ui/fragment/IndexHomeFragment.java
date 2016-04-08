@@ -26,7 +26,7 @@ import com.example.administrator.gc.utils.ToastUtils;
 /**
  * Created by Administrator on 2016/3/22.
  */
-public class IndexHomeFragment extends BaseFragment {
+public class IndexHomeFragment extends BaseFragment implements RecommendCFragment.ClickGetMoreListener {
 
 
     ViewPager indexHomeViewPager;
@@ -73,6 +73,11 @@ public class IndexHomeFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void click() {
+        indexHomeViewPager.setCurrentItem(1, true);
+    }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
 
         public ViewPagerAdapter(FragmentManager fm) {
@@ -87,6 +92,7 @@ public class IndexHomeFragment extends BaseFragment {
                     case 0:
                         fragment = new RecommendCFragment();
                         fragments[0] = fragment;
+                        ((RecommendCFragment) fragment).setGetMoreListener(IndexHomeFragment.this);
                         break;
                     case 1:
                         fragment = new GameCFragment();

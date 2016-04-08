@@ -26,7 +26,7 @@ public class ForumPostListPresenter implements BasePresenter<ForumPostListActivi
         if (null != view) {
             view.startLoading();
         }
-        ForumApi.getPost(urls, new Subscriber<ForumPostPageListItemModel>() {
+        ForumApi.getPostList(urls, new Subscriber<ForumPostPageListItemModel>() {
             @Override
             public void onCompleted() {
 

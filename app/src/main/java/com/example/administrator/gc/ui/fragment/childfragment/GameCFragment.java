@@ -17,6 +17,7 @@ import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
 import com.example.administrator.gc.model.GameItemModel;
 import com.example.administrator.gc.presenter.fragment.GamePresenter;
+import com.example.administrator.gc.ui.activity.ForumDetailListActivity;
 import com.example.administrator.gc.utils.PicassoUtils;
 
 import java.util.ArrayList;
@@ -117,9 +118,15 @@ public class GameCFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             VH vh = (VH) holder;
-            GameItemModel model = recyclerData.get(position);
+            final GameItemModel model = recyclerData.get(position);
             vh.name1.setText(model.getName());
             PicassoUtils.normalShowImage(getActivity(), model.getImageSrc(), vh.image1);
+            vh.item1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ForumDetailListActivity.newInstance(getActivity(), model.getUrls());
+                }
+            });
 
         }
 

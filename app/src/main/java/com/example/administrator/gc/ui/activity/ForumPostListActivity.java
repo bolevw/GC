@@ -94,7 +94,7 @@ public class ForumPostListActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (viewData.size() != 0 && position < viewData.size()) {
-                ForumPostListItemModel model = viewData.get(position);
+                final ForumPostListItemModel model = viewData.get(position);
 
                 VH vh = (VH) holder;
                 vh.title.setText(model.getName());
@@ -104,7 +104,7 @@ public class ForumPostListActivity extends BaseActivity {
                 vh.content.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        PostDetailActivity.newInstance(ForumPostListActivity.this, model.getUrls());
                     }
                 });
             }

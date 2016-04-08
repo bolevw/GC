@@ -69,7 +69,7 @@ public class ForumApi {
     }
 
 
-    public static final void getPost(String urls, Subscriber<ForumPostPageListItemModel> subscriber) {
+    public static final void getPostList(String urls, Subscriber<ForumPostPageListItemModel> subscriber) {
         GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls)
                 .map(new Func1<Document, ForumPostPageListItemModel>() {
                     @Override
@@ -115,4 +115,20 @@ public class ForumApi {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
+
+    public static final void getPostDetail(String urls, Subscriber<String> subscriber) {
+        GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls).map(new Func1<Document, String>() {
+            @Override
+            public String call(Document document) {
+
+                return document.body().text();
+            }
+
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
 }

@@ -45,6 +45,11 @@
             android:name=".ui.activity.ForumPostListActivity"
             android:label="@string/title_post"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.PostDetailActivity"
+            android:label="@string/title_post_detail"
+            android:screenOrientation="portrait" />
     </application>
 
 
