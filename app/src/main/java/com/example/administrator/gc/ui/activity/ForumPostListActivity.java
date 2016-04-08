@@ -23,6 +23,10 @@ import java.util.ArrayList;
  */
 public class ForumPostListActivity extends BaseActivity {
 
+    private static final int TYPE_LOADING = 0x0001;
+    private static final int TYPE_EMPTY = 0x0002;
+    private static final int TYPE_NORMAL = 0x0003;
+
 
     ForumPostListPresenter presenter;
     private String urls = null;
@@ -51,7 +55,7 @@ public class ForumPostListActivity extends BaseActivity {
 
 
     public void notifyChange(ArrayList<ForumPostListItemModel> list) {
-        viewData.clear();
+
         viewData.addAll(list);
         recyclerView.getAdapter().notifyDataSetChanged();
     }
@@ -60,6 +64,7 @@ public class ForumPostListActivity extends BaseActivity {
     protected void setListener() {
         recyclerView.setAdapter(new RVAdapter());
         recyclerView.addItemDecoration(new RecyclerViewCutLine(getResources().getDimensionPixelSize(R.dimen.cut_line), 0));
+        recyclerView.addOnScrollListener(onScrollListener);
     }
 
     @Override
@@ -78,29 +83,48 @@ public class ForumPostListActivity extends BaseActivity {
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new VH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_forum_post_list_recyclerview, parent, false));
+            if (viewType == TYPE_NORMAL) {
+                return new VH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_forum_post_list_recyclerview, parent, false));
+            } else if (viewType == TYPE_LOADING) {
+                return new FootVh(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading_more, parent, false));
+            }
+            return null;
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            ForumPostListItemModel model = viewData.get(position);
+            if (viewData.size() != 0 && position < viewData.size()) {
+                ForumPostListItemModel model = viewData.get(position);
 
-            VH vh = (VH) holder;
-            vh.title.setText(model.getName());
-            vh.auth.setText(model.getAuthName());
-            vh.date.setText(model.getDate());
-            vh.commentCount.setText(model.getCommentCount());
-            vh.content.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                VH vh = (VH) holder;
+                vh.title.setText(model.getName());
+                vh.auth.setText(model.getAuthName());
+                vh.date.setText(model.getDate());
+                vh.commentCount.setText(model.getCommentCount());
+                vh.content.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                }
-            });
+                    }
+                });
+            }
         }
 
         @Override
+        public int getItemViewType(int position) {
+            if (viewData.size() == 0) {
+                return TYPE_EMPTY;
+            } else if (position == viewData.size()) {
+                return TYPE_LOADING;
+            } else {
+                return TYPE_NORMAL;
+            }
+        }
+
+
+        @Override
         public int getItemCount() {
-            return viewData.size();
+            return viewData.size() == 0 ? 1 : viewData.size() + 1;
         }
 
         private class VH extends RecyclerView.ViewHolder {
@@ -122,6 +146,48 @@ public class ForumPostListActivity extends BaseActivity {
                 commentCount = (TextView) itemView.findViewById(R.id.postComment);
             }
         }
+
+        private class FootVh extends RecyclerView.ViewHolder {
+            private LinearLayout loadingContent;
+            private TextView noDataTextView;
+
+            public FootVh(View itemView) {
+                super(itemView);
+                loadingContent = (LinearLayout) itemView.findViewById(R.id.loadingContent);
+                noDataTextView = (TextView) itemView.findViewById(R.id.noDataTextView);
+            }
+        }
+
     }
 
+    private boolean isLoading = false;
+
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            RecyclerView.LayoutManager manager = ForumPostListActivity.this.recyclerView.getLayoutManager();
+            int position;
+            if (manager instanceof LinearLayoutManager) {
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) manager;
+                position = linearLayoutManager.findLastVisibleItemPosition();
+                if (position == viewData.size() && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
+
+                    isLoading = true;
+                    presenter.getMore();
+
+                }
+            }
+        }
+    };
+
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
 }

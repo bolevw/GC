@@ -37,6 +37,7 @@ public class ForumPostListPresenter implements BasePresenter<ForumPostListActivi
                 if (null != view) {
                     view.stopLoading();
                     view.logError(e);
+                    view.setLoading(false);
                 }
             }
 
@@ -44,6 +45,7 @@ public class ForumPostListPresenter implements BasePresenter<ForumPostListActivi
             public void onNext(ForumPostPageListItemModel model) {
                 if (null != view) {
                     view.stopLoading();
+                    view.setLoading(false);
                     view.notifyChange(model.getList());
                     nextPageUrl = model.getNextPageUrls();
                 }
