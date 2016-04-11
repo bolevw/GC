@@ -2,12 +2,10 @@ package com.example.administrator.gc.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.text.method.ScrollingMovementMethod;
+import android.widget.TextView;
 
 import com.example.administrator.gc.R;
-import com.example.administrator.gc.api.Urls;
 import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.presenter.activity.PostDetailPresenter;
 
@@ -16,9 +14,10 @@ import com.example.administrator.gc.presenter.activity.PostDetailPresenter;
  */
 public class PostDetailActivity extends BaseActivity {
 
-    private WebView view;
     PostDetailPresenter presenter;
     private String urls;
+
+    private TextView show;
 
     public static void newInstance(Activity activity, String urls) {
         Intent intent = new Intent(activity, PostDetailActivity.class);
@@ -30,20 +29,23 @@ public class PostDetailActivity extends BaseActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.activity_post_detail);
-        view = (WebView) findViewById(R.id.webView);
 
+        show = (TextView) findViewById(R.id.show);
+        show.setMovementMethod(ScrollingMovementMethod.getInstance());
         Intent intent = getIntent();
         urls = intent.getStringExtra("urls");
     }
 
 
     public void setShow(String s) {
+        show.setText(s);
 
     }
 
 
     @Override
     protected void setListener() {
+/*
         view.loadUrl(Urls.BASE_URL + "/" + urls);
         WebSettings webSettings = view.getSettings();
         webSettings.setDisplayZoomControls(false);
@@ -62,6 +64,7 @@ public class PostDetailActivity extends BaseActivity {
                 return false;
             }
         });
+*/
 
     }
 

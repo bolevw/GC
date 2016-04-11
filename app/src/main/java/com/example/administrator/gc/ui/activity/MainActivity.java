@@ -27,6 +27,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void setListener() {
         bottomNav.setListener(onNavItemClickListener);
+        getToolbar().setNavigationOnClickListener(null);
     }
 
     BottomNav.OnNavItemClickListener onNavItemClickListener = new BottomNav.OnNavItemClickListener() {

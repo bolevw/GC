@@ -7,11 +7,15 @@
 
     <include layout="@layout/global_include_toolbar" />
 
-    <WebView
-        android:id="@+id/webView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"></WebView>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/show"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
 
 
     <LinearLayout

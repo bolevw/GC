@@ -7,12 +7,15 @@ import com.example.administrator.gc.api.web.GetWebObservable;
 import com.example.administrator.gc.model.ForumItemDetailModel;
 import com.example.administrator.gc.model.ForumPostListItemModel;
 import com.example.administrator.gc.model.ForumPostPageListItemModel;
+import com.example.administrator.gc.model.PostDetailHeaderModel;
+import com.example.administrator.gc.model.UserMessageModel;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -121,8 +124,24 @@ public class ForumApi {
         GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls).map(new Func1<Document, String>() {
             @Override
             public String call(Document document) {
+                List<String> res = new ArrayList<String>();
+                Element element = document.body();
+                Elements els = element.getElementsByAttributeValue(Fields.WebField.CLASS, "m-comment__item m-comment__item--top");
 
-                return document.body().toString();
+                boolean first = true;
+                for (Element itemEle : els) {
+                    Elements userInfoEls = itemEle.getElementsByAttributeValue(Fields.WebField.CLASS, "comment-authorInfo");
+                    if (first) {
+                        PostDetailHeaderModel header = new PostDetailHeaderModel();
+                        header.setTitle(element.getElementsByAttributeValue(Fields.WebField.CLASS, "m-infoBBS_title").get(0).text());
+                        header.setContent(userInfoEls.get(0).getElementsByAttributeValue(Fields.WebField.CLASS, "comment-detail").get(0).text());
+                        UserMessageModel headerUser = new UserMessageModel();
+//                        headerUser.setUserName(userInfoEls.get(0).getElementsByAttributeValue(Fields.WebField.CLASS, ""));
+                        header.setHeader(headerUser);
+                    }
+
+                }
+                return res.toString();
             }
 
         })
