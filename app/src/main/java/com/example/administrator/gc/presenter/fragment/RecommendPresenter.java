@@ -34,8 +34,8 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
 
             @Override
             public void onError(Throwable e) {
-                e.printStackTrace();
                 if (null != view) {
+                    view.logError(e);
                     view.stopRefresh();
                 }
             }

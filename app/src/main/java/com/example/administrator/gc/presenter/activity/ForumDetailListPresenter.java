@@ -1,7 +1,5 @@
 package com.example.administrator.gc.presenter.activity;
 
-import android.util.Log;
-
 import com.example.administrator.gc.api.ForumApi;
 import com.example.administrator.gc.base.BasePresenter;
 import com.example.administrator.gc.model.ForumItemDetailModel;
@@ -35,8 +33,8 @@ public class ForumDetailListPresenter implements BasePresenter<ForumDetailListAc
 
             @Override
             public void onError(Throwable e) {
-                Log.d("error", e.toString());
                 if (null != view) {
+                    view.logError(e);
                     view.stopLoading();
                 }
 

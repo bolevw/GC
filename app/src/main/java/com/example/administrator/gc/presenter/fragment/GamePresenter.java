@@ -44,6 +44,8 @@ public class GamePresenter implements BasePresenter<GameCFragment> {
             @Override
             public void onError(Throwable e) {
                 if (null != view) {
+                    view.logError(e);
+
                     if (!swipe) {
                         view.stopLoading();
                     } else {

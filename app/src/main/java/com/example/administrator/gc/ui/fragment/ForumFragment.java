@@ -2,6 +2,7 @@ package com.example.administrator.gc.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,6 +32,8 @@ public class ForumFragment extends BaseFragment {
 
     ForumPresenter presenter;
 
+    private FloatingActionButton quickReturnButton;
+
     private List<ForumModel> recycleViewData = new ArrayList<>();
 
     @Nullable
@@ -45,6 +48,7 @@ public class ForumFragment extends BaseFragment {
         forumRecyclerView = (RecyclerView) v.findViewById(R.id.forumRecyclerView);
         forumRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        quickReturnButton = (FloatingActionButton) v.findViewById(R.id.quickReturnButton);
     }
 
     @Override
@@ -72,8 +76,28 @@ public class ForumFragment extends BaseFragment {
     protected void setListener() {
         forumRecyclerView.setAdapter(new RVAdapter());
         forumRecyclerView.addItemDecoration(new RecyclerViewCutLine(getResources().getDimensionPixelSize(R.dimen.cut_line), 0));
-
+        forumRecyclerView.addOnScrollListener(onScrollListener);
+        quickReturnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forumRecyclerView.smoothScrollToPosition(0);
+            }
+        });
     }
+
+    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (dy > 0) {
+                // appear
+                quickReturnButton.show();
+            } else {
+                quickReturnButton.hide();
+                //disappear
+            }
+        }
+    };
 
     @Override
     protected void unbind() {

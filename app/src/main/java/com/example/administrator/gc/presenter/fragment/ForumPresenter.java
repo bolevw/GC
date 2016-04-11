@@ -36,6 +36,7 @@ public class ForumPresenter implements BasePresenter<ForumFragment> {
             public void onError(Throwable e) {
                 if (view != null) {
                     view.stopLoading();
+                    view.logError(e);
                 }
             }
 

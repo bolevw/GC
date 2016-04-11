@@ -3,6 +3,7 @@ package com.example.administrator.gc.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 
 import com.example.administrator.gc.R;
@@ -39,6 +40,10 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
+
+    public void logError(Throwable e) {
+        Log.e("error", e.toString());
+    }
     protected abstract void initView(View v);
 
     protected abstract void bind();

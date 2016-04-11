@@ -27,7 +27,10 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
 
             @Override
             public void onError(Throwable e) {
-
+                if (null != view) {
+                    view.logError(e);
+                    view.stopLoading();
+                }
             }
 
             @Override
