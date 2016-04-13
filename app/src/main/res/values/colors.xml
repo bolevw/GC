@@ -17,4 +17,6 @@
 
 
     <color name="black">#000000</color>
+
+    <color name="percent70WhiteColor">#D9ffffff</color>
 </resources>

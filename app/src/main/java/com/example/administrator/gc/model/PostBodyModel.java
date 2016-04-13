@@ -12,6 +12,15 @@ public class PostBodyModel extends BaseModel {
     private PostDetailHeaderModel header;
 
     private List<PostDetailModel> commentList;
+    private String nextPageUrl;
+
+    public String getNextPageUrl() {
+        return nextPageUrl;
+    }
+
+    public void setNextPageUrl(String nextPageUrl) {
+        this.nextPageUrl = nextPageUrl;
+    }
 
     @Override
     public String toString() {

@@ -1,5 +1,6 @@
 package com.example.administrator.gc.api;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.administrator.gc.api.http.Fields;
@@ -8,6 +9,9 @@ import com.example.administrator.gc.base.BaseSub;
 import com.example.administrator.gc.model.ForumItemDetailModel;
 import com.example.administrator.gc.model.ForumPostListItemModel;
 import com.example.administrator.gc.model.ForumPostPageListItemModel;
+import com.example.administrator.gc.model.PostBodyModel;
+import com.example.administrator.gc.model.PostDetailHeaderModel;
+import com.example.administrator.gc.model.PostDetailModel;
 import com.example.administrator.gc.model.UserMessageModel;
 import com.example.administrator.gc.ui.activity.PostDetailActivity;
 
@@ -121,25 +125,33 @@ public class ForumApi {
     }
 
 
-    public static final void getPostDetail(String urls, BaseSub<String, PostDetailActivity> subscriber) {
-        GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls).map(new Func1<Document, String>() {
+    public static final void getPostDetail(String urls, final boolean getNextPage, BaseSub<PostBodyModel, PostDetailActivity> subscriber) {
+        GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls).map(new Func1<Document, PostBodyModel>() {
             @Override
-            public String call(Document document) {
-                List<String> res = new ArrayList<String>();
+            public PostBodyModel call(Document document) {
+
+                PostBodyModel body = new PostBodyModel();
+                List<PostDetailModel> detailModels = new ArrayList<PostDetailModel>();
+
                 Element element = document.body();
+
                 Elements els = element.getElementsByAttributeValue(Fields.WebField.CLASS, "m-comment__item m-comment__item--top");
 
                 boolean first = true;
+                boolean nextPage = getNextPage;
+
                 for (Element itemEle : els) {
                     Elements userInfoEls = itemEle.getElementsByAttributeValue(Fields.WebField.CLASS, "comment-authorInfo");
-                    for (Element itemEle2 : userInfoEls) {
-
+                    Elements commentEls = itemEle.getElementsByAttributeValue(Fields.WebField.CLASS, "comment-detail");
+                    for (int i = 0; i < userInfoEls.size(); i++) {
+                        Element itemEle2 = userInfoEls.get(i);
+                        Element commentEl = commentEls.get(i);
                         Elements picEls = itemEle2.getElementsByAttributeValue(Fields.WebField.CLASS, "comment-authorInfo__pic");
                         String picSrc = picEls.get(0).getElementsByTag(Fields.WebField.IMG).get(0).attr(Fields.WebField.SRC);
                         Elements userEls = itemEle2.getElementsByAttributeValue(Fields.WebField.CLASS, "comment-authorInfo__detail");
-                        String userUrl = userEls.get(0).getElementsByTag(Fields.WebField.A).attr(Fields.WebField.HREF);
-                        String userName = userEls.get(0).getElementsByTag(Fields.WebField.A).text();
-                        String date = userEls.get(0).getElementsByTag(Fields.WebField.P).text();
+                        String userUrl = userEls.get(0).getElementsByTag(Fields.WebField.A).get(0).attr(Fields.WebField.HREF);
+                        String userName = userEls.get(0).getElementsByTag(Fields.WebField.A).get(0).text();
+                        String date = userEls.get(0).getElementsByTag(Fields.WebField.P).get(0).text();
 
                         UserMessageModel userMessageModel = new UserMessageModel();
                         userMessageModel.setUserName(userName);
@@ -147,13 +159,31 @@ public class ForumApi {
                         userMessageModel.setUserHomePageUrl(userUrl);
                         userMessageModel.setDate(date);
 
-                        res.add(userMessageModel.toString());
-                        res.add("------------------------------------");
+                        if (first && !nextPage) {
+                            first = false;
+                            nextPage = true;
+
+                            PostDetailHeaderModel headerModel = new PostDetailHeaderModel();
+                            headerModel.setHeader(userMessageModel);
+                            headerModel.setTitle(element.getElementsByAttributeValue(Fields.WebField.CLASS, "m-infoBBS__title").get(0).text());
+                            headerModel.setContent(commentEl.text());
+                            body.setHeader(headerModel);
+                        } else {
+                            PostDetailModel detail = new PostDetailModel();
+                            detail.setContent(TextUtils.isEmpty(commentEl.text()) ? "null" : commentEl.text());
+                            detail.setUserMessageModel(userMessageModel);
+                            detailModels.add(detail);
+                        }
                     }
                 }
-                return res.toString();
-            }
+                Elements nextPageEls = document.body().getElementsByAttributeValue(Fields.WebField.CLASS, "m-forumList__page");
 
+                body.setNextPageUrl(nextPageEls.get(0).getElementsByTag(Fields.WebField.LI).get(2).getElementsByTag(Fields.WebField.A).attr(Fields.WebField.HREF));
+                body.setCommentList(detailModels);
+
+                Log.d("postBody", body.toString());
+                return body;
+            }
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
