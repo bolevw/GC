@@ -13,6 +13,14 @@ public class PostBodyModel extends BaseModel {
 
     private List<PostDetailModel> commentList;
 
+    @Override
+    public String toString() {
+        return "PostBodyModel{" +
+                "header=" + header +
+                ", commentList=" + commentList +
+                '}';
+    }
+
     public PostDetailHeaderModel getHeader() {
         return header;
     }
@@ -20,6 +28,7 @@ public class PostBodyModel extends BaseModel {
     public void setHeader(PostDetailHeaderModel header) {
         this.header = header;
     }
+
 
     public List<PostDetailModel> getCommentList() {
         return commentList;

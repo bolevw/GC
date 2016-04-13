@@ -12,6 +12,27 @@ public class UserMessageModel extends BaseModel {
     private String userType;
     private String userPhotoSrc;
     private String userHomePageUrl;
+    private String date;
+
+    @Override
+    public String toString() {
+        return "UserMessageModel{" +
+                "userName='" + userName + '\'' +
+                ", comment='" + comment + '\'' +
+                ", userType='" + userType + '\'' +
+                ", userPhotoSrc='" + userPhotoSrc + '\'' +
+                ", userHomePageUrl='" + userHomePageUrl + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getUserName() {
         return userName;

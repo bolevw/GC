@@ -4,11 +4,12 @@ import android.util.Log;
 
 import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
+import com.example.administrator.gc.base.BaseSub;
 import com.example.administrator.gc.model.ForumItemDetailModel;
 import com.example.administrator.gc.model.ForumPostListItemModel;
 import com.example.administrator.gc.model.ForumPostPageListItemModel;
-import com.example.administrator.gc.model.PostDetailHeaderModel;
 import com.example.administrator.gc.model.UserMessageModel;
+import com.example.administrator.gc.ui.activity.PostDetailActivity;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -120,7 +121,7 @@ public class ForumApi {
     }
 
 
-    public static final void getPostDetail(String urls, Subscriber<String> subscriber) {
+    public static final void getPostDetail(String urls, BaseSub<String, PostDetailActivity> subscriber) {
         GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls).map(new Func1<Document, String>() {
             @Override
             public String call(Document document) {
@@ -131,15 +132,24 @@ public class ForumApi {
                 boolean first = true;
                 for (Element itemEle : els) {
                     Elements userInfoEls = itemEle.getElementsByAttributeValue(Fields.WebField.CLASS, "comment-authorInfo");
-                    if (first) {
-                        PostDetailHeaderModel header = new PostDetailHeaderModel();
-                        header.setTitle(element.getElementsByAttributeValue(Fields.WebField.CLASS, "m-infoBBS_title").get(0).text());
-                        header.setContent(userInfoEls.get(0).getElementsByAttributeValue(Fields.WebField.CLASS, "comment-detail").get(0).text());
-                        UserMessageModel headerUser = new UserMessageModel();
-//                        headerUser.setUserName(userInfoEls.get(0).getElementsByAttributeValue(Fields.WebField.CLASS, ""));
-                        header.setHeader(headerUser);
-                    }
+                    for (Element itemEle2 : userInfoEls) {
 
+                        Elements picEls = itemEle2.getElementsByAttributeValue(Fields.WebField.CLASS, "comment-authorInfo__pic");
+                        String picSrc = picEls.get(0).getElementsByTag(Fields.WebField.IMG).get(0).attr(Fields.WebField.SRC);
+                        Elements userEls = itemEle2.getElementsByAttributeValue(Fields.WebField.CLASS, "comment-authorInfo__detail");
+                        String userUrl = userEls.get(0).getElementsByTag(Fields.WebField.A).attr(Fields.WebField.HREF);
+                        String userName = userEls.get(0).getElementsByTag(Fields.WebField.A).text();
+                        String date = userEls.get(0).getElementsByTag(Fields.WebField.P).text();
+
+                        UserMessageModel userMessageModel = new UserMessageModel();
+                        userMessageModel.setUserName(userName);
+                        userMessageModel.setUserPhotoSrc(picSrc);
+                        userMessageModel.setUserHomePageUrl(userUrl);
+                        userMessageModel.setDate(date);
+
+                        res.add(userMessageModel.toString());
+                        res.add("------------------------------------");
+                    }
                 }
                 return res.toString();
             }

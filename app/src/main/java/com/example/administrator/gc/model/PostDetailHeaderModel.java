@@ -12,6 +12,14 @@ public class PostDetailHeaderModel extends BaseModel {
     private UserMessageModel header;
     private String content;
 
+    @Override
+    public String toString() {
+        return "PostDetailHeaderModel{" +
+                "title='" + title + '\'' +
+                ", header=" + header +
+                ", content='" + content + '\'' +
+                '}';
+    }
 
     public String getTitle() {
         return title;

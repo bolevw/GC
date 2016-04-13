@@ -10,4 +10,27 @@ public class PostDetailModel extends BaseModel {
 
     private String content;
 
+    @Override
+    public String toString() {
+        return "PostDetailModel{" +
+                "userMessageModel=" + userMessageModel +
+                ", content='" + content + '\'' +
+                '}';
+    }
+
+    public UserMessageModel getUserMessageModel() {
+        return userMessageModel;
+    }
+
+    public void setUserMessageModel(UserMessageModel userMessageModel) {
+        this.userMessageModel = userMessageModel;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
