@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.administrator.gc.R;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +36,13 @@ public class LoadingView extends ViewGroup {
     private int pointCount;
 
     private ImageView moveView;
-    private Context mContext;
+    private WeakReference<Context> weakContext;
+    /*private Context mContext;*/
     private String loadingText = "正在加载...";
 
     private boolean isAnim = false;
+
+    private static Handler handler = new Handler();
 
     public LoadingView(Context context) {
         super(context);
@@ -46,7 +50,7 @@ public class LoadingView extends ViewGroup {
 
     public LoadingView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mContext = context;
+        weakContext = new WeakReference<Context>(context);
         setWillNotDraw(false);
         init();
     }
@@ -84,7 +88,7 @@ public class LoadingView extends ViewGroup {
 
     public void setPointCount(int count) {
         this.pointCount = count;
-        moveView = new ImageView(this.mContext);
+        moveView = new ImageView(this.weakContext.get());
         moveView.setImageResource(R.mipmap.ic_icon);
         moveView.setAlpha(1.0f / (pointCount + 1));
         ViewGroup.LayoutParams lp = new LayoutParams(dip2px(40), dip2px(40));
@@ -94,13 +98,13 @@ public class LoadingView extends ViewGroup {
 
     private void createPoint(int count) {
         for (int i = 0; i < count; i++) {
-            View view = new View(this.mContext);
+            View view = new View(this.weakContext.get());
             view.setBackgroundResource(R.drawable.orange_circle);
             ViewGroup.LayoutParams lp = new LayoutParams(dip2px(8), dip2px(8));
             this.addView(view, lp);
         }
 
-        TextView textView = new TextView(this.mContext);
+        TextView textView = new TextView(this.weakContext.get());
         textView.setText(loadingText);
         ViewGroup.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         this.addView(textView, lp);
@@ -116,7 +120,6 @@ public class LoadingView extends ViewGroup {
         }
     };
 
-    static Handler handler = new Handler();
 
     public void start() {
 

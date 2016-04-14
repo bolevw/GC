@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,7 +129,7 @@ public class PostDetailActivity extends BaseActivity {
                 PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getHeader().getUserPhotoSrc(), vh.imageSrc);
                 vh.date.setText(data.getValue().getHeader().getDate());
                 vh.itemPostTitleTextView.setText(data.getValue().getTitle());
-                vh.itemBodyContentTextView.setText(data.getValue().getContent());
+                vh.itemBodyContentTextView.setText(Html.fromHtml(data.getValue().getContent()));
             } else if (position < viewData.size()) {
                 ItemData<Integer, PostDetailModel> data = (ItemData<Integer, PostDetailModel>) viewData.get(position);
                 CommentVh vh = (CommentVh) holder;
@@ -143,7 +144,7 @@ public class PostDetailActivity extends BaseActivity {
                 } else {
                     vh.type.setText(position + "楼");
                 }
-                vh.itemBodyContentTextView.setText(data.getValue().getContent());
+                vh.itemBodyContentTextView.setText(Html.fromHtml(data.getValue().getContent()));
                 PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
 
             } else if (position == viewData.size()) {
