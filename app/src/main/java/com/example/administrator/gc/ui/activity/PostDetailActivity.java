@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.base.ItemData;
-import com.example.administrator.gc.base.RecyclerViewData;
 import com.example.administrator.gc.model.PostBodyModel;
 import com.example.administrator.gc.model.PostDetailHeaderModel;
 import com.example.administrator.gc.model.PostDetailModel;
@@ -23,14 +22,16 @@ import com.example.administrator.gc.presenter.activity.PostDetailPresenter;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.widget.RecyclerViewCutLine;
 
+import java.util.ArrayList;
+
 /**
  * Created by Administrator on 2016/4/8.
  */
 public class PostDetailActivity extends BaseActivity {
 
-    private static final int TYPE_HEADER = 0x0001;
-    private static final int TYPE_COMMENT = 0x0002;
-    private static final int TYPE_LOADING = 0x0003;
+    private static final int TYPE_HEADER = 1000;
+    private static final int TYPE_COMMENT = 1001;
+    private static final int TYPE_LOADING = 1002;
 
 
     PostDetailPresenter presenter;
@@ -38,7 +39,7 @@ public class PostDetailActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
 
-    private RecyclerViewData<ItemData> viewData = new RecyclerViewData();
+    private ArrayList<ItemData> viewData = new ArrayList<>();
 
 
     public static void newInstance(Activity activity, String urls) {
@@ -120,7 +121,6 @@ public class PostDetailActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-
             if (getItemViewType(position) == TYPE_HEADER) {
                 final ItemData<Integer, PostDetailHeaderModel> data = (ItemData<Integer, PostDetailHeaderModel>) viewData.get(position);
                 final HeaderVh vh = (HeaderVh) holder;
@@ -130,6 +130,12 @@ public class PostDetailActivity extends BaseActivity {
                 vh.date.setText(data.getValue().getHeader().getDate());
                 vh.itemPostTitleTextView.setText(data.getValue().getTitle());
                 vh.itemBodyContentTextView.setText(Html.fromHtml(data.getValue().getContent()));
+                vh.content.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PersonalHomePageActivity.newInstance(PostDetailActivity.this, data.getValue().getHeader().getUserHomePageUrl());
+                    }
+                });
             } else if (getItemViewType(position) == TYPE_COMMENT) {
                 final ItemData<Integer, PostDetailModel> data = (ItemData<Integer, PostDetailModel>) viewData.get(position);
                 final CommentVh vh = (CommentVh) holder;
@@ -147,6 +153,12 @@ public class PostDetailActivity extends BaseActivity {
 
                 vh.itemBodyContentTextView.setText(Html.fromHtml(data.getValue().getContent()));
                 PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
+                vh.commentContent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PersonalHomePageActivity.newInstance(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserHomePageUrl());
+                    }
+                });
 
             } else if (getItemViewType(position) == TYPE_LOADING) {
                 FootVh vh = (FootVh) holder;
@@ -194,7 +206,7 @@ public class PostDetailActivity extends BaseActivity {
                 type = (TextView) itemView.findViewById(R.id.itemUserTypeTextView);
                 itemPostTitleTextView = (TextView) itemView.findViewById(R.id.itemPostTitleTextView);
                 itemBodyContentTextView = (TextView) itemView.findViewById(R.id.itemBodyContentTextView);
-                content = (LinearLayout) itemView.findViewById(R.id.userMessageContent);
+                content = (LinearLayout) itemView.findViewById(R.id.commentContent);
             }
         }
 
@@ -208,7 +220,8 @@ public class PostDetailActivity extends BaseActivity {
 
             public CommentVh(View itemView) {
                 super(itemView);
-                commentContent = (LinearLayout) findViewById(R.id.userMessageContent);
+
+                commentContent = (LinearLayout) itemView.findViewById(R.id.commentContent);
                 name = (TextView) itemView.findViewById(R.id.itemUserNameTextView);
                 date = (TextView) itemView.findViewById(R.id.itemPostDateTextView);
                 imageSrc = (ImageView) itemView.findViewById(R.id.itemUserImageView);

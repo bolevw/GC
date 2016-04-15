@@ -4,79 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/userMessageContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_click_white"
-        android:clickable="true"
-        android:orientation="horizontal"
-        android:padding="@dimen/activity_horizontal_margin">
+    <include layout="@layout/layout_user_message" />
 
-
-        <com.example.administrator.gc.widget.CircleImageView
-            android:id="@+id/itemUserImageView"
-            android:layout_width="35dp"
-            android:layout_height="35dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/itemUserNameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:textSize="@dimen/text_normal" />
-
-            <TextView
-                android:id="@+id/itemPostDateTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/itemUserNameTextView"
-                android:layout_marginTop="7dp"
-                android:text="1"
-                android:textSize="@dimen/text_normal" />
-
-            <TextView
-                android:id="@+id/itemUserTypeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="1"
-                android:textSize="@dimen/text_normal" />
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_click_white"
-        android:clickable="true"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/itemBodyContentTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_vertical_margin"
-            android:paddingTop="4dp"
-            android:textSize="@dimen/text_normal"></TextView>
-
-        <TextView
-            android:id="@+id/itemCommentTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:drawableLeft="@drawable/white_circle"
-            android:text="11" />
-
-    </LinearLayout>
+    <include layout="@layout/layout_body_content" />
 
     <View
         android:layout_width="match_parent"
