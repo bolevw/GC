@@ -119,20 +119,20 @@ public class PostDetailActivity extends BaseActivity {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
-            if (position == 0) {
-                ItemData<Integer, PostDetailHeaderModel> data = (ItemData<Integer, PostDetailHeaderModel>) viewData.get(position);
-                HeaderVh vh = (HeaderVh) holder;
+            if (getItemViewType(position) == TYPE_HEADER) {
+                final ItemData<Integer, PostDetailHeaderModel> data = (ItemData<Integer, PostDetailHeaderModel>) viewData.get(position);
+                final HeaderVh vh = (HeaderVh) holder;
                 vh.type.setText("楼主");
                 vh.name.setText(data.getValue().getHeader().getUserName());
                 PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getHeader().getUserPhotoSrc(), vh.imageSrc);
                 vh.date.setText(data.getValue().getHeader().getDate());
                 vh.itemPostTitleTextView.setText(data.getValue().getTitle());
                 vh.itemBodyContentTextView.setText(Html.fromHtml(data.getValue().getContent()));
-            } else if (position < viewData.size()) {
-                ItemData<Integer, PostDetailModel> data = (ItemData<Integer, PostDetailModel>) viewData.get(position);
-                CommentVh vh = (CommentVh) holder;
+            } else if (getItemViewType(position) == TYPE_COMMENT) {
+                final ItemData<Integer, PostDetailModel> data = (ItemData<Integer, PostDetailModel>) viewData.get(position);
+                final CommentVh vh = (CommentVh) holder;
                 vh.date.setText(data.getValue().getUserMessageModel().getDate());
                 vh.name.setText(data.getValue().getUserMessageModel().getUserName());
                 if (position == 1) {
@@ -144,10 +144,11 @@ public class PostDetailActivity extends BaseActivity {
                 } else {
                     vh.type.setText(position + "楼");
                 }
+
                 vh.itemBodyContentTextView.setText(Html.fromHtml(data.getValue().getContent()));
                 PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
 
-            } else if (position == viewData.size()) {
+            } else if (getItemViewType(position) == TYPE_LOADING) {
                 FootVh vh = (FootVh) holder;
                 if (!presenter.isHasData()) {
                     vh.loadingContent.setVisibility(View.GONE);
@@ -161,7 +162,7 @@ public class PostDetailActivity extends BaseActivity {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == 0) {
+            if (position == 0 && viewData.size() != 0) {
                 return TYPE_HEADER;
             } else if (position == viewData.size()) {
                 return TYPE_LOADING;
@@ -175,14 +176,14 @@ public class PostDetailActivity extends BaseActivity {
             return viewData.size() == 0 ? 0 : viewData.size() + 1;
         }
 
-
-        class HeaderVh extends RecyclerView.ViewHolder {
+        private class HeaderVh extends RecyclerView.ViewHolder {
             private TextView name;
             private TextView date;
             private ImageView imageSrc;
             private TextView type;
             private TextView itemPostTitleTextView;
             private TextView itemBodyContentTextView;
+            private LinearLayout content;
 
             public HeaderVh(View itemView) {
                 super(itemView);
@@ -193,19 +194,21 @@ public class PostDetailActivity extends BaseActivity {
                 type = (TextView) itemView.findViewById(R.id.itemUserTypeTextView);
                 itemPostTitleTextView = (TextView) itemView.findViewById(R.id.itemPostTitleTextView);
                 itemBodyContentTextView = (TextView) itemView.findViewById(R.id.itemBodyContentTextView);
+                content = (LinearLayout) itemView.findViewById(R.id.userMessageContent);
             }
         }
 
-        class CommentVh extends RecyclerView.ViewHolder {
+        private class CommentVh extends RecyclerView.ViewHolder {
             private TextView name;
             private TextView date;
             private ImageView imageSrc;
             private TextView type;
             private TextView itemBodyContentTextView;
+            private LinearLayout commentContent;
 
             public CommentVh(View itemView) {
                 super(itemView);
-
+                commentContent = (LinearLayout) findViewById(R.id.userMessageContent);
                 name = (TextView) itemView.findViewById(R.id.itemUserNameTextView);
                 date = (TextView) itemView.findViewById(R.id.itemPostDateTextView);
                 imageSrc = (ImageView) itemView.findViewById(R.id.itemUserImageView);
