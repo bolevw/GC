@@ -61,7 +61,7 @@ public class AccountApi {
                         model.setPrestige(itemELs.get(1).getElementsByTag(Fields.WebField.EM).text());
                         model.setGrass(itemELs.get(2).getElementsByTag(Fields.WebField.EM).text());
 
-                        model.setUserLevel(username);
+                        model.setUsername(username);
                         model.setUserLevel(wrapperEls.get(0).getElementsByAttributeValue(Fields.WebField.CLASS, "m-personal__level").get(0).text());
                         model.setAvatarSrc(userPhoto);
                         model.setBgSrc(wrapper);

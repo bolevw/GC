@@ -12,6 +12,8 @@ import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.model.PersonalHomePageModel;
 import com.example.administrator.gc.presenter.activity.PersonalHomePagePresenter;
 import com.example.administrator.gc.utils.PicassoUtils;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Administrator on 2016/4/14.
@@ -32,7 +34,7 @@ public class PersonalHomePageActivity extends BaseActivity {
 
     private LinearLayout hisThemeLinearLayout;
     private LinearLayout hisFriendLinearLayout;
-
+    private LinearLayout wrapper;
 
     public static void newInstance(Activity activity, String url) {
         Intent intent = new Intent(activity, PersonalHomePageActivity.class);
@@ -55,6 +57,7 @@ public class PersonalHomePageActivity extends BaseActivity {
 
         hisThemeLinearLayout = (LinearLayout) findViewById(R.id.hisThemeLinearLayout);
         hisFriendLinearLayout = (LinearLayout) findViewById(R.id.hisFriendLinearLayout);
+        wrapper = (LinearLayout) findViewById(R.id.wrapper);
 
     }
 
@@ -94,6 +97,19 @@ public class PersonalHomePageActivity extends BaseActivity {
         prestigeTextView.setText(model.getPrestige());
         grassTextView.setText(model.getGrass());
         PicassoUtils.normalShowImage(this, model.getAvatarSrc(), userPhotoImageView);
+        final ImageView imageView = new ImageView(this);
+        Picasso.with(this).load(model.getBgSrc()).into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                wrapper.setBackground(imageView.getDrawable());
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
 
         hisFriendLinearLayout.setTag(model.getFriendUrl());
         hisThemeLinearLayout.setTag(model.getThemeUrl());
