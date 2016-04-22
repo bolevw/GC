@@ -43,9 +43,10 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
             @Override
             public void onNext(IndexModel indexModel) {
                 if (null != view) {
-                    view.stopRefresh();
-                    if (!swipe)
-                        view.stopLoading();
+                    if (!swipe) {
+                        view.stopRefresh();
+                    }
+                    view.stopLoading();
                     view.notifyHotDataChange(indexModel);
                 }
             }

@@ -29,10 +29,8 @@ public class AllGameApi {
             public List<GameItemModel> call(Document document) {
                 ArrayList<GameItemModel> list = new ArrayList<GameItemModel>();
                 Element bodyEl = document.body();
-           //     Log.d(TAG, "body->" + bodyEl.toString());
                 Elements divEs = bodyEl.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.AllGame.TAG);
                 for (Element el : divEs) {
-             //       Log.d(TAG, "div -> " + el.toString());
                     GameItemModel item = new GameItemModel();
                     Elements tagAEl = el.getElementsByTag(Fields.WebField.A);
                     Elements tagImg = el.getElementsByTag(Fields.WebField.IMG);

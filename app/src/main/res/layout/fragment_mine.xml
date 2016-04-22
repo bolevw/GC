@@ -20,7 +20,7 @@
                 android:id="@+id/avatarImageView"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                tools:src="@mipmap/ic_action_back" />
+                tools:src="@mipmap/ic_right" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_action_back" />
+                android:src="@mipmap/ic_right" />
 
         </RelativeLayout>
 
@@ -203,7 +203,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/ic_action_back" />
+                    android:src="@mipmap/ic_right" />
             </LinearLayout>
 
             <View
@@ -236,7 +236,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/ic_action_back" />
+                    android:src="@mipmap/ic_right" />
             </LinearLayout>
 
             <View
@@ -269,7 +269,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/ic_action_back" />
+                    android:src="@mipmap/ic_right" />
             </LinearLayout>
 
             <View
@@ -290,7 +290,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/ic_icon" />
+                    android:src="@mipmap/ic_about" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -303,7 +303,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/ic_action_back" />
+                    android:src="@mipmap/ic_right" />
             </LinearLayout>
 
             <View
@@ -336,7 +336,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/ic_action_back" />
+                    android:src="@mipmap/ic_right" />
             </LinearLayout>
 
             <View

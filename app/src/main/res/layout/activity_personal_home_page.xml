@@ -75,6 +75,11 @@
                 android:textSize="@dimen/text_normal" />
         </LinearLayout>
 
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -98,6 +103,11 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_normal" />
         </LinearLayout>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -137,8 +147,9 @@
         android:paddingRight="@dimen/activity_vertical_margin">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@mipmap/ic_theme" />
 
         <TextView
             android:layout_width="0dp"
@@ -149,7 +160,8 @@
 
         <ImageView
             android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_right" />
     </LinearLayout>
 
     <View
@@ -168,8 +180,9 @@
         android:paddingRight="@dimen/activity_vertical_margin">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@mipmap/ic_friend" />
 
         <TextView
             android:layout_width="0dp"
@@ -180,7 +193,8 @@
 
         <ImageView
             android:layout_width="30dp"
-            android:layout_height="30dp" />
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_right" />
     </LinearLayout>
 
 </LinearLayout>

@@ -39,7 +39,6 @@ public class ForumApi {
                     public ArrayList<ForumItemDetailModel> call(Document document) {
                         ArrayList<ForumItemDetailModel> res = new ArrayList<ForumItemDetailModel>();
                         Element el = document.body();
-                        Log.d("HTML", el.toString());
                         if (el.toString().contains(Fields.GroupCategory.H_5)) {
 
                             Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.WebField.M_CHANNEL_LIST_ITEM);
@@ -63,7 +62,6 @@ public class ForumApi {
                                 detailModel.setPostCount(postCountTag.text());
 
                                 res.add(detailModel);
-                                Log.d("detailModel", detailModel.toString());
                             }
 
                         }
@@ -91,7 +89,6 @@ public class ForumApi {
                             Elements tagAEls = ele.getElementsByTag(Fields.WebField.A);
                             Elements tagPEls = ele.getElementsByTag(Fields.WebField.P);
 
-
                             Element element = tagPEls.get(1);
                             Elements spanEls = element.getElementsByTag(Fields.WebField.SPAN);
                             String authName = spanEls.get(0).getElementsByTag(Fields.WebField.EM).get(0).text();
@@ -105,7 +102,6 @@ public class ForumApi {
                             model.setDate(date);
                             model.setCommentCount(commentCount);
 
-                            Log.d("ForumPostListItemModel", model.toString());
                             list.add(model);
                         }
 
@@ -113,8 +109,6 @@ public class ForumApi {
 
                         itemModel.setList(list);
                         itemModel.setNextPageUrls(nextPage.get(0).getElementsByTag(Fields.WebField.LI).get(2).getElementsByTag(Fields.WebField.A).attr(Fields.WebField.HREF));
-
-                        Log.d("nexturls", nextPage.get(0).getElementsByTag(Fields.WebField.LI).get(2).getElementsByTag(Fields.WebField.A).attr(Fields.WebField.HREF));
 
                         return itemModel;
                     }
@@ -181,7 +175,6 @@ public class ForumApi {
                 body.setNextPageUrl(nextPageEls.get(0).getElementsByTag(Fields.WebField.LI).get(2).getElementsByTag(Fields.WebField.A).attr(Fields.WebField.HREF));
                 body.setCommentList(detailModels);
 
-                Log.d("postBody", body.toString());
                 return body;
             }
         })

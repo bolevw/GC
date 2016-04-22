@@ -1,7 +1,5 @@
 package com.example.administrator.gc.api;
 
-import android.util.Log;
-
 import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
 import com.example.administrator.gc.model.ForumModel;
@@ -63,7 +61,6 @@ public class IndexApi {
 
                 model.setPreviewGroupList(previewGroups);
                 model.setHotRankingList(hotRankingModels);
-                Log.d("web", model.toString());
                 return model;
             }
         }).subscribeOn(Schedulers.io())

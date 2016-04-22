@@ -1,6 +1,5 @@
 package com.example.administrator.gc.api;
 
-import android.util.Log;
 
 import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
@@ -30,7 +29,6 @@ public class AccountApi {
             @Override
             public String call(Document document) {
                 Element bodyEl = document.body();
-                Log.d(TAG, "body - >" + bodyEl.toString());
                 return document.toString();
             }
 
@@ -68,7 +66,7 @@ public class AccountApi {
                         model.setThemeUrl(wrapperEls.get(0).getElementsByAttributeValue(Fields.WebField.CLASS, "m-personal__enter").get(0).getElementsByTag(Fields.WebField.A).get(0).attr(Fields.WebField.HREF));
                         model.setFriendUrl(wrapperEls.get(0).getElementsByAttributeValue(Fields.WebField.CLASS, "m-personal__enter").get(0).getElementsByTag(Fields.WebField.A).get(1).attr(Fields.WebField.HREF));
 
-                        Log.d("personalHomePageModel", model.toString());
+
                         return model;
                     }
 

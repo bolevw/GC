@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <include layout="@layout/global_include_toolbar" />
 
     <ScrollView
@@ -84,6 +85,7 @@
 
 
             <Button
+                android:id="@+id/loginButton"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_margin="@dimen/activity_horizontal_margin"
