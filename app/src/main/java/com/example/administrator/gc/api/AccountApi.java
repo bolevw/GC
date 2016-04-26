@@ -29,7 +29,7 @@ public class AccountApi {
             @Override
             public String call(Document document) {
                 Element bodyEl = document.body();
-                return document.toString();
+                return bodyEl.toString();
             }
 
         }).subscribeOn(Schedulers.io())

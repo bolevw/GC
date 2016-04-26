@@ -8,6 +8,14 @@ public class ItemData<T, V> {
     private T key;
     private V value;
 
+    public ItemData() {
+    }
+
+    public ItemData(T key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+
     public T getKey() {
         return key;
     }

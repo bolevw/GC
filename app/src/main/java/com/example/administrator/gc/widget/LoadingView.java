@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -68,6 +69,13 @@ public class LoadingView extends ViewGroup {
         }
 
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private ImageView makeImg() {
+        ImageView imageView = new ImageView(weakContext.get());
+        Drawable drawable = getResources().getDrawable(R.drawable.ic_icon_bg);
+        imageView.setImageDrawable(drawable);
+        return imageView;
     }
 
     @Override
@@ -158,7 +166,8 @@ public class LoadingView extends ViewGroup {
         if (i < roadList.size()) {
             moveAnim = ObjectAnimator.ofFloat(
                     moveView,
-                    View.TRANSLATION_X, i == 1 ? moveView.getLeft() : roadList.get(i - 1) - moveView.getMeasuredWidth() / 2,
+                    View.TRANSLATION_X,
+                    i == 1 ? moveView.getLeft() : roadList.get(i - 1) - moveView.getMeasuredWidth() / 2,
                     i == roadList.size() - 1 ? roadList.get(i) : roadList.get(i) - moveView.getMeasuredWidth() / 2);
 
             moveAnim.setDuration(moveSpeed);

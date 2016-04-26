@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.administrator.gc.R;
+import com.example.administrator.gc.widget.LoadingFailView;
 import com.example.administrator.gc.widget.LoadingView;
 
 /**
@@ -18,6 +19,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private LoadingView loadingView;
+    private LoadingFailView failView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,11 +48,15 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
         loadingView = (LoadingView) findViewById(R.id.loadingView);
+        failView = (LoadingFailView) findViewById(R.id.loadingFailView);
     }
 
     public void startLoading() {
         if (null != loadingView) {
             loadingView.start();
+            if (failView != null && failView.getVisibility() == View.VISIBLE) {
+                failView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -61,6 +67,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void stopLoading() {
         if (null != loadingView) {
             loadingView.setVisibility(View.GONE);
+        }
+
+        if (null != failView) {
+            failView.setVisibility(View.GONE);
         }
     }
 

@@ -23,4 +23,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"></com.example.administrator.gc.widget.LoadingView>
 
+    <com.example.administrator.gc.widget.LoadingFailView
+        android:id="@+id/loadingFailView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"></com.example.administrator.gc.widget.LoadingFailView>
+
 </LinearLayout>

@@ -2,10 +2,8 @@ package com.example.administrator.gc.presenter.activity;
 
 import com.example.administrator.gc.api.ForumApi;
 import com.example.administrator.gc.base.BasePresenter;
-import com.example.administrator.gc.model.ForumItemDetailModel;
+import com.example.administrator.gc.model.ForumPartitionModel;
 import com.example.administrator.gc.ui.activity.ForumDetailListActivity;
-
-import java.util.ArrayList;
 
 import rx.Subscriber;
 
@@ -25,7 +23,7 @@ public class ForumDetailListPresenter implements BasePresenter<ForumDetailListAc
         if (null != view) {
             view.startLoading();
         }
-        ForumApi.getForum(urls, new Subscriber<ArrayList<ForumItemDetailModel>>() {
+        ForumApi.getForum(urls, new Subscriber<ForumPartitionModel>() {
             @Override
             public void onCompleted() {
 
@@ -41,10 +39,10 @@ public class ForumDetailListPresenter implements BasePresenter<ForumDetailListAc
             }
 
             @Override
-            public void onNext(ArrayList<ForumItemDetailModel> list) {
+            public void onNext(ForumPartitionModel model) {
                 if (null != view) {
                     view.stopLoading();
-                    view.nofityChange(list);
+                    view.notifyChange(model);
 
                 }
             }
