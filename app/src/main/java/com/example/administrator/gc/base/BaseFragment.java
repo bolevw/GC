@@ -1,10 +1,12 @@
 package com.example.administrator.gc.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.widget.LoadingView;
@@ -44,6 +46,21 @@ public abstract class BaseFragment extends Fragment {
     public void logError(Throwable e) {
         Log.e("error", e.toString());
     }
+
+    public BaseActivity getBaseActivity() {
+        return (BaseActivity) this.getActivity();
+    }
+
+    public void hideSoftKeyboard() {
+        final InputMethodManager inputMethodManager = (InputMethodManager) getBaseActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        View view = getBaseActivity().getCurrentFocus();
+        if (null == view) {
+            return;
+        }
+
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     protected abstract void initView(View v);
 
     protected abstract void bind();
@@ -51,10 +68,6 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void setListener();
 
     protected abstract void unbind();
-
-    public BaseActivity getBaseActivity() {
-        return (BaseActivity) this.getActivity();
-    }
 
     @Override
     public void onDestroyView() {

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.widget.LoadingFailView;
@@ -40,6 +41,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar == null) {
+            return;
+        }
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +80,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public Toolbar getToolbar() {
         return toolbar;
+    }
+
+    public void hideSoftKeyboard() {
+        InputMethodManager inputMethod = (InputMethodManager) getBaseContext().getSystemService(INPUT_METHOD_SERVICE);
+        final View view = getCurrentFocus();
+        if (null == view) {
+            return;
+        }
+        inputMethod.hideSoftInputFromInputMethod(view.getWindowToken(), 0);
     }
 
     protected abstract void initView();

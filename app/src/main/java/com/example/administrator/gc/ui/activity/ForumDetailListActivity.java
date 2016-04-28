@@ -2,6 +2,7 @@ package com.example.administrator.gc.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -74,7 +75,11 @@ public class ForumDetailListActivity extends BaseActivity {
     public void notifyChange(ForumPartitionModel model) {
         toolbarTitle.setText(model.getTitle());
 
-        PicassoUtils.normalShowImage(this, model.getImgSrc(), bgImageView);
+        String imgSrc = model.getImgSrc();
+        if (model.getVideoList().size() > 0) {
+            imgSrc = model.getVideoList().get(0).getImgSrc();
+        }
+        PicassoUtils.normalShowImage(this, imgSrc, bgImageView);
 
         if (model.getList().size() == 0 && model.getVideoList().size() == 0) {
             ForumPostListActivity.newInstance(ForumDetailListActivity.this, urls);
@@ -123,13 +128,19 @@ public class ForumDetailListActivity extends BaseActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (getItemViewType(position) == TYPE_VIDEO) {
                 VideoVH vh = (VideoVH) holder;
-                VideoModel model = (VideoModel) recyclerViewData.get(position).getValue();
+                final VideoModel model = (VideoModel) recyclerViewData.get(position).getValue();
 
                 vh.title.setText(model.getTitle());
                 vh.nums.setText(model.getNums());
                 vh.time.setText(model.getTime());
                 PicassoUtils.normalShowImage(ForumDetailListActivity.this, model.getImgSrc(), vh.imgPic);
 
+                vh.container.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        VideoActivity.newInstance(ForumDetailListActivity.this, model.getUrl());
+                    }
+                });
             }
             if (getItemViewType(position) == TYPE_PARTITION) {
                 final ForumItemDetailModel model = (ForumItemDetailModel) recyclerViewData.get(position).getValue();
@@ -178,11 +189,13 @@ public class ForumDetailListActivity extends BaseActivity {
             private TextView time;
             private TextView title;
             private ImageView imgPic;
+            private CardView container;
 
 
             public VideoVH(View itemView) {
                 super(itemView);
 
+                container = (CardView) itemView.findViewById(R.id.container);
                 nums = (TextView) itemView.findViewById(R.id.nums);
                 time = (TextView) itemView.findViewById(R.id.time);
                 title = (TextView) itemView.findViewById(R.id.videoTitleTextView);
