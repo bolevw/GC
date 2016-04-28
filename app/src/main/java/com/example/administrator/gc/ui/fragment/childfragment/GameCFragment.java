@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.example.administrator.gc.model.GameItemModel;
 import com.example.administrator.gc.presenter.fragment.GamePresenter;
 import com.example.administrator.gc.ui.activity.ForumDetailListActivity;
 import com.example.administrator.gc.utils.PicassoUtils;
+import com.example.administrator.gc.widget.ItemTouchHelperAdapter;
+import com.example.administrator.gc.widget.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class GameCFragment extends BaseFragment {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private List<GameItemModel> recyclerData = new ArrayList<>();
+    private ItemTouchHelper mItemTouchHelper;
 
 
     @Nullable
@@ -49,7 +53,7 @@ public class GameCFragment extends BaseFragment {
     protected void initView(View v) {
         recyclerView = (RecyclerView) v.findViewById(R.id.gameRecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        recyclerView.setAdapter(new RecyclerViewAdapter());
+
 
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.gameSwipeRefreshLayout);
 
@@ -102,12 +106,18 @@ public class GameCFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter();
         recyclerView.addItemDecoration(new RecyclerViewItemDirection(getResources().getDimensionPixelSize(R.dimen.cut_line)));
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         recyclerView.setMotionEventSplittingEnabled(false);
+        recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -133,6 +143,16 @@ public class GameCFragment extends BaseFragment {
         @Override
         public int getItemCount() {
             return recyclerData.size();
+        }
+
+        @Override
+        public void itemMove(int fromP, int endP) {
+            notifyItemMoved(fromP, endP);
+        }
+
+        @Override
+        public void onItemDisMiss(int position) {
+            notifyItemRemoved(position);
         }
 
         class VH extends RecyclerView.ViewHolder {
