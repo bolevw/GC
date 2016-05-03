@@ -6,9 +6,15 @@
     android:background="@color/common_background_white"
     android:orientation="vertical">
 
-    <TextView
+    <com.example.administrator.gc.widget.RippeView
+        android:id="@+id/rippeView"
+        android:layout_width="240dp"
+        android:layout_height="90dp"
+        android:background="@color/orange_800" />
+
+    <Button
+        android:id="@+id/start"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/attention" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

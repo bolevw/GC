@@ -33,7 +33,7 @@ public class GameCFragment extends BaseFragment {
 
     private static final String TAG = "GameCFragment";
 
-    private GamePresenter presener;
+    private GamePresenter presenter;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -80,7 +80,7 @@ public class GameCFragment extends BaseFragment {
     SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            presener.getData(true);
+            presenter.getData(true);
         }
     };
 
@@ -93,9 +93,9 @@ public class GameCFragment extends BaseFragment {
 
     @Override
     protected void bind() {
-        this.presener = new GamePresenter();
-        this.presener.bind(this);
-        presener.getData(false);
+        this.presenter = new GamePresenter();
+        this.presenter.bind(this);
+        presenter.getData(false);
     }
 
     public void notifyChange(List<GameItemModel> list) {
@@ -172,6 +172,6 @@ public class GameCFragment extends BaseFragment {
 
     @Override
     protected void unbind() {
-        this.presener.unBind();
+        this.presenter.unBind();
     }
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
+import com.example.administrator.gc.widget.RippeView;
 
 /**
  * Created by Administrator on 2016/3/22.
@@ -23,7 +24,13 @@ public class AttentionFragment extends BaseFragment {
 
     @Override
     protected void initView(View v) {
-
+        final RippeView rippeView = (RippeView) v.findViewById(R.id.rippeView);
+        v.findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rippeView.start();
+            }
+        });
     }
 
     @Override
