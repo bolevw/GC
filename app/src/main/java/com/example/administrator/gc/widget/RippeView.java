@@ -14,7 +14,7 @@ import android.view.View;
 /**
  * Created by Administrator on 2016/5/3.
  */
-public class RippeView extends View implements ValueAnimator.AnimatorUpdateListener, View.OnTouchListener {
+public class RippeView extends View implements ValueAnimator.AnimatorUpdateListener {
 
     private Rect mRect = new Rect();
     private Paint mPaint;
@@ -32,8 +32,6 @@ public class RippeView extends View implements ValueAnimator.AnimatorUpdateListe
 
     public RippeView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        this.setOnTouchListener(this);
 
         valueAnimator = new ValueAnimator();
         valueAnimator.setIntValues(0, 100);
@@ -81,9 +79,15 @@ public class RippeView extends View implements ValueAnimator.AnimatorUpdateListe
         mTouchPoint.set((int) event.getX(), (int) event.getY());
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                this.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        start();
+                    }
+                }, 700);
                 break;
             case MotionEvent.ACTION_UP:
-                this.start();
+
 
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -91,8 +95,6 @@ public class RippeView extends View implements ValueAnimator.AnimatorUpdateListe
         }
         return true;
     }
-
-
 
 
     public void start() {
