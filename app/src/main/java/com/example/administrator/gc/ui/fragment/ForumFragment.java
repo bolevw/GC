@@ -1,5 +1,7 @@
 package com.example.administrator.gc.ui.fragment;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -47,7 +49,6 @@ public class ForumFragment extends BaseFragment {
     protected void initView(View v) {
         forumRecyclerView = (RecyclerView) v.findViewById(R.id.forumRecyclerView);
         forumRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         quickReturnButton = (FloatingActionButton) v.findViewById(R.id.quickReturnButton);
     }
 
@@ -107,6 +108,8 @@ public class ForumFragment extends BaseFragment {
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+        private int currentP;
+
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(getActivity()).inflate(R.layout.item_forum_recyclerview, parent, false);
@@ -126,7 +129,14 @@ public class ForumFragment extends BaseFragment {
                     ForumDetailListActivity.newInstance(getActivity(), model.getUrls());
                 }
             });
+
+            if (position > currentP) {
+                vh.set.start();
+            }
+            currentP = position;
         }
+
+        int height = 0;
 
         @Override
         public int getItemCount() {
@@ -140,6 +150,9 @@ public class ForumFragment extends BaseFragment {
             private TextView count;
             private LinearLayout content;
 
+
+            private AnimatorSet set;
+
             public VH(View itemView) {
                 super(itemView);
                 content = (LinearLayout) itemView.findViewById(R.id.content);
@@ -147,6 +160,18 @@ public class ForumFragment extends BaseFragment {
 
                 name = (TextView) itemView.findViewById(R.id.itemForumNameTextView);
                 count = (TextView) itemView.findViewById(R.id.itemForumCountTextView);
+
+                content.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        height = content.getMeasuredHeight();
+                    }
+                });
+                set = new AnimatorSet();
+                set.playTogether(ObjectAnimator.ofFloat(content, View.TRANSLATION_Y, height, 0),
+                        ObjectAnimator.ofFloat(content, View.ALPHA, 0f, 1f));
+                set.setDuration(300);
+
             }
         }
     }
