@@ -1,5 +1,7 @@
 package com.example.administrator.gc.ui.activity;
 
+import android.content.Intent;
+
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.base.BaseFragment;
@@ -18,6 +20,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        if (!cache.readBooleanValue("hasRun", false)) {
+            startActivity(new Intent(this, GuideActivity.class));
+        }
         setContentView(R.layout.activity_main);
         bottomNav = (BottomNav) findViewById(R.id.mainBottomNav);
         switchFragment(0);

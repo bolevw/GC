@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.administrator.gc.R;
+import com.example.administrator.gc.cache.Cache;
 import com.example.administrator.gc.widget.LoadingFailView;
 import com.example.administrator.gc.widget.LoadingView;
 
@@ -21,12 +22,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private LoadingView loadingView;
     private LoadingFailView failView;
+    protected Cache cache;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BaseApplication.setContext(getApplicationContext());
-
+        cache = Cache.getInstance(this);
 
         initView();
         setListener();

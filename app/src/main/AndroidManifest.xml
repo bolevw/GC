@@ -31,6 +31,10 @@
         </activity>
 
         <activity
+            android:name=".ui.activity.GuideActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.activity.AboutActivity"
             android:label="@string/title_about"
             android:screenOrientation="portrait" />
