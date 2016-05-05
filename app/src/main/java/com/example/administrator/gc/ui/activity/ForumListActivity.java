@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2016/4/7.
  */
-public class ForumPostListActivity extends BaseActivity {
+public class ForumListActivity extends BaseActivity {
 
     private static final int TYPE_LOADING = 0x0001;
     private static final int TYPE_EMPTY = 0x0002;
@@ -36,7 +36,7 @@ public class ForumPostListActivity extends BaseActivity {
 
 
     public static void newInstance(Activity activity, String urls) {
-        Intent intent = new Intent(activity, ForumPostListActivity.class);
+        Intent intent = new Intent(activity, ForumListActivity.class);
         intent.putExtra("urls", urls);
         activity.startActivity(intent);
     }
@@ -104,7 +104,7 @@ public class ForumPostListActivity extends BaseActivity {
                 vh.content.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        PostDetailActivity.newInstance(ForumPostListActivity.this, model.getUrls());
+                        PostDetailActivity.newInstance(ForumListActivity.this, model.getUrls());
                     }
                 });
             }
@@ -167,7 +167,7 @@ public class ForumPostListActivity extends BaseActivity {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
-            RecyclerView.LayoutManager manager = ForumPostListActivity.this.recyclerView.getLayoutManager();
+            RecyclerView.LayoutManager manager = ForumListActivity.this.recyclerView.getLayoutManager();
             int position;
             if (manager instanceof LinearLayoutManager) {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) manager;

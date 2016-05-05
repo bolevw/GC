@@ -29,7 +29,7 @@ import com.example.administrator.gc.model.HotRankingModel;
 import com.example.administrator.gc.model.IndexModel;
 import com.example.administrator.gc.model.PreviewGroup;
 import com.example.administrator.gc.presenter.fragment.RecommendPresenter;
-import com.example.administrator.gc.ui.activity.ForumDetailListActivity;
+import com.example.administrator.gc.ui.activity.ForumLabelListActivity;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.widget.VPIndicator;
 import com.squareup.picasso.Callback;
@@ -197,7 +197,7 @@ public class RecommendCFragment extends BaseFragment {
                         layout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ForumDetailListActivity.newInstance(getActivity(), itemList.get(finalI).getUrl());
+                                ForumLabelListActivity.newInstance(getActivity(), itemList.get(finalI).getUrl());
                             }
                         });
                     }
@@ -335,7 +335,7 @@ public class RecommendCFragment extends BaseFragment {
                         vh.content.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ForumDetailListActivity.newInstance(getActivity(), model.getUrls());
+                                ForumLabelListActivity.newInstance(getActivity(), model.getUrls());
                             }
                         });
                     } else if (position == hotList.size()) {

@@ -18,7 +18,7 @@ import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
 import com.example.administrator.gc.model.ForumModel;
 import com.example.administrator.gc.presenter.fragment.ForumPresenter;
-import com.example.administrator.gc.ui.activity.ForumDetailListActivity;
+import com.example.administrator.gc.ui.activity.ForumLabelListActivity;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.widget.RecyclerViewCutLine;
 
@@ -126,7 +126,7 @@ public class ForumFragment extends BaseFragment {
             vh.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ForumDetailListActivity.newInstance(getActivity(), model.getUrls());
+                    ForumLabelListActivity.newInstance(getActivity(), model.getUrls());
                 }
             });
 

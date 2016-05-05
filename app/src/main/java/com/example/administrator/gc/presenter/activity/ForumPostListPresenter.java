@@ -3,22 +3,22 @@ package com.example.administrator.gc.presenter.activity;
 import com.example.administrator.gc.api.ForumApi;
 import com.example.administrator.gc.base.BasePresenter;
 import com.example.administrator.gc.model.ForumPostPageListItemModel;
-import com.example.administrator.gc.ui.activity.ForumPostListActivity;
+import com.example.administrator.gc.ui.activity.ForumListActivity;
 
 import rx.Subscriber;
 
 /**
  * Created by Administrator on 2016/4/7.
  */
-public class ForumPostListPresenter implements BasePresenter<ForumPostListActivity> {
+public class ForumPostListPresenter implements BasePresenter<ForumListActivity> {
 
 
-    ForumPostListActivity view;
+    ForumListActivity view;
 
     private String nextPageUrl = null;
 
     @Override
-    public void bind(ForumPostListActivity view) {
+    public void bind(ForumListActivity view) {
         this.view = view;
     }
 

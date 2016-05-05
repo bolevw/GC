@@ -18,7 +18,7 @@ import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
 import com.example.administrator.gc.model.GameItemModel;
 import com.example.administrator.gc.presenter.fragment.GamePresenter;
-import com.example.administrator.gc.ui.activity.ForumDetailListActivity;
+import com.example.administrator.gc.ui.activity.ForumLabelListActivity;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.widget.ItemTouchHelperAdapter;
 import com.example.administrator.gc.widget.SimpleItemTouchHelperCallback;
@@ -134,7 +134,7 @@ public class GameCFragment extends BaseFragment {
             vh.item1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ForumDetailListActivity.newInstance(getActivity(), model.getUrls());
+                    ForumLabelListActivity.newInstance(getActivity(), model.getUrls());
                 }
             });
 

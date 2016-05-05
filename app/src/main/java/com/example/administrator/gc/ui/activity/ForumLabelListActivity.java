@@ -26,9 +26,10 @@ import com.example.administrator.gc.utils.PicassoUtils;
 import java.util.ArrayList;
 
 /**
+ * 论坛标签
  * Created by Administrator on 2016/4/6.
  */
-public class ForumDetailListActivity extends BaseActivity {
+public class ForumLabelListActivity extends BaseActivity {
 
     private static final int TYPE_VIDEO = 0x0001;
     private static final int TYPE_PARTITION = 0x0002;
@@ -48,7 +49,7 @@ public class ForumDetailListActivity extends BaseActivity {
 
 
     public static void newInstance(Activity activity, String urls) {
-        Intent intent = new Intent(activity, ForumDetailListActivity.class);
+        Intent intent = new Intent(activity, ForumLabelListActivity.class);
         intent.putExtra("urls", urls);
         activity.startActivity(intent);
     }
@@ -82,7 +83,7 @@ public class ForumDetailListActivity extends BaseActivity {
         PicassoUtils.normalShowImage(this, imgSrc, bgImageView);
 
         if (model.getList().size() == 0 && model.getVideoList().size() == 0) {
-            ForumPostListActivity.newInstance(ForumDetailListActivity.this, urls);
+            ForumListActivity.newInstance(ForumLabelListActivity.this, urls);
             finish();
         } else {
             recyclerViewData.clear();
@@ -133,12 +134,12 @@ public class ForumDetailListActivity extends BaseActivity {
                 vh.title.setText(model.getTitle());
                 vh.nums.setText(model.getNums());
                 vh.time.setText(model.getTime());
-                PicassoUtils.normalShowImage(ForumDetailListActivity.this, model.getImgSrc(), vh.imgPic);
+                PicassoUtils.normalShowImage(ForumLabelListActivity.this, model.getImgSrc(), vh.imgPic);
 
                 vh.container.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        VideoActivity.newInstance(ForumDetailListActivity.this, model.getUrl());
+                        VideoActivity.newInstance(ForumLabelListActivity.this, model.getUrl());
                     }
                 });
             }
@@ -151,7 +152,7 @@ public class ForumDetailListActivity extends BaseActivity {
                 vh.content.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ForumPostListActivity.newInstance(ForumDetailListActivity.this, model.getUrls());
+                        ForumListActivity.newInstance(ForumLabelListActivity.this, model.getUrls());
                     }
                 });
             }
