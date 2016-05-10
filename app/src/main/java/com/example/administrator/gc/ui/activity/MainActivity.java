@@ -2,6 +2,7 @@ package com.example.administrator.gc.ui.activity;
 
 import android.content.Intent;
 
+import com.android.debug.hv.ViewServer;
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.base.BaseFragment;
@@ -23,6 +24,7 @@ public class MainActivity extends BaseActivity {
         if (!cache.readBooleanValue("hasRun", false)) {
             startActivity(new Intent(this, GuideActivity.class));
         }
+        ViewServer.get(this).addWindow(this);
         setContentView(R.layout.activity_main);
         bottomNav = (BottomNav) findViewById(R.id.mainBottomNav);
         switchFragment(0);
@@ -70,12 +72,19 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        ViewServer.get(this).setFocusedWindow(this);
+    }
+
+
+    @Override
     protected void bind() {
 
     }
 
     @Override
     protected void unBind() {
-
+        ViewServer.get(this).removeWindow(this);
     }
 }
