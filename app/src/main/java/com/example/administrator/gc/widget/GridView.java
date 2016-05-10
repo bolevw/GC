@@ -29,12 +29,15 @@ public class GridView extends LinearLayout {
 
     public GridView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        viewDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelperCallback());
+        this.context = context;
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.GridView);
         column = ta.getInteger(R.styleable.GridView_column, 3);
         ta.recycle();
 
     }
+
+    private Context context;
 
     public void setAdapter(BaseAdapter adapter) {
         int itemCount = adapter.getCount();
@@ -60,7 +63,6 @@ public class GridView extends LinearLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        viewDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelperCallback());
     }
 
     @Override

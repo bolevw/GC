@@ -38,7 +38,7 @@ public class LoadingView extends ViewGroup {
 
     private ImageView moveView;
     private WeakReference<Context> weakContext;
-    /*private Context mContext;*/
+
     private String loadingText = "正在加载...";
 
     private boolean isAnim = false;
@@ -228,5 +228,19 @@ public class LoadingView extends ViewGroup {
 
     private int dip2px(int value) {
         return (int) (value * getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    public void stopAnim() {
+        isAnim = false;
+        if (moveAnim != null && moveAnim.isRunning()) {
+            moveAnim.cancel();
+        }
+        if (alphaAnim != null && alphaAnim.isRunning()) {
+            alphaAnim.cancel();
+        }
+
+        if (set != null && set.isRunning()) {
+            set.cancel();
+        }
     }
 }

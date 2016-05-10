@@ -38,6 +38,7 @@ public abstract class BaseFragment extends Fragment {
 
     public void stopLoading() {
         if (null != loadingView) {
+            loadingView.stopAnim();
             loadingView.setVisibility(View.GONE);
         }
     }

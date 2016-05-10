@@ -14,7 +14,6 @@ import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.model.ForumPostListItemModel;
 import com.example.administrator.gc.presenter.activity.ForumPostListPresenter;
-import com.example.administrator.gc.widget.RecyclerViewCutLine;
 
 import java.util.ArrayList;
 
@@ -63,7 +62,6 @@ public class ForumListActivity extends BaseActivity {
     @Override
     protected void setListener() {
         recyclerView.setAdapter(new RVAdapter());
-        recyclerView.addItemDecoration(new RecyclerViewCutLine(getResources().getDimensionPixelSize(R.dimen.cut_line), 0));
         recyclerView.addOnScrollListener(onScrollListener);
     }
 

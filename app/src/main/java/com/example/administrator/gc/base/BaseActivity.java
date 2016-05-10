@@ -72,6 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void stopLoading() {
         if (null != loadingView) {
+            loadingView.stopAnim();
             loadingView.setVisibility(View.GONE);
         }
 
