@@ -13,10 +13,7 @@ public class Cache {
     private SharedPreferences.Editor editor;
 
     public static Cache getInstance(Context context) {
-        if (instance == null) {
-            instance = new Cache(context);
-        }
-
+        if (instance == null) instance = new Cache(context);
         return instance;
     }
 

@@ -5,7 +5,7 @@ android {
         release {
             keyAlias 'Gc'
             keyPassword '123456'
-            storeFile file('C:/Users/keystore/GC.jks')
+            storeFile file('/Users/liubo/Desktop/android/KeyStore/Gc.jks')
             storePassword '123456'
         }
     }

@@ -1,5 +1,7 @@
 package com.example.administrator.gc.ui.fragment.childfragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -46,6 +48,8 @@ public class RecommendCFragment extends BaseFragment {
     private static final int TYPE_BANNER = 1;
     private static final int TYPE_HOT = 2;
     private static final int TYPE_NORMAL = 3;
+
+    private Activity context;
 
     private RecommendPresenter presenter;
 
@@ -102,10 +106,21 @@ public class RecommendCFragment extends BaseFragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = (Activity) context;
+    }
+
+    @Override
     protected void initView(View v) {
         recyclerView = (RecyclerView) v.findViewById(R.id.recommendRecyclerView);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(new RecyclerViewAdapter());
 
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
@@ -187,17 +202,17 @@ public class RecommendCFragment extends BaseFragment {
                     normalVh.name_2.setText(itemList.get(1).getName());
                     normalVh.name_3.setText(itemList.get(2).getName());
                     normalVh.name_4.setText(itemList.get(3).getName());
-                    PicassoUtils.normalShowImage(getActivity(), itemList.get(0).getImageSrc(), normalVh.image_1);
-                    PicassoUtils.normalShowImage(getActivity(), itemList.get(1).getImageSrc(), normalVh.image_2);
-                    PicassoUtils.normalShowImage(getActivity(), itemList.get(2).getImageSrc(), normalVh.image_3);
-                    PicassoUtils.normalShowImage(getActivity(), itemList.get(3).getImageSrc(), normalVh.image_4);
+                    PicassoUtils.normalShowImage(context, itemList.get(0).getImageSrc(), normalVh.image_1);
+                    PicassoUtils.normalShowImage(context, itemList.get(1).getImageSrc(), normalVh.image_2);
+                    PicassoUtils.normalShowImage(context, itemList.get(2).getImageSrc(), normalVh.image_3);
+                    PicassoUtils.normalShowImage(context, itemList.get(3).getImageSrc(), normalVh.image_4);
                     for (int i = 0; i < normalVh.layouts.size(); i++) {
                         LinearLayout layout = normalVh.layouts.get(i);
                         final int finalI = i;
                         layout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ForumLabelListActivity.newInstance(getActivity(), itemList.get(finalI).getUrl());
+                                ForumLabelListActivity.newInstance(context, itemList.get(finalI).getUrl());
                             }
                         });
                     }
@@ -289,8 +304,7 @@ public class RecommendCFragment extends BaseFragment {
                 super(itemView);
 
                 hotRecyclerView = (RecyclerView) itemView.findViewById(R.id.hotRecyclerView);
-                hotRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-
+                hotRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                 hotRecyclerView.setAdapter(new HotItemRecyclerViewAdapter());
             }
 
@@ -319,7 +333,7 @@ public class RecommendCFragment extends BaseFragment {
                         final HotRankingModel model = hotList.get(position);
                         Log.d("urls", model.getUrls());
                         vh.textView.setText(model.getName());
-                        Picasso.with(getActivity())
+                        Picasso.with(context)
                                 .load(model.getImageSrc())
                                 .into(vh.imageView, new Callback() {
                                     @Override
@@ -335,7 +349,7 @@ public class RecommendCFragment extends BaseFragment {
                         vh.content.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ForumLabelListActivity.newInstance(getActivity(), model.getUrls());
+                                ForumLabelListActivity.newInstance(context, model.getUrls());
                             }
                         });
                     } else if (position == hotList.size()) {
@@ -436,7 +450,7 @@ public class RecommendCFragment extends BaseFragment {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            View view = new View(getActivity());
+            View view = new View(context);
             view.setBackgroundColor(colors[position]);
             container.addView(view);
             return view;
