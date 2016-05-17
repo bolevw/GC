@@ -36,7 +36,7 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
 
         ForumApi.getPostDetail(urls, getNextpage, new BaseSub<PostBodyModel, PostDetailActivity>(view) {
             @Override
-            protected void error() {
+            protected void error(String e) {
                 view.stopLoading();
                 view.setLoading(false);
             }

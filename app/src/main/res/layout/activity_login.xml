@@ -1,131 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/global_include_toolbar" />
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/common_background_white"
-        android:visibility="gone">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include layout="@layout/global_include_toolbar" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:text="YY安全中心统一登录\n输入您的通行证，密码" />
+            android:background="@color/common_background_white">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/activity_horizontal_margin">
-
-                <EditText
-                    android:id="@+id/accountEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:hint="账号/邮箱/YY号/手机号"
-                    android:paddingBottom="4dp"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingTop="4dp"
-                    android:textSize="@dimen/text_normal" />
-
-                <EditText
-                    android:id="@+id/passwordEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:hint="密码"
-                    android:paddingBottom="4dp"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingTop="4dp"
-                    android:textSize="@dimen/text_normal" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <EditText
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="输入验证码"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:textSize="@dimen/text_normal" />
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="换一张" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:text="1周内自动登录" />
-
-
-            <Button
-                android:id="@+id/loginButton"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                android:text="登录" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:background="@color/cut_line" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:gravity="right"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="找回密码" />
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="输入注册的账号密码，以进行登录（注意:这里与你的yy密码不通用）"
+                    android:textColor="@android:color/holo_red_dark" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/activity_horizontal_margin">
+
+                    <EditText
+                        android:id="@+id/accountEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="账号"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingTop="4dp"
+                        android:textSize="@dimen/text_normal" />
+
+                    <EditText
+                        android:id="@+id/passwordEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"
+                        android:hint="密码"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingTop="4dp"
+                        android:textSize="@dimen/text_normal" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="3">
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="输入验证码"
+                            android:paddingLeft="@dimen/activity_horizontal_margin"
+                            android:textSize="@dimen/text_normal" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="换一张" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:text="1周内自动登录"
+                    android:visibility="gone" />
+
+
+                <Button
+                    android:id="@+id/loginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/bg_click_orange"
+                    android:text="登录"
+                    android:textColor="@color/white" />
 
                 <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:background="@color/cut_line" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="注册账号" />
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:gravity="right"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
 
+                    <TextView
+                        android:id="@+id/findPasswordTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="找回密码"
+                        android:textColor="@android:color/holo_red_light" />
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:background="@color/cut_line" />
+
+                    <TextView
+                        android:id="@+id/registerTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="注册账号" />
+
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
 
-    <include layout="@layout/test_drag" />
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

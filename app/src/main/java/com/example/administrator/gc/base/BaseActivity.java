@@ -22,7 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private LoadingView loadingView;
     private LoadingFailView failView;
-    protected Cache cache;
+    public Cache cache;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setListener();
         bind();
     }
+
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -86,12 +87,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void hideSoftKeyboard() {
-        InputMethodManager inputMethod = (InputMethodManager) getBaseContext().getSystemService(INPUT_METHOD_SERVICE);
+        final InputMethodManager inputMethod = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         final View view = getCurrentFocus();
         if (null == view) {
             return;
         }
-        inputMethod.hideSoftInputFromInputMethod(view.getWindowToken(), 0);
+        inputMethod.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     protected abstract void initView();
