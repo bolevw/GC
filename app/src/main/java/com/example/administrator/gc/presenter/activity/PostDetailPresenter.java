@@ -3,6 +3,9 @@ package com.example.administrator.gc.presenter.activity;
 import com.example.administrator.gc.api.ForumApi;
 import com.example.administrator.gc.base.BasePresenter;
 import com.example.administrator.gc.base.BaseSub;
+import com.example.administrator.gc.model.FollowPostModel;
+import com.example.administrator.gc.model.IsFollowModel;
+import com.example.administrator.gc.model.IsFollowResponse;
 import com.example.administrator.gc.model.PostBodyModel;
 import com.example.administrator.gc.restApi.ForumAndPostApi;
 import com.example.administrator.gc.ui.activity.PostDetailActivity;
@@ -63,14 +66,45 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
         }
     }
 
-    public void followPost(int position) {
+    public void followPost(FollowPostModel model) {
 
-        ForumAndPostApi.followPost();
+        ForumAndPostApi.followPost(model, new BaseSub<Void, PostDetailActivity>(view) {
+            @Override
+            protected void error(String e) {
+                view.showWarning("关注失败！");
+            }
+
+            @Override
+            protected void next(Void aVoid) {
+                view.followSuccess();
+            }
+        });
 
     }
 
     @Override
     public void unBind() {
         this.view = null;
+    }
+
+    public void isFollow(IsFollowModel model) {
+        if (!view.isLogin()) {
+            return;
+        } else {
+
+            ForumAndPostApi.isFollow(model, new BaseSub<IsFollowResponse, PostDetailActivity>(view) {
+                @Override
+                protected void error(String e) {
+                }
+
+                @Override
+                protected void next(IsFollowResponse list) {
+                    if (list.getResults().size() > 0) {
+                        view.setFollow(true);
+                    }
+
+                }
+            });
+        }
     }
 }

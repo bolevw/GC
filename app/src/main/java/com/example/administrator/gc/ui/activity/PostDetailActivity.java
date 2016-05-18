@@ -1,7 +1,11 @@
 package com.example.administrator.gc.ui.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -16,14 +20,24 @@ import android.widget.TextView;
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.base.ItemData;
+import com.example.administrator.gc.model.FollowPostModel;
+import com.example.administrator.gc.model.IsFollowModel;
 import com.example.administrator.gc.model.PostBodyModel;
 import com.example.administrator.gc.model.PostDetailHeaderModel;
 import com.example.administrator.gc.model.PostDetailModel;
 import com.example.administrator.gc.presenter.activity.PostDetailPresenter;
 import com.example.administrator.gc.utils.PicassoUtils;
+import com.example.administrator.gc.utils.SnackbarUtils;
 import com.example.administrator.gc.widget.RecyclerViewCutLine;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by Administrator on 2016/4/8.
@@ -41,7 +55,10 @@ public class PostDetailActivity extends BaseActivity {
     private RecyclerView recyclerView;
 
     private ArrayList<ItemData> viewData = new ArrayList<>();
+    private boolean isLogin;
 
+    @BindView(R.id.rootView)
+    CoordinatorLayout coordinatorLayout;
 
     public static void newInstance(Activity activity, String urls) {
         Intent intent = new Intent(activity, PostDetailActivity.class);
@@ -53,7 +70,8 @@ public class PostDetailActivity extends BaseActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.activity_post_detail);
-
+        isLogin = cache.readBooleanValue("isLogin", false);
+        ButterKnife.bind(this);
         Intent intent = getIntent();
         urls = intent.getStringExtra("urls");
 
@@ -70,11 +88,55 @@ public class PostDetailActivity extends BaseActivity {
     }
 
 
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setLogin(boolean login) {
+        isLogin = login;
+    }
+
+    public void showWarning(String string) {
+        Snackbar sk = Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_SHORT);
+        SnackbarUtils.setBackground(sk, this, android.R.color.holo_red_light);
+        sk.show();
+    }
+
+    Subscriber subscriber;
+    private boolean isFollow = false;
+
+    public void followSuccess() {
+        hideSoftKeyboard();
+        showWarning("关注成功");
+        Observable.just(null).doOnNext(new Action1<Object>() {
+            @Override
+            public void call(Object o) {
+
+            }
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+
+    public boolean isFollow() {
+        return isFollow;
+    }
+
+    public void setFollow(boolean follow) {
+        isFollow = follow;
+    }
+
     @Override
     protected void bind() {
         presenter = new PostDetailPresenter();
         presenter.bind(this);
         presenter.getData(urls, false);
+        IsFollowModel model = new IsFollowModel();
+        model.setPostUrl(urls);
+        model.setUserId(cache.readStringValue("userId", "0"));
+        presenter.isFollow(model);
     }
 
     @Override
@@ -134,9 +196,29 @@ public class PostDetailActivity extends BaseActivity {
                 vh.itemFollowButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        followPost(position);
+                        followPost(data.getValue());
                     }
                 });
+                subscriber = new Subscriber() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+                        isFollow = true;
+                        vh.itemFollowButton.setText("已关注");
+                        vh.itemFollowButton.setClickable(false);
+                    }
+                };
+                if (isFollow) {
+                    vh.itemFollowButton.setText("已关注");
+                    vh.itemFollowButton.setClickable(false);
+                }
                 vh.content.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -252,8 +334,36 @@ public class PostDetailActivity extends BaseActivity {
 
     }
 
-    private void followPost(int i) {
+    private void followPost(PostDetailHeaderModel i) {
 
+
+        if (isLogin) {
+            FollowPostModel model = new FollowPostModel();
+            model.setFollowDate(System.currentTimeMillis());
+            model.setLzName(i.getHeader().getUserName());
+            model.setPostUrl(urls);
+            model.setUsername(cache.readStringValue("username", "default_name"));
+            model.setUserId(cache.readStringValue("userId", "000"));
+
+            presenter.followPost(model);
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            final AlertDialog adl = builder.create();
+
+            builder.setTitle("请登录！")
+                    .setMessage("请先登录，在进行关注！")
+                    .setNegativeButton("暂不关注", null)
+                    .setPositiveButton("登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            adl.dismiss();
+                            startActivity(new Intent(PostDetailActivity.this, LoginActivity.class));
+                        }
+                    });
+
+            builder.show();
+
+        }
 
     }
 

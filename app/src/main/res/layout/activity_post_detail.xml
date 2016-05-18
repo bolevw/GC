@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/global_include_toolbar_with_loadingview" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/postDetailRecyclerView"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+        android:background="@color/white"
+        android:orientation="vertical">
 
+        <include layout="@layout/global_include_toolbar_with_loadingview" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/percent70WhiteColor"
-        android:orientation="horizontal">
-
-        <EditText
-            android:layout_width="0dp"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/postDetailRecyclerView"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"></android.support.v7.widget.RecyclerView>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="发布" />
-    </LinearLayout>
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/percent70WhiteColor"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发布" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

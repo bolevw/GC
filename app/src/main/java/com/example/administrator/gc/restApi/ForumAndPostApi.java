@@ -2,9 +2,12 @@ package com.example.administrator.gc.restApi;
 
 import com.example.administrator.gc.base.BaseSub;
 import com.example.administrator.gc.model.FollowPostModel;
+import com.example.administrator.gc.model.IsFollowModel;
+import com.example.administrator.gc.model.IsFollowResponse;
 import com.example.administrator.gc.restApi.connection.HttpConnection;
 import com.example.administrator.gc.restApi.service.ForumAndPostService;
 import com.example.administrator.gc.ui.activity.PostDetailActivity;
+import com.google.gson.Gson;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,5 +29,15 @@ public class ForumAndPostApi {
                 .subscribe(sub);
 
 
+    }
+
+    public static void isFollow(IsFollowModel model, BaseSub<IsFollowResponse, PostDetailActivity> sub) {
+        HttpConnection connection = new HttpConnection.Builder(Urls.BASE_URL)
+                .build();
+
+        Observable<IsFollowResponse> observable = connection.getConnection().create(ForumAndPostService.class).isFollow("FollowPost", new Gson().toJson(model));
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(sub);
     }
 }

@@ -36,6 +36,8 @@ public class LoginPresenter implements BasePresenter<LoginActivity> {
             @Override
             protected void next(UserModel userModel) {
                 view.cache.saveStringValue(UserModel.SESSIONTOKEN, userModel.getSessionToken());
+                view.cache.saveStringValue("username", userModel.getUsername());
+                view.cache.saveStringValue("userId", userModel.getObjectId());
                 view.cache.saveBooleanValue("isLogin", true);
                 view.loginSuccess();
             }

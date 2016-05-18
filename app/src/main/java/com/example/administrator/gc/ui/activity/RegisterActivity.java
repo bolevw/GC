@@ -76,6 +76,8 @@ public class RegisterActivity extends BaseActivity {
                 SnackbarUtils.setBackground(sk, RegisterActivity.this);
                 sk.show();
                 cache.saveStringValue("sessionToken", userModel.getSessionToken());
+                cache.saveStringValue("username", userModel.getUsername());
+                cache.saveStringValue("userId", userModel.getObjectId());
                 username.postDelayed(new Runnable() {
                     @Override
                     public void run() {
