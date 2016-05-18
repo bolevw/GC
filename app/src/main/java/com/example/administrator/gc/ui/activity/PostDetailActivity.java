@@ -64,7 +64,7 @@ public class PostDetailActivity extends BaseActivity {
     private ArrayList<ItemData> viewData = new ArrayList<>();
 
     @BindView(R.id.postDetailRecyclerView)
-    private RecyclerView recyclerView;
+    RecyclerView recyclerView;
     @BindView(R.id.rootView)
     CoordinatorLayout coordinatorLayout;
 

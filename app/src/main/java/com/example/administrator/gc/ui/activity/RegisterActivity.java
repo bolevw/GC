@@ -25,16 +25,16 @@ import butterknife.OnClick;
 public class RegisterActivity extends BaseActivity {
 
     @BindView(R.id.usernameEditText)
-    private TextInputEditText username;
+    TextInputEditText username;
 
     @BindView(R.id.passwordEditText)
-    private TextInputEditText password;
+    TextInputEditText password;
 
     @BindView(R.id.registerButton)
-    private AppCompatButton register;
+    AppCompatButton register;
 
     @BindView(R.id.rootView)
-    private CoordinatorLayout coordinatorLayout;
+    CoordinatorLayout coordinatorLayout;
 
     @OnClick(R.id.registerButton)
     void onClick() {
@@ -98,6 +98,7 @@ public class RegisterActivity extends BaseActivity {
     protected void initView() {
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
+
     }
 
     @Override

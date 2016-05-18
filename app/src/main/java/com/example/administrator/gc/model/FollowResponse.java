@@ -6,17 +6,13 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by liubo on 2016/5/18.
  */
-public class IsFollowBodyResponse {
+public class FollowResponse {
     @SerializedName("objectId")
     @Expose
     private String objectId;
-
-    @Override
-    public String toString() {
-        return "IsFollowBodyResponse{" +
-                "objectId='" + objectId + '\'' +
-                '}';
-    }
+    @SerializedName("createdAt")
+    @Expose
+    private String createdAt;
 
     public String getObjectId() {
         return objectId;
@@ -24,5 +20,13 @@ public class IsFollowBodyResponse {
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }

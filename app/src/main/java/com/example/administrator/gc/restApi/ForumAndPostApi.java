@@ -2,6 +2,7 @@ package com.example.administrator.gc.restApi;
 
 import com.example.administrator.gc.base.BaseSub;
 import com.example.administrator.gc.model.FollowPostModel;
+import com.example.administrator.gc.model.FollowResponse;
 import com.example.administrator.gc.model.IsFollowModel;
 import com.example.administrator.gc.model.IsFollowResponse;
 import com.example.administrator.gc.restApi.connection.HttpConnection;
@@ -18,17 +19,14 @@ import rx.schedulers.Schedulers;
  */
 public class ForumAndPostApi {
 
-    public static void followPost(FollowPostModel model, BaseSub<Void, PostDetailActivity> sub) {
+    public static void followPost(FollowPostModel model, BaseSub<FollowResponse, PostDetailActivity> sub) {
 
         HttpConnection connection = new HttpConnection.Builder(Urls.BASE_URL)
                 .build();
-        Observable<Void> observable = connection.getConnection().create(ForumAndPostService.class).follow("FollowPost", model);
-
+        Observable<FollowResponse> observable = connection.getConnection().create(ForumAndPostService.class).follow("FollowPost", model);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(sub);
-
-
     }
 
     public static void isFollow(IsFollowModel model, BaseSub<IsFollowResponse, PostDetailActivity> sub) {

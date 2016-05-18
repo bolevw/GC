@@ -1,6 +1,7 @@
 package com.example.administrator.gc.restApi.service;
 
 import com.example.administrator.gc.model.FollowPostModel;
+import com.example.administrator.gc.model.FollowResponse;
 import com.example.administrator.gc.model.IsFollowResponse;
 
 import retrofit2.http.Body;
@@ -18,7 +19,7 @@ public interface ForumAndPostService {
 
 
     @POST("1.1/classes/{class}")
-    Observable<Void> follow(@Path("class") String name, @Body FollowPostModel model);
+    Observable<FollowResponse> follow(@Path("class") String name, @Body FollowPostModel model);
 
     @GET("1.1/classes/{class}")
     Observable<IsFollowResponse> isFollow(@Path("class") String name, @Query("where") String query);

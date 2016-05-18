@@ -13,6 +13,13 @@ public class IsFollowResponse  {
     @Expose
     private List<IsFollowBodyResponse> results;
 
+    @Override
+    public String toString() {
+        return "IsFollowResponse{" +
+                "results=" + results +
+                '}';
+    }
+
     public List<IsFollowBodyResponse> getResults() {
         return results;
     }
