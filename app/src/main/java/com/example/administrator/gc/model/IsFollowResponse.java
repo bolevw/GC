@@ -11,13 +11,13 @@ import java.util.List;
 public class IsFollowResponse  {
     @SerializedName("results")
     @Expose
-    private List<Object> results;
+    private List<IsFollowBodyResponse> results;
 
-    public List<Object> getResults() {
+    public List<IsFollowBodyResponse> getResults() {
         return results;
     }
 
-    public void setResults(List<Object> results) {
+    public void setResults(List<IsFollowBodyResponse> results) {
         this.results = results;
     }
 }

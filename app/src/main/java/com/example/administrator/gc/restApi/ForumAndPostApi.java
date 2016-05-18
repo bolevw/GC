@@ -40,4 +40,13 @@ public class ForumAndPostApi {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(sub);
     }
+
+    public static void cancelFollow(String id, BaseSub<Void, PostDetailActivity> sub) {
+        HttpConnection connection = new HttpConnection.Builder(Urls.BASE_URL)
+                .build();
+        Observable<Void> observable = connection.getConnection().create(ForumAndPostService.class).cancelFollow("FollowPost", id);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(sub);
+    }
 }

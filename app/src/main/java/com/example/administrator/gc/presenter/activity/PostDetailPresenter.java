@@ -100,11 +100,26 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
                 @Override
                 protected void next(IsFollowResponse list) {
                     if (list.getResults().size() > 0) {
+                        view.setObjectId(list.getResults().get(0).getObjectId());
                         view.setFollow(true);
                     }
 
                 }
             });
         }
+    }
+
+    public void cancelFollow(String objectId) {
+        ForumAndPostApi.cancelFollow(objectId, new BaseSub<Void, PostDetailActivity>(view) {
+            @Override
+            protected void error(String e) {
+
+            }
+
+            @Override
+            protected void next(Void aVoid) {
+                view.setFollow(false);
+            }
+        });
     }
 }

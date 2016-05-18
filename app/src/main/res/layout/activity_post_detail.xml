@@ -10,12 +10,15 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include layout="@layout/global_include_toolbar_with_loadingview" />
+        <include
+            android:id="@+id/toolbarContent"
+            layout="@layout/global_include_toolbar_with_loadingview" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/postDetailRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/toolbarContent"
             android:layout_weight="1"></android.support.v7.widget.RecyclerView>
 
 

@@ -9,7 +9,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.administrator.gc.R;
+import com.example.administrator.gc.api.Urls;
 import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.base.ItemData;
 import com.example.administrator.gc.model.FollowPostModel;
@@ -56,6 +60,7 @@ public class PostDetailActivity extends BaseActivity {
 
     private ArrayList<ItemData> viewData = new ArrayList<>();
     private boolean isLogin;
+    private String objectId;
 
     @BindView(R.id.rootView)
     CoordinatorLayout coordinatorLayout;
@@ -87,6 +92,15 @@ public class PostDetailActivity extends BaseActivity {
         recyclerView.addOnScrollListener(onScrollListener);
     }
 
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+        Log.d("id", this.objectId);
+    }
 
     public boolean isLogin() {
         return isLogin;
@@ -126,6 +140,7 @@ public class PostDetailActivity extends BaseActivity {
 
     public void setFollow(boolean follow) {
         isFollow = follow;
+        recyclerView.getAdapter().notifyItemChanged(0);
     }
 
     @Override
@@ -196,7 +211,11 @@ public class PostDetailActivity extends BaseActivity {
                 vh.itemFollowButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        followPost(data.getValue());
+                        if (!isFollow) {
+                            followPost(data.getValue());
+                        } else {
+                            cancelFollowPost();
+                        }
                     }
                 });
                 subscriber = new Subscriber() {
@@ -211,13 +230,14 @@ public class PostDetailActivity extends BaseActivity {
                     @Override
                     public void onNext(Object o) {
                         isFollow = true;
-                        vh.itemFollowButton.setText("已关注");
-                        vh.itemFollowButton.setClickable(false);
+                        vh.itemFollowButton.setText("取消关注");
+
                     }
                 };
                 if (isFollow) {
-                    vh.itemFollowButton.setText("已关注");
-                    vh.itemFollowButton.setClickable(false);
+                    vh.itemFollowButton.setText("取消关注");
+                } else {
+                    vh.itemFollowButton.setText("关注");
                 }
                 vh.content.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -334,6 +354,10 @@ public class PostDetailActivity extends BaseActivity {
 
     }
 
+    private void cancelFollowPost() {
+        presenter.cancelFollow(getObjectId());
+    }
+
     private void followPost(PostDetailHeaderModel i) {
 
 
@@ -367,7 +391,27 @@ public class PostDetailActivity extends BaseActivity {
 
     }
 
-    boolean isLoading = false;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_forum, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_share) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, Urls.BASE_URL + "/" + urls);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setType("text/plain"); // 纯文本
+            intent.putExtra(Intent.EXTRA_SUBJECT, "ss");
+            startActivity(Intent.createChooser(intent, "fenxiang"));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isLoading = false;
 
     public boolean isLoading() {
         return isLoading;

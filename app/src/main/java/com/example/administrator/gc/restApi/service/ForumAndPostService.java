@@ -4,6 +4,7 @@ import com.example.administrator.gc.model.FollowPostModel;
 import com.example.administrator.gc.model.IsFollowResponse;
 
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -21,5 +22,9 @@ public interface ForumAndPostService {
 
     @GET("1.1/classes/{class}")
     Observable<IsFollowResponse> isFollow(@Path("class") String name, @Query("where") String query);
+
+    @DELETE("1.1/classes/{class}/{objectId}")
+    Observable<Void> cancelFollow(@Path("class") String name, @Path("objectId") String objectId);
+
 
 }
