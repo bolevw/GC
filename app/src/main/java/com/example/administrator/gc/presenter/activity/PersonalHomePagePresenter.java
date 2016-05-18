@@ -22,7 +22,7 @@ public class PersonalHomePagePresenter implements BasePresenter<PersonalHomePage
     public void getData(String url) {
         AccountApi.getHomePage(url, new BaseSub<PersonalHomePageModel, PersonalHomePageActivity>(view) {
             @Override
-            protected void error() {
+            protected void error(String  e) {
 
             }
 

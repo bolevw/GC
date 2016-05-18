@@ -20,7 +20,7 @@ public class VideoPresenter implements BasePresenter<VideoActivity> {
     public void getData(String url) {
         VideoApi.getVideo(url, new BaseSub<String, VideoActivity>(view) {
             @Override
-            protected void error() {
+            protected void error(String e) {
 
             }
 
