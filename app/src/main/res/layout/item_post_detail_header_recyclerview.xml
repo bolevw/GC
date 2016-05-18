@@ -18,6 +18,27 @@
         android:text=""
         android:textColor="@color/white" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:paddingTop="8dp">
+
+        <Button
+            android:id="@+id/itemFollowButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/bg_click_orange"
+            android:maxHeight="24dp"
+            android:minHeight="24dp"
+            android:text="关注"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_normal" />
+    </FrameLayout>
 
 
     <include layout="@layout/layout_user_message" />

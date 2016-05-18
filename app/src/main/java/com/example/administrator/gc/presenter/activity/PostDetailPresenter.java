@@ -4,6 +4,7 @@ import com.example.administrator.gc.api.ForumApi;
 import com.example.administrator.gc.base.BasePresenter;
 import com.example.administrator.gc.base.BaseSub;
 import com.example.administrator.gc.model.PostBodyModel;
+import com.example.administrator.gc.restApi.ForumAndPostApi;
 import com.example.administrator.gc.ui.activity.PostDetailActivity;
 
 /**
@@ -60,6 +61,12 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
             getData(nextPage, true);
             setHasData(true);
         }
+    }
+
+    public void followPost(int position) {
+
+        ForumAndPostApi.followPost();
+
     }
 
     @Override

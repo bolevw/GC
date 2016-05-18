@@ -8,6 +8,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -130,6 +131,12 @@ public class PostDetailActivity extends BaseActivity {
                 vh.date.setText(data.getValue().getHeader().getDate());
                 vh.itemPostTitleTextView.setText(data.getValue().getTitle());
                 vh.itemBodyContentTextView.setText(Html.fromHtml(data.getValue().getContent()));
+                vh.itemFollowButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        followPost(position);
+                    }
+                });
                 vh.content.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -196,6 +203,7 @@ public class PostDetailActivity extends BaseActivity {
             private TextView itemPostTitleTextView;
             private TextView itemBodyContentTextView;
             private LinearLayout content;
+            private Button itemFollowButton;
 
             public HeaderVh(View itemView) {
                 super(itemView);
@@ -206,6 +214,7 @@ public class PostDetailActivity extends BaseActivity {
                 type = (TextView) itemView.findViewById(R.id.itemUserTypeTextView);
                 itemPostTitleTextView = (TextView) itemView.findViewById(R.id.itemPostTitleTextView);
                 itemBodyContentTextView = (TextView) itemView.findViewById(R.id.itemBodyContentTextView);
+                itemFollowButton = (Button) itemView.findViewById(R.id.itemFollowButton);
                 content = (LinearLayout) itemView.findViewById(R.id.commentContent);
             }
         }
@@ -240,6 +249,11 @@ public class PostDetailActivity extends BaseActivity {
                 noDataTextView = (TextView) itemView.findViewById(R.id.noDataTextView);
             }
         }
+
+    }
+
+    private void followPost(int i) {
+
 
     }
 
