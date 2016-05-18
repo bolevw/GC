@@ -38,5 +38,4 @@ public class Cache {
         return sharedPreferences.getBoolean(name, defValue);
     }
 
-
 }

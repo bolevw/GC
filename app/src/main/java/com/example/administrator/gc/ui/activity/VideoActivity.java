@@ -18,14 +18,10 @@ import com.example.administrator.gc.utils.ToastUtils;
  */
 public class VideoActivity extends BaseActivity {
 
-    MediaPlayer player;
-
-    VideoPresenter presenter;
-
-    String url;
-
-    VideoView videoView;
-
+    private MediaPlayer player;
+    private VideoPresenter presenter;
+    private String url;
+    private VideoView videoView;
 
     public static void newInstance(Activity activity, String url) {
         Intent intent = new Intent(activity, VideoActivity.class);
@@ -42,11 +38,8 @@ public class VideoActivity extends BaseActivity {
             ToastUtils.showNormalToast("视频地址错误！");
             finish();
         }
-
         url = intent.getStringExtra("url");
-
         videoView = (VideoView) findViewById(R.id.videoView);
-
         findViewById(R.id.stop).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

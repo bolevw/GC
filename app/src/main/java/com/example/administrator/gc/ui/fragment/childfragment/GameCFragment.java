@@ -32,15 +32,12 @@ import java.util.List;
 public class GameCFragment extends BaseFragment {
 
     private static final String TAG = "GameCFragment";
-
     private GamePresenter presenter;
-
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private List<GameItemModel> recyclerData = new ArrayList<>();
     private ItemTouchHelper mItemTouchHelper;
-
 
     @Nullable
     @Override
@@ -53,10 +50,7 @@ public class GameCFragment extends BaseFragment {
     protected void initView(View v) {
         recyclerView = (RecyclerView) v.findViewById(R.id.gameRecyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-
-
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.gameSwipeRefreshLayout);
-
     }
 
     class RecyclerViewItemDirection extends RecyclerView.ItemDecoration {
@@ -74,7 +68,6 @@ public class GameCFragment extends BaseFragment {
                 outRect.top = offset;
             }
         }
-
     }
 
     SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
@@ -83,7 +76,6 @@ public class GameCFragment extends BaseFragment {
             presenter.getData(true);
         }
     };
-
 
     public void stopRefresh() {
         if (null != swipeRefreshLayout && swipeRefreshLayout.isRefreshing()) {
@@ -117,7 +109,7 @@ public class GameCFragment extends BaseFragment {
         mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
+    private class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -167,7 +159,6 @@ public class GameCFragment extends BaseFragment {
                 name1 = (TextView) itemView.findViewById(R.id.itemGameTextView1);
             }
         }
-
     }
 
     @Override

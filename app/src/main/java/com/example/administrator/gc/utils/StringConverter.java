@@ -17,7 +17,6 @@ public class StringConverter extends Converter.Factory {
 
     private static final MediaType MEDIA_TYPE = MediaType.parse("text/plain");
 
-
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
         if (String.class.equals(type)) {

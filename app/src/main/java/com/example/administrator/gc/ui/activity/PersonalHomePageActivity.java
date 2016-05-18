@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
  */
 public class PersonalHomePageActivity extends BaseActivity {
 
-    PersonalHomePagePresenter presenter;
+    private PersonalHomePagePresenter presenter;
 
     private String url;
 
@@ -81,14 +81,12 @@ public class PersonalHomePageActivity extends BaseActivity {
         }
     };
 
-
     @Override
     protected void bind() {
         this.presenter = new PersonalHomePagePresenter();
         this.presenter.bind(this);
         this.presenter.getData(url);
     }
-
 
     public void viewBindData(PersonalHomePageModel model) {
         usernameTextView.setText(model.getUsername());
@@ -109,8 +107,6 @@ public class PersonalHomePageActivity extends BaseActivity {
 
             }
         });
-
-
         hisFriendLinearLayout.setTag(model.getFriendUrl());
         hisThemeLinearLayout.setTag(model.getThemeUrl());
     }

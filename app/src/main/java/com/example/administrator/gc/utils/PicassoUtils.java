@@ -20,9 +20,7 @@ public class PicassoUtils {
                 .into(imageView);
     }
 
-
     public static void normalShowImage(Context context, String urls, ImageView imageView, Callback callback) {
-
         picasso.with(context)
                 .load(urls)
                 .fit()

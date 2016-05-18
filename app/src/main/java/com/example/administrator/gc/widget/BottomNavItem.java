@@ -53,10 +53,7 @@ public class BottomNavItem extends LinearLayout {
         animatorOut = AnimatorInflater.loadAnimator(context, R.animator.scale_with_alpha);
         animatorOut.setInterpolator(new RetrieveInterpolator());
         animatorOut.setDuration(300);
-
-
     }
-
 
     public void in() {
         if (animatorOut.isRunning())
@@ -79,7 +76,6 @@ public class BottomNavItem extends LinearLayout {
         animatorOut.start();
         itemNavBottomImageView.setEnabled(true);
     }
-
 
     public class RetrieveInterpolator implements Interpolator {
 

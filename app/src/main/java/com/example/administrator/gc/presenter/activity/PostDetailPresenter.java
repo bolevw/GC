@@ -14,18 +14,9 @@ import com.example.administrator.gc.ui.activity.PostDetailActivity;
  * Created by Administrator on 2016/4/8.
  */
 public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
-
-    PostDetailActivity view;
+    private PostDetailActivity view;
     private String nextPage;
     private boolean hasData = true;
-
-    public boolean isHasData() {
-        return hasData;
-    }
-
-    public void setHasData(boolean hasData) {
-        this.hasData = hasData;
-    }
 
     @Override
     public void bind(PostDetailActivity view) {
@@ -67,7 +58,6 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
     }
 
     public void followPost(FollowPostModel model) {
-
         ForumAndPostApi.followPost(model, new BaseSub<Void, PostDetailActivity>(view) {
             @Override
             protected void error(String e) {
@@ -79,7 +69,6 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
                 view.followSuccess();
             }
         });
-
     }
 
     @Override
@@ -121,5 +110,13 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
                 view.setFollow(false);
             }
         });
+    }
+
+    public boolean isHasData() {
+        return hasData;
+    }
+
+    public void setHasData(boolean hasData) {
+        this.hasData = hasData;
     }
 }

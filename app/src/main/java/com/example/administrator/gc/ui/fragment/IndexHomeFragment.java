@@ -27,15 +27,11 @@ import com.example.administrator.gc.utils.ToastUtils;
  * Created by Administrator on 2016/3/22.
  */
 public class IndexHomeFragment extends BaseFragment implements RecommendCFragment.ClickGetMoreListener {
+    private ViewPager indexHomeViewPager;
+    private TabLayout indexHomeTabLayout;
 
-
-    ViewPager indexHomeViewPager;
-
-    TabLayout indexHomeTabLayout;
-
-    int[] viewPagerTitles = new int[]{R.string.recommend, R.string.game, R.string.recreation, R.string.joke, R.string.picture};
-    BaseFragment[] fragments = new BaseFragment[viewPagerTitles.length];
-
+    private int[] viewPagerTitles = new int[]{R.string.recommend, R.string.game, R.string.recreation, R.string.joke, R.string.picture};
+    private BaseFragment[] fragments = new BaseFragment[viewPagerTitles.length];
 
     @Nullable
     @Override
@@ -61,9 +57,7 @@ public class IndexHomeFragment extends BaseFragment implements RecommendCFragmen
     @Override
     protected void setListener() {
         indexHomeViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager()));
-
         indexHomeTabLayout.setupWithViewPager(indexHomeViewPager);
-
         indexHomeViewPager.setOffscreenPageLimit(5);
 
     }
@@ -78,7 +72,7 @@ public class IndexHomeFragment extends BaseFragment implements RecommendCFragmen
         indexHomeViewPager.setCurrentItem(1, true);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
 
         public ViewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -138,6 +132,7 @@ public class IndexHomeFragment extends BaseFragment implements RecommendCFragmen
         int id = item.getItemId();
         if (id == R.id.action_search) {
             ToastUtils.showNormalToast("action search");
+            return true;
         }
         if (id == R.id.action_history) {
 

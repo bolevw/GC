@@ -32,6 +32,10 @@ public class LoadingView extends ViewGroup {
 
     private int moveSpeed = 100;
 
+    private ObjectAnimator moveAnim;
+    private ObjectAnimator alphaAnim;
+    private AnimatorSet set;
+
     private List<Integer> roadList = new ArrayList<>();
     private int i = 1;
     private int pointCount;
@@ -128,10 +132,7 @@ public class LoadingView extends ViewGroup {
         }
     };
 
-
     public void start() {
-
-
         if (isAnim) {
             return;
         }
@@ -155,14 +156,8 @@ public class LoadingView extends ViewGroup {
 
     }
 
-    ObjectAnimator moveAnim;
-    ObjectAnimator alphaAnim;
-    AnimatorSet set;
-
     private void startLoading() {
-
         final View moveView = getChildAt(0);
-
         if (i < roadList.size()) {
             moveAnim = ObjectAnimator.ofFloat(
                     moveView,
@@ -188,7 +183,6 @@ public class LoadingView extends ViewGroup {
                         i++;
                         startLoading();
                     }
-
                 }
             });
         } else {
@@ -207,7 +201,6 @@ public class LoadingView extends ViewGroup {
             }
         }
     }
-
 
     public String getLoadingText() {
         return loadingText;

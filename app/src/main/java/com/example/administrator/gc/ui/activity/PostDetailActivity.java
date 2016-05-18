@@ -52,16 +52,19 @@ public class PostDetailActivity extends BaseActivity {
     private static final int TYPE_COMMENT = 1001;
     private static final int TYPE_LOADING = 1002;
 
+    private PostDetailPresenter presenter;
 
-    PostDetailPresenter presenter;
     private String urls;
-
-    private RecyclerView recyclerView;
-
-    private ArrayList<ItemData> viewData = new ArrayList<>();
+    private boolean isLoading = false;
     private boolean isLogin;
     private String objectId;
+    private Subscriber subscriber;
+    private boolean isFollow = false;
 
+    private ArrayList<ItemData> viewData = new ArrayList<>();
+
+    @BindView(R.id.postDetailRecyclerView)
+    private RecyclerView recyclerView;
     @BindView(R.id.rootView)
     CoordinatorLayout coordinatorLayout;
 
@@ -71,18 +74,16 @@ public class PostDetailActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
-
     @Override
     protected void initView() {
         setContentView(R.layout.activity_post_detail);
-        isLogin = cache.readBooleanValue("isLogin", false);
         ButterKnife.bind(this);
+
+        isLogin = cache.readBooleanValue("isLogin", false);
         Intent intent = getIntent();
         urls = intent.getStringExtra("urls");
 
-        recyclerView = (RecyclerView) findViewById(R.id.postDetailRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         recyclerView.setAdapter(new RVAdapter());
     }
 
@@ -92,33 +93,20 @@ public class PostDetailActivity extends BaseActivity {
         recyclerView.addOnScrollListener(onScrollListener);
     }
 
-
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-        Log.d("id", this.objectId);
-    }
-
-    public boolean isLogin() {
-        return isLogin;
-    }
-
-    public void setLogin(boolean login) {
-        isLogin = login;
-    }
-
+    /**
+     * 显示snackBar
+     *
+     * @param string
+     */
     public void showWarning(String string) {
         Snackbar sk = Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_SHORT);
         SnackbarUtils.setBackground(sk, this, android.R.color.holo_red_light);
         sk.show();
     }
 
-    Subscriber subscriber;
-    private boolean isFollow = false;
-
+    /**
+     * 关注成功
+     */
     public void followSuccess() {
         hideSoftKeyboard();
         showWarning("关注成功");
@@ -131,16 +119,6 @@ public class PostDetailActivity extends BaseActivity {
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
-    }
-
-
-    public boolean isFollow() {
-        return isFollow;
-    }
-
-    public void setFollow(boolean follow) {
-        isFollow = follow;
-        recyclerView.getAdapter().notifyItemChanged(0);
     }
 
     @Override
@@ -159,7 +137,6 @@ public class PostDetailActivity extends BaseActivity {
         presenter.unBind();
     }
 
-
     public void notifyChange(PostBodyModel model, boolean getNextPage) {
         if (!getNextPage) {
             ItemData<Integer, PostDetailHeaderModel> headerData = new ItemData<>();
@@ -167,7 +144,6 @@ public class PostDetailActivity extends BaseActivity {
             headerData.setValue(model.getHeader());
             viewData.add(headerData);
         }
-
 
         for (PostDetailModel detailModel : model.getCommentList()) {
             ItemData<Integer, PostDetailModel> detail = new ItemData<>();
@@ -179,12 +155,11 @@ public class PostDetailActivity extends BaseActivity {
         recyclerView.getAdapter().notifyDataSetChanged();
     }
 
-
     public void notifyNoData() {
         recyclerView.getAdapter().notifyItemChanged(viewData.size());
     }
 
-    class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -214,7 +189,7 @@ public class PostDetailActivity extends BaseActivity {
                         if (!isFollow) {
                             followPost(data.getValue());
                         } else {
-                            cancelFollowPost();
+                            presenter.cancelFollow(getObjectId());
                         }
                     }
                 });
@@ -354,13 +329,7 @@ public class PostDetailActivity extends BaseActivity {
 
     }
 
-    private void cancelFollowPost() {
-        presenter.cancelFollow(getObjectId());
-    }
-
     private void followPost(PostDetailHeaderModel i) {
-
-
         if (isLogin) {
             FollowPostModel model = new FollowPostModel();
             model.setFollowDate(System.currentTimeMillis());
@@ -368,12 +337,10 @@ public class PostDetailActivity extends BaseActivity {
             model.setPostUrl(urls);
             model.setUsername(cache.readStringValue("username", "default_name"));
             model.setUserId(cache.readStringValue("userId", "000"));
-
             presenter.followPost(model);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             final AlertDialog adl = builder.create();
-
             builder.setTitle("请登录！")
                     .setMessage("请先登录，在进行关注！")
                     .setNegativeButton("暂不关注", null)
@@ -384,12 +351,24 @@ public class PostDetailActivity extends BaseActivity {
                             startActivity(new Intent(PostDetailActivity.this, LoginActivity.class));
                         }
                     });
-
             builder.show();
+        }
+    }
+
+    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        int position;
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            position = manager.findLastVisibleItemPosition();
+            if (position == viewData.size() && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
+                presenter.getNextPage();
+            }
 
         }
-
-    }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -411,8 +390,6 @@ public class PostDetailActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean isLoading = false;
-
     public boolean isLoading() {
         return isLoading;
     }
@@ -421,18 +398,32 @@ public class PostDetailActivity extends BaseActivity {
         isLoading = loading;
     }
 
-    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        int position;
+    public String getObjectId() {
+        return objectId;
+    }
 
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-            position = manager.findLastVisibleItemPosition();
-            if (position == viewData.size() && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
-                presenter.getNextPage();
-            }
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+        Log.d("id", this.objectId);
+    }
 
-        }
-    };
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setLogin(boolean login) {
+        isLogin = login;
+    }
+
+
+    public boolean isFollow() {
+        return isFollow;
+    }
+
+    public void setFollow(boolean follow) {
+        isFollow = follow;
+        recyclerView.getAdapter().notifyItemChanged(0);
+    }
+
+
 }

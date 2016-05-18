@@ -13,8 +13,9 @@ import java.util.List;
  */
 public class BottomNav extends LinearLayout implements View.OnClickListener {
 
-
-    List<BottomNavItem> bottoms = new ArrayList<>();
+    private List<BottomNavItem> bottoms = new ArrayList<>();
+    private OnNavItemClickListener listener;
+    private int currentPosition = 0;
 
     public BottomNav(Context context) {
         super(context);
@@ -46,9 +47,6 @@ public class BottomNav extends LinearLayout implements View.OnClickListener {
         BottomNavItem item = (BottomNavItem) getChildAt(0);
         item.in();
     }
-
-    OnNavItemClickListener listener;
-    private int currentPosition = 0;
 
     @Override
     public void onClick(View v) {

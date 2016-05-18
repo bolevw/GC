@@ -8,10 +8,7 @@ import android.view.View;
  * Created by Administrator on 2016/4/5.
  */
 public class RecyclerViewCutLine extends RecyclerView.ItemDecoration {
-
-
     private int value;
-
     private int skipPosition;
 
     public RecyclerViewCutLine(int value, int skipPosition) {

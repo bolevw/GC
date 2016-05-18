@@ -50,8 +50,6 @@ public class OkClient {
             return chain.proceed(newRequest);
         }
     }
-
-
 }
 
 class HttpLoggingInterceptor implements Interceptor {

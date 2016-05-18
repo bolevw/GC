@@ -26,20 +26,17 @@ public class ForumListActivity extends BaseActivity {
     private static final int TYPE_EMPTY = 0x0002;
     private static final int TYPE_NORMAL = 0x0003;
 
-
-    ForumPostListPresenter presenter;
+    private ForumPostListPresenter presenter;
     private String urls = null;
-
+    private boolean isLoading = false;
     private RecyclerView recyclerView;
     private ArrayList<ForumPostListItemModel> viewData = new ArrayList<>();
-
 
     public static void newInstance(Activity activity, String urls) {
         Intent intent = new Intent(activity, ForumListActivity.class);
         intent.putExtra("urls", urls);
         activity.startActivity(intent);
     }
-
 
     @Override
     protected void initView() {
@@ -52,9 +49,7 @@ public class ForumListActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-
     public void notifyChange(ArrayList<ForumPostListItemModel> list) {
-
         viewData.addAll(list);
         recyclerView.getAdapter().notifyDataSetChanged();
     }
@@ -76,7 +71,6 @@ public class ForumListActivity extends BaseActivity {
     protected void unBind() {
         this.presenter.unBind();
     }
-
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @Override
@@ -119,7 +113,6 @@ public class ForumListActivity extends BaseActivity {
             }
         }
 
-
         @Override
         public int getItemCount() {
             return viewData.size() == 0 ? 1 : viewData.size() + 1;
@@ -155,10 +148,7 @@ public class ForumListActivity extends BaseActivity {
                 noDataTextView = (TextView) itemView.findViewById(R.id.noDataTextView);
             }
         }
-
     }
-
-    private boolean isLoading = false;
 
     private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
 

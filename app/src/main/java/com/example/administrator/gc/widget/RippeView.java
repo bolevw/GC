@@ -18,13 +18,9 @@ public class RippeView extends View implements ValueAnimator.AnimatorUpdateListe
 
     private Rect mRect = new Rect();
     private Paint mPaint;
-
     private ValueAnimator valueAnimator;
-
     private Point mTouchPoint = new Point();
-
     private float mRadius = 0f;
-
 
     public RippeView(Context context) {
         super(context);
@@ -37,22 +33,17 @@ public class RippeView extends View implements ValueAnimator.AnimatorUpdateListe
         valueAnimator.setIntValues(0, 100);
         valueAnimator.setDuration(400);
         valueAnimator.addUpdateListener(this);
-
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
         mPaint.setColor(Color.GRAY);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStyle(Paint.Style.FILL);
-
         canvas.drawCircle(mTouchPoint.x, mTouchPoint.y, mRadius, mPaint);
     }
-
 
     @Override
     public void onAnimationUpdate(ValueAnimator animation) {
@@ -72,7 +63,6 @@ public class RippeView extends View implements ValueAnimator.AnimatorUpdateListe
             this.invalidate();
         }
     }
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -95,7 +85,6 @@ public class RippeView extends View implements ValueAnimator.AnimatorUpdateListe
         }
         return true;
     }
-
 
     public void start() {
         valueAnimator.start();

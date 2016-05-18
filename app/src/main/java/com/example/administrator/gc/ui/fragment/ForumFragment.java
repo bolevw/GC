@@ -31,11 +31,8 @@ import java.util.List;
 public class ForumFragment extends BaseFragment {
 
     private RecyclerView forumRecyclerView;
-
-    ForumPresenter presenter;
-
+    private ForumPresenter presenter;
     private FloatingActionButton quickReturnButton;
-
     private List<ForumModel> recycleViewData = new ArrayList<>();
 
     @Nullable
@@ -58,13 +55,11 @@ public class ForumFragment extends BaseFragment {
         this.presenter.bind(this);
     }
 
-
     public void notifyChange(List<ForumModel> list) {
         recycleViewData.clear();
         recycleViewData.addAll(list);
         forumRecyclerView.getAdapter().notifyDataSetChanged();
     }
-
 
     @Override
     public void onResume() {
@@ -105,9 +100,7 @@ public class ForumFragment extends BaseFragment {
         this.presenter.unBind();
     }
 
-
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
         private int currentP;
 
         @Override
@@ -149,7 +142,6 @@ public class ForumFragment extends BaseFragment {
             private TextView name;
             private TextView count;
             private LinearLayout content;
-
 
             private AnimatorSet set;
 

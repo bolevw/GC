@@ -15,7 +15,6 @@ public class FixRatioFrameLayout extends FrameLayout {
     private boolean baseOnWith;
     private float ratio;
 
-
     public FixRatioFrameLayout(Context context) {
         super(context);
     }
@@ -29,7 +28,6 @@ public class FixRatioFrameLayout extends FrameLayout {
         ratio = ta.getFloat(R.styleable.FixRatioFrameLayout_ratio, 1);
 
         ta.recycle();
-
     }
 
     @Override

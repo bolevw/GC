@@ -10,7 +10,7 @@ import com.example.administrator.gc.ui.activity.VideoActivity;
  */
 public class VideoPresenter implements BasePresenter<VideoActivity> {
 
-    VideoActivity view;
+    private VideoActivity view;
 
     @Override
     public void bind(VideoActivity view) {

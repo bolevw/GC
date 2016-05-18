@@ -80,7 +80,6 @@ public class VPIndicator extends LinearLayout {
 
     }
 
-
     public void in(View v) {
         if (animOut.isRunning())
             animOut.end();
@@ -101,7 +100,6 @@ public class VPIndicator extends LinearLayout {
         animOut.start();
     }
 
-
     public int dip2px(int value) {
         if (value < 0) {
             value = 5;
@@ -109,7 +107,7 @@ public class VPIndicator extends LinearLayout {
         return (int) (getResources().getDisplayMetrics().density * value + 0.5f);
     }
 
-    public class RetrieveInterpolator implements Interpolator {
+    private class RetrieveInterpolator implements Interpolator {
 
         @Override
         public float getInterpolation(float input) {

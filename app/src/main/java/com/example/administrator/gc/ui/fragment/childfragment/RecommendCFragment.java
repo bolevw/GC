@@ -54,15 +54,13 @@ public class RecommendCFragment extends BaseFragment {
     private RecommendPresenter presenter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ClickGetMoreListener getMoreListener;
 
 
     int[] colors = new int[]{Color.RED, Color.WHITE, Color.BLACK, Color.YELLOW, Color.BLUE};
-
     int currentPosition = 0;
 
     private RecyclerView recyclerView;
-
-
     RecyclerViewData data = new RecyclerViewData();
 
     @Nullable
@@ -70,7 +68,6 @@ public class RecommendCFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.child_fragment_recommond, container, false);
         return v;
-
     }
 
     @Override
@@ -79,7 +76,6 @@ public class RecommendCFragment extends BaseFragment {
         currentPosition = 0;
         presenter.getData(false);
     }
-
 
     public void notifyHotDataChange(IndexModel model) {
         data.clear();
@@ -99,15 +95,7 @@ public class RecommendCFragment extends BaseFragment {
             preItemData.setValue(group);
             data.add(preItemData);
         }
-
-
         recyclerView.getAdapter().notifyDataSetChanged();
-
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
     }
 
     @Override
@@ -122,12 +110,9 @@ public class RecommendCFragment extends BaseFragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(new RecyclerViewAdapter());
-
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
         recyclerView.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
-
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.recommendSwipeRefreshLayout);
-
     }
 
     @Override
@@ -176,7 +161,6 @@ public class RecommendCFragment extends BaseFragment {
                 default:
                     return null;
             }
-
         }
 
         @Override
@@ -216,7 +200,6 @@ public class RecommendCFragment extends BaseFragment {
                             }
                         });
                     }
-
                     break;
                 default:
                     break;
@@ -239,29 +222,16 @@ public class RecommendCFragment extends BaseFragment {
             }
         }
 
-        class BannerVH extends RecyclerView.ViewHolder {
+        private class BannerVH extends RecyclerView.ViewHolder {
             VPIndicator vpIndicator;
             private List<BannerModel> list = new ArrayList<>();
 
-            public List<BannerModel> getList() {
-                return list;
-            }
-
-            public void setList(List<BannerModel> list) {
-                this.list = list;
-            }
-
             public BannerVH(View itemView) {
                 super(itemView);
-
-
                 bannerViewPager = (ViewPager) itemView.findViewById(R.id.bannerViewPager);
-
                 vpIndicator = (VPIndicator) itemView.findViewById(R.id.bannerVpIndicator);
                 vpIndicator.setCount(colors.length);
-
                 bannerViewPager.setAdapter(new ViewPagerAdapter());
-
                 bannerViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
                     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -293,11 +263,17 @@ public class RecommendCFragment extends BaseFragment {
                 }, 2000);
             }
 
+            public List<BannerModel> getList() {
+                return list;
+            }
 
+            public void setList(List<BannerModel> list) {
+                this.list = list;
+            }
         }
 
-        class HotVh extends RecyclerView.ViewHolder {
-            RecyclerView hotRecyclerView;
+        private class HotVh extends RecyclerView.ViewHolder {
+            private RecyclerView hotRecyclerView;
             private List<HotRankingModel> hotList = new ArrayList<>();
 
             public HotVh(View itemView) {
@@ -308,7 +284,6 @@ public class RecommendCFragment extends BaseFragment {
                 hotRecyclerView.setAdapter(new HotItemRecyclerViewAdapter());
             }
 
-
             public List<HotRankingModel> getHotList() {
                 return hotList;
             }
@@ -318,7 +293,7 @@ public class RecommendCFragment extends BaseFragment {
                 hotRecyclerView.getAdapter().notifyDataSetChanged();
             }
 
-            class HotItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+            private class HotItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 @Override
                 public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -371,7 +346,7 @@ public class RecommendCFragment extends BaseFragment {
                     return hotList.size() == 0 ? 0 : hotList.size() + 1;
                 }
 
-                class Vh extends RecyclerView.ViewHolder {
+                private class Vh extends RecyclerView.ViewHolder {
                     ImageView imageView;
                     TextView textView;
                     private LinearLayout content;
@@ -384,12 +359,10 @@ public class RecommendCFragment extends BaseFragment {
                     }
                 }
             }
-
         }
 
-        class NormalVh extends RecyclerView.ViewHolder {
+        private class NormalVh extends RecyclerView.ViewHolder {
             private TextView groupName;
-
             private ImageView image_1;
             private ImageView image_2;
             private ImageView image_3;
@@ -431,8 +404,7 @@ public class RecommendCFragment extends BaseFragment {
         }
     }
 
-    class ViewPagerAdapter extends PagerAdapter {
-
+    private class ViewPagerAdapter extends PagerAdapter {
         @Override
         public int getCount() {
             return 5;
@@ -457,9 +429,9 @@ public class RecommendCFragment extends BaseFragment {
         }
     }
 
-    ViewPager bannerViewPager;
+    private ViewPager bannerViewPager;
 
-    class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+    private class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
         public SpaceItemDecoration(int space) {
@@ -474,7 +446,6 @@ public class RecommendCFragment extends BaseFragment {
             outRect.top = space;
         }
     }
-
 
     private Handler handler = new Handler() {
         @Override
@@ -495,7 +466,6 @@ public class RecommendCFragment extends BaseFragment {
             }
         }
     };
-    ClickGetMoreListener getMoreListener;
 
     public ClickGetMoreListener getGetMoreListener() {
         return getMoreListener;

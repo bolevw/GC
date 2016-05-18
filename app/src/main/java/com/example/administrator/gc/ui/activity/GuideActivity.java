@@ -17,11 +17,8 @@ import com.example.administrator.gc.widget.VPIndicator;
  * Created by Administrator on 2016/5/4.
  */
 public class GuideActivity extends BaseActivity {
-
     private Button skipButton;
-
     private ViewPager mGuideViewPager;
-
     private VPIndicator mGuideVp;
 
     int[] colors = new int[]{Color.CYAN, Color.BLUE, Color.GREEN};
@@ -31,9 +28,7 @@ public class GuideActivity extends BaseActivity {
     protected void initView() {
         setContentView(R.layout.activity_guide);
         skipButton = (Button) findViewById(R.id.skipButton);
-
         mGuideViewPager = (ViewPager) findViewById(R.id.guideViewpager);
-
         mGuideVp = (VPIndicator) findViewById(R.id.guideVp);
         mGuideVp.setCount(colors.length);
     }
@@ -46,17 +41,13 @@ public class GuideActivity extends BaseActivity {
                 onBackPressed();
             }
         });
-
         mGuideViewPager.setAdapter(new ViewPagerAp());
-
         final ArgbEvaluator evaluator = new ArgbEvaluator();
-
         mGuideViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 int colorUpdate = (Integer) evaluator.evaluate(positionOffset, colors[position], colors[position == 2 ? position : position + 1]);
                 mGuideViewPager.setBackgroundColor(colorUpdate);
-
             }
 
             @Override
@@ -76,7 +67,7 @@ public class GuideActivity extends BaseActivity {
         });
     }
 
-    class ViewPagerAp extends PagerAdapter {
+    private class ViewPagerAp extends PagerAdapter {
 
         @Override
         public int getCount() {

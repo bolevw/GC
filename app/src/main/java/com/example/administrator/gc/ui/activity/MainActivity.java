@@ -16,8 +16,7 @@ import com.example.administrator.gc.widget.BottomNav;
 public class MainActivity extends BaseActivity {
 
     private BottomNav bottomNav;
-    BaseFragment[] fragments = new BaseFragment[4];
-
+    private BaseFragment[] fragments = new BaseFragment[4];
 
     @Override
     protected void initView() {
@@ -28,7 +27,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         bottomNav = (BottomNav) findViewById(R.id.mainBottomNav);
         switchFragment(0);
-
     }
 
     @Override
@@ -65,9 +63,7 @@ public class MainActivity extends BaseActivity {
                     fragments[3] = fragment;
                     break;
             }
-
         }
-
         FragmentUtils.replaceFragment(getSupportFragmentManager(), R.id.containerFrameLayout, fragments[p], false, fragment.TAG);
     }
 
@@ -77,10 +73,8 @@ public class MainActivity extends BaseActivity {
         ViewServer.get(this).setFocusedWindow(this);
     }
 
-
     @Override
     protected void bind() {
-
     }
 
     @Override

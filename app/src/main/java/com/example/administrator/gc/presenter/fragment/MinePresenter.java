@@ -12,7 +12,7 @@ import rx.Subscriber;
  */
 public class MinePresenter implements BasePresenter<MineFragment> {
 
-    MineFragment view;
+    private MineFragment view;
 
     @Override
     public void bind(MineFragment view) {

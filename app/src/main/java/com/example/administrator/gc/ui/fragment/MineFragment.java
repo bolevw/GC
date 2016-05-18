@@ -19,12 +19,8 @@ import com.example.administrator.gc.ui.activity.LoginActivity;
  * Created by Administrator on 2016/3/22.
  */
 public class MineFragment extends BaseFragment {
-
-    MinePresenter presenter;
-
-
+    private MinePresenter presenter;
     private LinearLayout aboutLinearLayout;
-
     private Button loginButton;
 
     @Nullable

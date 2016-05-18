@@ -35,7 +35,6 @@ public class ForumDetailListPresenter implements BasePresenter<ForumLabelListAct
                     view.logError(e);
                     view.stopLoading();
                 }
-
             }
 
             @Override
@@ -43,7 +42,6 @@ public class ForumDetailListPresenter implements BasePresenter<ForumLabelListAct
                 if (null != view) {
                     view.stopLoading();
                     view.notifyChange(model);
-
                 }
             }
         });

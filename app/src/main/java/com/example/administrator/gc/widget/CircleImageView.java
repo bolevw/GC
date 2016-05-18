@@ -26,7 +26,6 @@ public class CircleImageView extends ImageView {
 
     private int style = STYLE_CIRCLE;
 
-
     public CircleImageView(Context context) {
         super(context);
     }
@@ -50,7 +49,6 @@ public class CircleImageView extends ImageView {
             final RectF rectF = new RectF(0, 0, getWidth(), getHeight());
             int saveCount = canvas.saveLayer(rectF, null, Canvas.MATRIX_SAVE_FLAG | Canvas.CLIP_SAVE_FLAG | Canvas.HAS_ALPHA_LAYER_SAVE_FLAG | Canvas.FULL_COLOR_LAYER_SAVE_FLAG
                     | Canvas.CLIP_TO_LAYER_SAVE_FLAG);
-
 
             paint.setAntiAlias(true);
             canvas.drawARGB(0, 0, 0, 0);

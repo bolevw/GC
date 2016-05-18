@@ -14,8 +14,7 @@ import com.example.administrator.gc.base.BaseApplication;
  * Created by Administrator on 2016/3/22.
  */
 public class ToastUtils {
-    static Toast toast;
-
+    private static Toast toast;
 
     public static void showNormalToast(String message) {
         showNormalToast(BaseApplication.getContext(), message);

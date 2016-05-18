@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.administrator.gc.R;
+import com.example.administrator.gc.cache.Cache;
 import com.example.administrator.gc.widget.LoadingView;
 
 /**
@@ -18,17 +19,19 @@ public abstract class BaseFragment extends Fragment {
 
     public static final String TAG = BaseFragment.class.getSimpleName();
     private LoadingView loadingView;
+    protected Cache cache;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadingView = (LoadingView) view.findViewById(R.id.loadingView);
+        cache = Cache.getInstance(BaseApplication.getContext());
+
         startLoading();
         initView(view);
         setListener();
         bind();
     }
-
 
     public void startLoading() {
         if (null != loadingView) {
@@ -58,7 +61,6 @@ public abstract class BaseFragment extends Fragment {
         if (null == view) {
             return;
         }
-
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 

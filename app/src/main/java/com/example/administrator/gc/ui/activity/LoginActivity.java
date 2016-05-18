@@ -28,12 +28,10 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/4/6.
  */
 public class LoginActivity extends BaseActivity {
+    private LoginPresenter presenter;
 
-
-    LoginPresenter presenter;
-
-    EditText accountEditText;
-    Button loginButton;
+    private EditText accountEditText;
+    private Button loginButton;
 
     private List<String> list = new ArrayList<>();
 
@@ -41,11 +39,8 @@ public class LoginActivity extends BaseActivity {
     TextView register;
     @BindView(R.id.passwordEditText)
     EditText passwordEditText;
-
     @BindView(R.id.findPasswordTextView)
     TextView findPasswordTextView;
-
-
     @BindView(R.id.rootView)
     CoordinatorLayout coordinatorLayout;
 
@@ -71,8 +66,6 @@ public class LoginActivity extends BaseActivity {
                 login();
             }
         });
-
-
     }
 
     public void showWarning(String string) {
@@ -107,7 +100,6 @@ public class LoginActivity extends BaseActivity {
     protected void bind() {
         this.presenter = new LoginPresenter();
         this.presenter.bind(this);
-        this.presenter.getData();
     }
 
     @Override

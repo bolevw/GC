@@ -7,5 +7,4 @@ public interface ItemTouchHelperAdapter {
     void itemMove(int fromP, int endP);
 
     void onItemDisMiss(int position) ;
-
 }

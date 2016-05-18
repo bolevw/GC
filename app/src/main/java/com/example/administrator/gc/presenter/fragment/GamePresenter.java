@@ -14,8 +14,7 @@ import rx.Subscriber;
  * Created by Administrator on 2016/3/29.
  */
 public class GamePresenter implements BasePresenter<GameCFragment> {
-
-    GameCFragment view;
+    private GameCFragment view;
 
     @Override
     public void bind(GameCFragment view) {
@@ -26,7 +25,6 @@ public class GamePresenter implements BasePresenter<GameCFragment> {
     public void unBind() {
         this.view = null;
     }
-
 
     public void getData(final boolean swipe) {
         if (null != view) {
@@ -62,9 +60,7 @@ public class GamePresenter implements BasePresenter<GameCFragment> {
                     } else {
                         view.stopRefresh();
                     }
-
                     view.notifyChange(gameItemModels);
-
                 }
             }
 

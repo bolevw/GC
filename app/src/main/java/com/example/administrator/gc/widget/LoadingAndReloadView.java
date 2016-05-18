@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
  */
 public class LoadingAndReloadView extends LinearLayout {
 
-
     public LoadingAndReloadView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

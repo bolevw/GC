@@ -12,13 +12,11 @@ import rx.Subscriber;
  * Created by Administrator on 2016/3/22.
  */
 public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
-
-    RecommendCFragment view;
+    private RecommendCFragment view;
 
     @Override
     public void bind(RecommendCFragment view) {
         this.view = view;
-
     }
 
     public void getData(final boolean swipe) {

@@ -16,7 +16,6 @@ import rx.Subscriber;
  * Created by Administrator on 2016/4/6.
  */
 public class LoginPresenter implements BasePresenter<LoginActivity> {
-
     private static final String TAG = "LoginPresenter";
     LoginActivity view;
 
@@ -24,7 +23,6 @@ public class LoginPresenter implements BasePresenter<LoginActivity> {
     public void bind(LoginActivity view) {
         this.view = view;
     }
-
 
     public void login(final String username, String password) {
         UserApi.login(username, password, new BaseSub<UserModel, LoginActivity>(view) {

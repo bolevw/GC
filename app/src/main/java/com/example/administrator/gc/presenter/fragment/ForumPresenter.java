@@ -13,14 +13,12 @@ import rx.Subscriber;
  * Created by Administrator on 2016/4/5.
  */
 public class ForumPresenter implements BasePresenter<ForumFragment> {
-
-    ForumFragment view;
+    private ForumFragment view;
 
     @Override
     public void bind(ForumFragment view) {
         this.view = view;
     }
-
 
     public void getData() {
         if (view != null) {

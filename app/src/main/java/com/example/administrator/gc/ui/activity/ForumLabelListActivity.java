@@ -34,19 +34,15 @@ public class ForumLabelListActivity extends BaseActivity {
     private static final int TYPE_VIDEO = 0x0001;
     private static final int TYPE_PARTITION = 0x0002;
 
-    ForumDetailListPresenter presenter;
+    private ForumDetailListPresenter presenter;
 
     private String urls = "";
 
-
     private RecyclerView forumDetailRecyclerView;
-
     private TextView toolbarTitle;
-
     private ImageView bgImageView;
 
     private ArrayList<ItemData<Integer, BaseModel>> recyclerViewData = new ArrayList<>();
-
 
     public static void newInstance(Activity activity, String urls) {
         Intent intent = new Intent(activity, ForumLabelListActivity.class);
@@ -174,7 +170,6 @@ public class ForumLabelListActivity extends BaseActivity {
             private TextView theme;
             private TextView post;
 
-
             public VH(View itemView) {
                 super(itemView);
                 content = (LinearLayout) itemView.findViewById(R.id.content);
@@ -192,17 +187,13 @@ public class ForumLabelListActivity extends BaseActivity {
             private ImageView imgPic;
             private CardView container;
 
-
             public VideoVH(View itemView) {
                 super(itemView);
-
                 container = (CardView) itemView.findViewById(R.id.container);
                 nums = (TextView) itemView.findViewById(R.id.nums);
                 time = (TextView) itemView.findViewById(R.id.time);
                 title = (TextView) itemView.findViewById(R.id.videoTitleTextView);
-
                 imgPic = (ImageView) itemView.findViewById(R.id.videoImageView);
-
             }
         }
     }

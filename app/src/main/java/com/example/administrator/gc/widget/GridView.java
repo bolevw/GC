@@ -19,8 +19,7 @@ import com.example.administrator.gc.R;
 public class GridView extends LinearLayout {
 
     private int column;
-
-
+    private Context context;
     private ViewDragHelper viewDragHelper;
 
     public GridView(Context context) {
@@ -34,10 +33,7 @@ public class GridView extends LinearLayout {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.GridView);
         column = ta.getInteger(R.styleable.GridView_column, 3);
         ta.recycle();
-
     }
-
-    private Context context;
 
     public void setAdapter(BaseAdapter adapter) {
         int itemCount = adapter.getCount();

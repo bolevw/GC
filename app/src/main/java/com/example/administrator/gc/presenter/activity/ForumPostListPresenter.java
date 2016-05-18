@@ -11,10 +11,7 @@ import rx.Subscriber;
  * Created by Administrator on 2016/4/7.
  */
 public class ForumPostListPresenter implements BasePresenter<ForumListActivity> {
-
-
     ForumListActivity view;
-
     private String nextPageUrl = null;
 
     @Override
@@ -52,7 +49,6 @@ public class ForumPostListPresenter implements BasePresenter<ForumListActivity> 
             }
         });
     }
-
 
     public void getMore() {
         getData(nextPageUrl);
