@@ -105,17 +105,14 @@ public class AttentionPostFragment extends BaseFragment {
             }
         }
 
-        private class VH extends RecyclerView.ViewHolder {
-
-            @BindView(R.id.itemTitleTextView)
+        class VH extends RecyclerView.ViewHolder {
             TextView titleTextView;
-
-            @BindView(R.id.itemAuthorTextView)
             TextView authorTextView;
 
             public VH(View itemView) {
                 super(itemView);
-                ButterKnife.bind(this, itemView);
+                titleTextView = (TextView) itemView.findViewById(R.id.itemTitleTextView);
+                authorTextView = (TextView) itemView.findViewById(R.id.itemAuthorTextView);
             }
         }
 

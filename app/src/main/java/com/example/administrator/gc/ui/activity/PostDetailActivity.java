@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,12 +28,15 @@ import com.example.administrator.gc.model.IsFollowModel;
 import com.example.administrator.gc.model.PostBodyModel;
 import com.example.administrator.gc.model.PostDetailHeaderModel;
 import com.example.administrator.gc.model.PostDetailModel;
+import com.example.administrator.gc.model.TransformContentModel;
 import com.example.administrator.gc.presenter.activity.PostDetailPresenter;
+import com.example.administrator.gc.utils.ConvertArticleUtils;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.utils.SnackbarUtils;
 import com.example.administrator.gc.widget.RecyclerViewCutLine;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -182,7 +184,13 @@ public class PostDetailActivity extends BaseActivity {
                 PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getHeader().getUserPhotoSrc(), vh.imageSrc);
                 vh.date.setText(data.getValue().getHeader().getDate());
                 vh.itemPostTitleTextView.setText(data.getValue().getTitle());
-                vh.itemBodyContentTextView.setText(Html.fromHtml(data.getValue().getContent()));
+                String content = data.getValue().getContent();
+                TransformContentModel contentModel = ConvertArticleUtils.convert(content);
+                if (contentModel.getPicUrls().size() > 0) {
+                    content = contentModel.getArticle();
+                    vh.setUrls(contentModel.getPicUrls());
+                }
+                vh.itemBodyContentTextView.setText(content);
                 vh.itemFollowButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -235,7 +243,13 @@ public class PostDetailActivity extends BaseActivity {
                     vh.type.setText(position + "楼");
                 }
 
-                vh.itemBodyContentTextView.setText(Html.fromHtml(data.getValue().getContent()));
+                String content = data.getValue().getContent();
+                TransformContentModel contentModel = ConvertArticleUtils.convert(content);
+                if (contentModel.getPicUrls().size() > 0) {
+                    content = contentModel.getArticle();
+                    vh.setUrls(contentModel.getPicUrls());
+                }
+                vh.itemBodyContentTextView.setText(content);
                 PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
                 vh.commentContent.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -281,6 +295,8 @@ public class PostDetailActivity extends BaseActivity {
             private TextView itemBodyContentTextView;
             private LinearLayout content;
             private Button itemFollowButton;
+            private RecyclerView picRecyclerView;
+            private List<String> urls = new ArrayList<>();
 
             public HeaderVh(View itemView) {
                 super(itemView);
@@ -293,6 +309,51 @@ public class PostDetailActivity extends BaseActivity {
                 itemBodyContentTextView = (TextView) itemView.findViewById(R.id.itemBodyContentTextView);
                 itemFollowButton = (Button) itemView.findViewById(R.id.itemFollowButton);
                 content = (LinearLayout) itemView.findViewById(R.id.commentContent);
+                picRecyclerView = (RecyclerView) itemView.findViewById(R.id.picRecyclerView);
+
+                picRecyclerView.setLayoutManager(new LinearLayoutManager(PostDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                picRecyclerView.setAdapter(new PicAdapter());
+            }
+
+            private class PicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+                @Override
+                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                    HeaderVH vh = new HeaderVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pic, parent, false));
+                    return vh;
+                }
+
+                @Override
+                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                    HeaderVH vh = (HeaderVH) holder;
+                    vh.text.setText("图" + position);
+                    PicassoUtils.normalShowImage(PostDetailActivity.this, urls.get(position), vh.pic);
+                }
+
+                @Override
+                public int getItemCount() {
+                    return urls.size();
+                }
+
+                private class HeaderVH extends RecyclerView.ViewHolder {
+                    private TextView text;
+                    private ImageView pic;
+
+                    public HeaderVH(View itemView) {
+                        super(itemView);
+                        text = (TextView) itemView.findViewById(R.id.tagTextView);
+                        pic = (ImageView) itemView.findViewById(R.id.picImageView);
+                    }
+                }
+            }
+
+            public List<String> getUrls() {
+                return urls;
+            }
+
+            public void setUrls(List<String> urls) {
+                this.urls = urls;
+                this.picRecyclerView.getAdapter().notifyDataSetChanged();
             }
         }
 
@@ -303,6 +364,8 @@ public class PostDetailActivity extends BaseActivity {
             private TextView type;
             private TextView itemBodyContentTextView;
             private LinearLayout commentContent;
+            private RecyclerView picRecyclerView;
+            private List<String> urls = new ArrayList<>();
 
             public CommentVh(View itemView) {
                 super(itemView);
@@ -313,6 +376,50 @@ public class PostDetailActivity extends BaseActivity {
                 imageSrc = (ImageView) itemView.findViewById(R.id.itemUserImageView);
                 type = (TextView) itemView.findViewById(R.id.itemUserTypeTextView);
                 itemBodyContentTextView = (TextView) itemView.findViewById(R.id.itemBodyContentTextView);
+                picRecyclerView = (RecyclerView) itemView.findViewById(R.id.picRecyclerView);
+
+                picRecyclerView.setLayoutManager(new LinearLayoutManager(PostDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                picRecyclerView.setAdapter(new PicAdapter());
+            }
+
+            private class PicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+                @Override
+                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                    return new CommentVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pic, parent, false));
+                }
+
+                @Override
+                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                    CommentVH vh = (CommentVH) holder;
+                    vh.text.setText("图" + position);
+                    PicassoUtils.normalShowImage(PostDetailActivity.this, urls.get(position), vh.pic);
+                }
+
+                @Override
+                public int getItemCount() {
+                    return urls.size();
+                }
+
+                private class CommentVH extends RecyclerView.ViewHolder {
+                    private TextView text;
+                    private ImageView pic;
+
+                    public CommentVH(View itemView) {
+                        super(itemView);
+                        text = (TextView) itemView.findViewById(R.id.tagTextView);
+                        pic = (ImageView) itemView.findViewById(R.id.picImageView);
+                    }
+                }
+            }
+
+            public List<String> getUrls() {
+                return urls;
+            }
+
+            public void setUrls(List<String> urls) {
+                this.urls = urls;
+                this.picRecyclerView.getAdapter().notifyDataSetChanged();
             }
         }
 
@@ -385,7 +492,7 @@ public class PostDetailActivity extends BaseActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setType("text/plain"); // 纯文本
             intent.putExtra(Intent.EXTRA_SUBJECT, "ss");
-            startActivity(Intent.createChooser(intent, "fenxiang"));
+            startActivity(Intent.createChooser(intent, "分享"));
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -25,4 +25,9 @@
         android:paddingRight="@dimen/activity_vertical_margin"
         android:textSize="@dimen/text_normal" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/picRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"></android.support.v7.widget.RecyclerView>
+
 </LinearLayout>
