@@ -337,6 +337,7 @@ public class PostDetailActivity extends BaseActivity {
             model.setPostUrl(urls);
             model.setUsername(cache.readStringValue("username", "default_name"));
             model.setUserId(cache.readStringValue("userId", "000"));
+            model.setPostTitle(i.getTitle());
             presenter.followPost(model);
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);

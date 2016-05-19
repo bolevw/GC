@@ -8,7 +8,10 @@ import com.example.administrator.gc.model.IsFollowResponse;
 import com.example.administrator.gc.restApi.connection.HttpConnection;
 import com.example.administrator.gc.restApi.service.ForumAndPostService;
 import com.example.administrator.gc.ui.activity.PostDetailActivity;
+import com.example.administrator.gc.ui.fragment.childfragment.AttentionPostFragment;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -46,5 +49,10 @@ public class ForumAndPostApi {
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(sub);
+    }
+
+
+    public static void getFollowPost(String userId, BaseSub<List<FollowPostModel>, AttentionPostFragment> sub) {
+
     }
 }
