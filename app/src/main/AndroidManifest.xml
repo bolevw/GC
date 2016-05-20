@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.administrator.gc">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -73,6 +75,10 @@
 
         <activity
             android:name=".ui.activity.VideoActivity"
+            android:screenOrientation="user" />
+
+        <activity
+            android:name=".ui.activity.PhotoActivity"
             android:screenOrientation="user" />
     </application>
 

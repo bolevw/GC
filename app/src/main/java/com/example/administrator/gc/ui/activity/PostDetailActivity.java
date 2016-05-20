@@ -189,6 +189,8 @@ public class PostDetailActivity extends BaseActivity {
                 if (contentModel.getPicUrls().size() > 0) {
                     content = contentModel.getArticle();
                     vh.setUrls(contentModel.getPicUrls());
+                } else {
+                    vh.picRecyclerView.setVisibility(View.GONE);
                 }
                 vh.itemBodyContentTextView.setText(content);
                 vh.itemFollowButton.setOnClickListener(new View.OnClickListener() {
@@ -248,6 +250,8 @@ public class PostDetailActivity extends BaseActivity {
                 if (contentModel.getPicUrls().size() > 0) {
                     content = contentModel.getArticle();
                     vh.setUrls(contentModel.getPicUrls());
+                } else {
+                    vh.picRecyclerView.setVisibility(View.GONE);
                 }
                 vh.itemBodyContentTextView.setText(content);
                 PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
@@ -324,10 +328,16 @@ public class PostDetailActivity extends BaseActivity {
                 }
 
                 @Override
-                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
                     HeaderVH vh = (HeaderVH) holder;
                     vh.text.setText("图" + position);
                     PicassoUtils.normalShowImage(PostDetailActivity.this, urls.get(position), vh.pic);
+                    vh.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            PhotoActivity.newInstance(PostDetailActivity.this, position, urls);
+                        }
+                    });
                 }
 
                 @Override
@@ -390,10 +400,16 @@ public class PostDetailActivity extends BaseActivity {
                 }
 
                 @Override
-                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
                     CommentVH vh = (CommentVH) holder;
                     vh.text.setText("图" + position);
                     PicassoUtils.normalShowImage(PostDetailActivity.this, urls.get(position), vh.pic);
+                    vh.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            PhotoActivity.newInstance(PostDetailActivity.this, position, urls);
+                        }
+                    });
                 }
 
                 @Override
