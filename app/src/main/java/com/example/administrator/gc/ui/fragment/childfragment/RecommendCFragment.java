@@ -34,8 +34,6 @@ import com.example.administrator.gc.presenter.fragment.RecommendPresenter;
 import com.example.administrator.gc.ui.activity.ForumLabelListActivity;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.widget.VPIndicator;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -308,19 +306,7 @@ public class RecommendCFragment extends BaseFragment {
                         final HotRankingModel model = hotList.get(position);
                         Log.d("urls", model.getUrls());
                         vh.textView.setText(model.getName());
-                        Picasso.with(context)
-                                .load(model.getImageSrc())
-                                .into(vh.imageView, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        Log.d("picasso", "get hot success");
-                                    }
-
-                                    @Override
-                                    public void onError() {
-
-                                    }
-                                });
+                        PicassoUtils.normalShowImage(context, model.getImageSrc(), vh.imageView);
                         vh.content.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

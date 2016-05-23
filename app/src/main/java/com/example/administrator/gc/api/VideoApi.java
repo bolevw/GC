@@ -1,7 +1,5 @@
 package com.example.administrator.gc.api;
 
-import android.util.Log;
-
 import com.example.administrator.gc.api.Service.VideoService;
 import com.example.administrator.gc.api.http.HttpClient;
 import com.example.administrator.gc.api.web.GetWebObservable;
@@ -30,7 +28,7 @@ public class VideoApi {
                     public Observable<String> call(Document document) {
                         Element el = document.body();
                         String videoUrl = el.getElementsByAttributeValue("id", "video_embed").get(0).getElementsByTag("embed").attr("src");
-                        Log.d("video", videoUrl);
+//                        Log.d("video", videoUrl);
                         Retrofit retrofit = new Retrofit.Builder()
                                 .baseUrl("http://assets.dwstatic.com/video/")
                                 .client(HttpClient.getClient())

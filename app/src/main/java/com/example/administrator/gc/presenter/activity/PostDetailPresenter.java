@@ -1,7 +1,5 @@
 package com.example.administrator.gc.presenter.activity;
 
-import android.util.Log;
-
 import com.example.administrator.gc.api.ForumApi;
 import com.example.administrator.gc.base.BasePresenter;
 import com.example.administrator.gc.base.BaseSub;
@@ -71,7 +69,6 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
             protected void next(FollowResponse response) {
                 view.followSuccess();
                 view.setObjectId(response.getObjectId());
-                Log.d("id", response.toString());
             }
         });
     }

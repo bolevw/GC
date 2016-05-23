@@ -11,6 +11,7 @@ import com.example.administrator.gc.ui.fragment.ForumFragment;
 import com.example.administrator.gc.ui.fragment.IndexHomeFragment;
 import com.example.administrator.gc.ui.fragment.MineFragment;
 import com.example.administrator.gc.utils.FragmentUtils;
+import com.example.administrator.gc.utils.ToastUtils;
 import com.example.administrator.gc.widget.BottomNav;
 
 public class MainActivity extends BaseActivity {
@@ -80,5 +81,17 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void unBind() {
         ViewServer.get(this).removeWindow(this);
+    }
+
+    private long times;
+
+    @Override
+    public void onBackPressed() {
+        long secTime = times;
+        times = System.currentTimeMillis();
+        ToastUtils.showNormalToast("再一次退出程序");
+        if (Math.abs(secTime - times) < 2000) {
+            super.onBackPressed();
+        }
     }
 }

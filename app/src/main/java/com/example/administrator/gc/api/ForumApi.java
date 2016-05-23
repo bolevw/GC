@@ -1,7 +1,6 @@
 package com.example.administrator.gc.api;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
@@ -46,7 +45,7 @@ public class ForumApi {
                     @Override
                     public ForumPartitionModel call(Document document) {
                         Element el = document.body();
-                        Log.d("forum", el.toString());
+//                        Log.d("forum", el.toString());
 
                         String title = "";
                         title = getTitle(el, title);
@@ -61,7 +60,7 @@ public class ForumApi {
                         getPartitionList(el, res);
 
                         ForumPartitionModel forumPartitionModel = new ForumPartitionModel(title, imgSrc, videoList, res);
-                        Log.d("partition", forumPartitionModel.toString());
+//                        Log.d("partition", forumPartitionModel.toString());
                         return forumPartitionModel;
                     }
 

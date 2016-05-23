@@ -42,6 +42,7 @@ public class AttentionPostFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_attention_child, container, false);
         ButterKnife.bind(this, v);
+
         userId = cache.readStringValue("userId", "");
         return v;
     }

@@ -87,7 +87,7 @@ public class LoadingView extends ViewGroup {
         int width = getWidth();
         int itemMargin = width / pointCount;
         roadList.clear();
-        Log.d("LoadingView", "contain view size：" + getChildCount());
+        Log.d("LoadingView", "containView size:" + getChildCount());
 
         for (int i = 0; i < getChildCount() - 1; i++) {
             View view = getChildAt(i);

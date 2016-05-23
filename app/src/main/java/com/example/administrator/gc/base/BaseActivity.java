@@ -4,10 +4,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -17,10 +20,12 @@ import com.example.administrator.gc.cache.Cache;
 import com.example.administrator.gc.widget.LoadingFailView;
 import com.example.administrator.gc.widget.LoadingView;
 
+import java.lang.reflect.Field;
+
 /**
  * Created by Administrator on 2016/3/21.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements SlidingPaneLayout.PanelSlideListener {
 
     private Toolbar toolbar;
     private LoadingView loadingView;
@@ -30,12 +35,65 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        iniSwipeBack();
         BaseApplication.setContext(getApplicationContext());
         cache = Cache.getInstance(this);
 
         initView();
         setListener();
         bind();
+    }
+
+    private void iniSwipeBack() {
+        if (isSupportSwipeBack()) {
+            SlidingPaneLayout layout = new SlidingPaneLayout(this);
+            try {
+                Field field = SlidingPaneLayout.class.getDeclaredField("mOverhangSize");
+                field.setAccessible(true);
+                field.set(layout, 0);
+            } catch (Exception e) {
+                logError(e);
+                e.printStackTrace();
+            }
+
+            layout.setPanelSlideListener(this);
+            layout.setSliderFadeColor(ContextCompat.getColor(this, android.R.color.transparent));
+
+            View leftView = new View(this);
+            leftView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            layout.addView(leftView, 0);
+            leftView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+
+            ViewGroup diView = (ViewGroup) getWindow().getDecorView();
+            ViewGroup childView = (ViewGroup) diView.getChildAt(0);
+            childView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+            diView.removeView(childView);
+            diView.addView(layout);
+            layout.addView(childView, 1);
+        }
+    }
+
+    /**
+     * 是否支持滑动返回
+     *
+     * @return
+     */
+    protected boolean isSupportSwipeBack() {
+        return true;
+    }
+
+    @Override
+    public void onPanelClosed(View view) {
+
+    }
+
+    @Override
+    public void onPanelOpened(View view) {
+        finish();
+    }
+
+    @Override
+    public void onPanelSlide(View view, float v) {
     }
 
 

@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -528,7 +527,6 @@ public class PostDetailActivity extends BaseActivity {
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
-        Log.d("id", this.objectId);
     }
 
     public boolean isLogin() {

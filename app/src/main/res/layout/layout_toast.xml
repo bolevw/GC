@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_toast"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="4dp"
+    android:paddingLeft="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_vertical_margin"
+    android:paddingTop="4dp">
 
 
     <ImageView
@@ -12,13 +17,14 @@
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/ic_icon" />
+        android:src="@android:drawable/stat_sys_warning" />
 
     <TextView
         android:id="@+id/toastTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
+        android:textColor="@color/white"
         tools:text="toast" />
 
 </LinearLayout>

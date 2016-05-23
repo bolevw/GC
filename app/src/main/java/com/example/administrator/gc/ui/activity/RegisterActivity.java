@@ -5,7 +5,6 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseActivity;
@@ -71,7 +70,6 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             protected void next(UserModel userModel) {
-                Log.d("tag", userModel.toString());
                 Snackbar sk = Snackbar.make(coordinatorLayout, "注册成功！", Snackbar.LENGTH_SHORT);
                 SnackbarUtils.setBackground(sk, RegisterActivity.this);
                 sk.show();

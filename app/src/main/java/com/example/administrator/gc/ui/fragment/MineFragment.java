@@ -22,11 +22,13 @@ public class MineFragment extends BaseFragment {
     private MinePresenter presenter;
     private LinearLayout aboutLinearLayout;
     private Button loginButton;
+    private boolean isLogin;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mine, container, false);
+        isLogin = cache.readBooleanValue("isLogin", false);
         return v;
     }
 
@@ -61,10 +63,18 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), AboutActivity.class));
             }
             if (id == loginButton.getId()) {
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+                if (isLogin) {
+                    logOut();
+                } else {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
             }
         }
     };
+
+    private void logOut() {
+        
+    }
 
     @Override
     protected void unbind() {
