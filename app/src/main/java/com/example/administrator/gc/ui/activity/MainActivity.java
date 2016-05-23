@@ -94,4 +94,9 @@ public class MainActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
+
+    @Override
+    protected boolean isSupportSwipeBack() {
+        return false;
+    }
 }

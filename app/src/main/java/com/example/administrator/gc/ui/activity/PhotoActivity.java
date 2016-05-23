@@ -149,7 +149,7 @@ public class PhotoActivity extends BaseActivity {
 
         startPosition++;
         progressBar.setVisibility(View.VISIBLE);
-        PicassoUtils.normalShowImage(this, urls.get(startPosition), imageView, new Callback() {
+        PicassoUtils.normalShowImage(urls.get(startPosition), imageView, new Callback() {
             @Override
             public void onSuccess() {
                 progressBar.setVisibility(View.GONE);

@@ -1,12 +1,16 @@
 package com.example.administrator.gc.restApi;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.os.StatFs;
 import android.util.Log;
 
 import com.example.administrator.gc.base.BaseApplication;
 import com.example.administrator.gc.base.BaseSub;
 import com.example.administrator.gc.ui.activity.PhotoActivity;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -79,28 +83,31 @@ public class DownLoad {
                     }
                     filePath.createNewFile();
 
-                    String fileName = System.currentTimeMillis() + ".jpeg";
+                    String fileName = System.currentTimeMillis() + ".jpg";
                     File picFile = null;
 
                     String state = Environment.getExternalStorageState();
                     if (Environment.MEDIA_MOUNTED.equals(state)) {
                         picFile = new File(filePath + fileName);
                     } else {
-                        picFile = new File(BaseApplication.getContext().getExternalFilesDir(
-                                Environment.DIRECTORY_PICTURES), fileName);
+                        picFile = new File(BaseApplication.getContext().getFilesDir().getPath(), fileName);
                     }
 
                     if (!picFile.exists()) {
-                        picFile.mkdir();
+                        picFile.createNewFile();
                     }
-                    picFile.createNewFile();
 
                     OutputStream fos = new FileOutputStream(picFile);
-                    byte[] bytes = new byte[1024];
+                    byte[] bytes = new byte[4];
+                    logFileSize(picFile);
+
                     int read = inputStream.read(bytes);
                     while (read != -1) {
                         fos.write(bytes, 0, read);
                     }
+
+                    Bitmap bm = BitmapFactory.decodeFile(picFile.getPath());
+                    bm.compress(Bitmap.CompressFormat.JPEG, 80, new BufferedOutputStream(fos));
 
                     subscriber.onNext(filePath.getPath());
                     inputStream.close();
@@ -120,6 +127,19 @@ public class DownLoad {
                 .subscribe(sub);
 
 
+    }
+
+    private static void logFileSize(File picFile) {
+        StatFs statFs = new StatFs(picFile.getPath());
+        long fileSize = statFs.getFreeBlocksLong();
+        long avSize = statFs.getAvailableBlocksLong();
+        long s = statFs.getBlockCountLong();
+        android.text.format.Formatter formatter = new android.text.format.Formatter();
+        String fileS = formatter.formatFileSize(BaseApplication.getContext(), fileSize);
+        String aS = formatter.formatFileSize(BaseApplication.getContext(), avSize);
+        String cS = formatter.formatFileSize(BaseApplication.getContext(), s);
+
+        Log.d("fileSize", "freeS:" + fileS + " available size:" + aS + " blockSize:" + cS);
     }
 
     private boolean hasSDCard() {

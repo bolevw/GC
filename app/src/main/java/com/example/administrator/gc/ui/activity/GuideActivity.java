@@ -34,6 +34,11 @@ public class GuideActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isSupportSwipeBack() {
+        return false;
+    }
+
+    @Override
     protected void setListener() {
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
