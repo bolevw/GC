@@ -19,6 +19,7 @@ public abstract class BaseFragment extends Fragment {
 
     public static final String TAG = BaseFragment.class.getSimpleName();
     private LoadingView loadingView;
+    private BaseActivity activity;
     protected Cache cache;
 
     @Override
@@ -39,6 +40,12 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.activity = (BaseActivity) context;
+    }
+
     public void stopLoading() {
         if (null != loadingView) {
             loadingView.stopAnim();
@@ -52,7 +59,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public BaseActivity getBaseActivity() {
-        return (BaseActivity) this.getActivity();
+        return this.activity;
     }
 
     public void hideSoftKeyboard() {

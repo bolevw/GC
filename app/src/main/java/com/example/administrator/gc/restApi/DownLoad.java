@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.example.administrator.gc.base.BaseApplication;
 import com.example.administrator.gc.base.BaseSub;
+import com.example.administrator.gc.restApi.Converter.ScalarsConverterFactory;
+import com.example.administrator.gc.restApi.service.DownLoadService;
 import com.example.administrator.gc.ui.activity.PhotoActivity;
 
 import java.io.BufferedOutputStream;
@@ -20,6 +22,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import okhttp3.ResponseBody;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -151,4 +156,22 @@ public class DownLoad {
         }
         return false;
     }
+
+    public static void downLoad(final String url, Subscriber<ResponseBody> subscriber) {
+        InputStream stream = null;
+        String baseUrl = url.substring(0, url.lastIndexOf("/"));
+        String imageUrl = url.substring(url.lastIndexOf("/") + 1);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        Observable<ResponseBody> observable = retrofit.create(DownLoadService.class).downLoadPic(imageUrl);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
 }

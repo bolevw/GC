@@ -43,6 +43,8 @@ public class PhotoActivity extends BaseActivity {
     @BindView(R.id.progressBar)
     ContentLoadingProgressBar progressBar;
 
+    private boolean finish = false;
+
     private int startX;
     private int startY;
     private int startPosition;
@@ -197,5 +199,10 @@ public class PhotoActivity extends BaseActivity {
     @Override
     protected void unBind() {
 
+    }
+
+    @Override
+    protected boolean isSupportSwipeBack() {
+        return finish;
     }
 }

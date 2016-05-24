@@ -6,8 +6,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
+import java.util.concurrent.TimeUnit;
 
+import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Func1;
 
 /**
  * Created by Administrator on 2016/3/24.
@@ -30,6 +34,22 @@ public class GetWebObservable {
 
             }
         });
+        observable.retryWhen(new Func1<Observable<? extends Throwable>, Observable<Document>>() {
+            @Override
+            public Observable<Document> call(Observable<? extends Throwable> observable) {
+                return observable.flatMap(new Func1<Throwable, Observable<Document>>() {
+                    @Override
+                    public Observable<Document> call(Throwable throwable) {
+                        if (throwable instanceof SocketTimeoutException) {
+                            return Observable.timer(5, TimeUnit.SECONDS).just(null);
+                        } else {
+                            return Observable.error(throwable);
+                        }
+                    }
+                });
+
+            }
+        }).delay(5, TimeUnit.SECONDS);
         return observable;
     }
 }

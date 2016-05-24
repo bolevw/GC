@@ -23,7 +23,7 @@ public abstract class BaseSub<T, V> extends Subscriber<T> {
 
     @Override
     public void onCompleted() {
-
+        this.view = null;
     }
 
     @Override
@@ -54,6 +54,7 @@ public abstract class BaseSub<T, V> extends Subscriber<T> {
             next(t);
         }
     }
+
 
     protected abstract void error(String e);
 
