@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.example.administrator.gc.restApi.DownLoad;
+import com.example.administrator.gc.utils.Md5Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,16 +17,23 @@ import rx.Subscriber;
  * Created by liubo on 2016/5/24.
  */
 public class GifLoader {
-    private Context c;
 
-    public GifLoader with(Context c) {
-        this.c = c;
-        return new GifLoader();
+    public static final String TAG = "GifLoader";
+    private static Context c;
+
+    public static class Gif {
+        public static GifLoader loader = new GifLoader();
+    }
+
+    public static GifLoader with(Context context) {
+        c = context;
+        return Gif.loader;
     }
 
     public GifDrawer load(InputStream is) {
         GifDrawer drawer = new GifDrawer();
         try {
+            drawer.setIs(is);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,29 +60,39 @@ public class GifLoader {
         load(is);
     }
 
-    public void load(String url) {
+    public GifDrawer load(String url) {
+
         final InputStream[] is = {null};
         try {
-            DownLoad.downLoad(url, new Subscriber<ResponseBody>() {
-                @Override
-                public void onCompleted() {
+            String name = Md5Utils.getMD5(url);
+            String path = c.getExternalCacheDir() + File.separator + name;
 
-                }
+            File file = new File(path);
+            if (file.exists()) {
+                is[0] = new FileInputStream(file);
+                return load(is[0]);
+            } else {
 
-                @Override
-                public void onError(Throwable e) {
+                DownLoad.downLoad(url, new Subscriber<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
 
-                }
+                    }
 
-                @Override
-                public void onNext(ResponseBody responseBody) {
-                    is[0] = responseBody.byteStream();
-                }
-            });
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+//                        GifLoader.with(c).load(responseBody.byteStream()).into();
+                    }
+                });
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        load(is[0]);
+        return load(is[0]);
     }
 }

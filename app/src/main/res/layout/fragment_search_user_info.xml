@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/headView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/common_background_white">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/lolAreaButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="选择大区"></android.support.v7.widget.AppCompatButton>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/userIdEditText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headView"
+        android:layout_marginTop="1px"
+        android:background="@color/common_background_white" />
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+</RelativeLayout>

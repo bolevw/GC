@@ -82,6 +82,10 @@
         <activity
             android:name=".ui.activity.PhotoActivity"
             android:screenOrientation="user" />
+
+        <activity
+            android:name=".ui.activity.LoLActivity"
+            android:screenOrientation="user" />
     </application>
 
 

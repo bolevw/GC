@@ -2,6 +2,7 @@ package com.example.administrator.gc.ui.fragment.childfragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ import com.example.administrator.gc.model.IndexModel;
 import com.example.administrator.gc.model.PreviewGroup;
 import com.example.administrator.gc.presenter.fragment.RecommendPresenter;
 import com.example.administrator.gc.ui.activity.ForumLabelListActivity;
+import com.example.administrator.gc.ui.activity.LoLActivity;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.widget.VPIndicator;
 
@@ -57,6 +60,8 @@ public class RecommendCFragment extends BaseFragment {
 
     int[] colors = new int[]{Color.RED, Color.WHITE, Color.BLACK, Color.YELLOW, Color.BLUE};
     int currentPosition = 0;
+
+    private String[] lolTitles = new String[]{"玩家信息查询", "战绩查询", "常用英雄", "玩家段位", "段位预测", "隐藏分", "玩家关键信息"};
 
     private RecyclerView recyclerView;
     RecyclerViewData data = new RecyclerViewData();
@@ -408,8 +413,16 @@ public class RecommendCFragment extends BaseFragment {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            View view = new View(context);
+            TextView view = new TextView(context);
             view.setBackgroundColor(colors[position]);
+            view.setText(lolTitles[position]);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getBaseActivity(), LoLActivity.class));
+                }
+            });
+            view.setGravity(Gravity.CENTER);
             container.addView(view);
             return view;
         }
