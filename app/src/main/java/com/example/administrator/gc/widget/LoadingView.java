@@ -225,13 +225,14 @@ public class LoadingView extends ViewGroup {
 
     public void stopAnim() {
         isAnim = false;
+        handler.removeCallbacks(ru);
+
         if (moveAnim != null && moveAnim.isRunning()) {
             moveAnim.cancel();
         }
         if (alphaAnim != null && alphaAnim.isRunning()) {
             alphaAnim.cancel();
         }
-
         if (set != null && set.isRunning()) {
             set.cancel();
         }

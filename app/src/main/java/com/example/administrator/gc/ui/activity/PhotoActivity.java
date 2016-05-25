@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -43,6 +44,8 @@ public class PhotoActivity extends BaseActivity {
     @BindView(R.id.progressBar)
     ContentLoadingProgressBar progressBar;
 
+    private VelocityTracker velocityTracker;
+
     private boolean finish = false;
 
     private int startX;
@@ -61,6 +64,8 @@ public class PhotoActivity extends BaseActivity {
     protected void initView() {
         setContentView(R.layout.activity_photo);
         ButterKnife.bind(this);
+
+        velocityTracker = VelocityTracker.obtain();
 
         Intent intent = getIntent();
         startPosition = intent.getIntExtra("startPosition", 0);
@@ -112,7 +117,7 @@ public class PhotoActivity extends BaseActivity {
     View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
+            velocityTracker.addMovement(event);
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     startX = (int) event.getX();
@@ -122,11 +127,13 @@ public class PhotoActivity extends BaseActivity {
                     int moveX = (int) event.getX() - startX;
                     int moveY = (int) event.getY() - startY;
 
-                    Log.d("move", "x: " + moveX + " y:" + moveY);
-                    if (moveX > 50) {
+                    velocityTracker.computeCurrentVelocity(1000);
+                    float xVelocity = velocityTracker.getXVelocity();
+                    Log.d("move", "x: " + xVelocity + " y:" + moveY);
+                    if (xVelocity > 50 && moveX > 80) {
                         Log.d("photoMove", "move to left");
                         move2Left();
-                    } else if (moveX < -50) {
+                    } else if (xVelocity < -50 && moveX < -80) {
                         Log.d("photoMove", "move to right");
                         move2Right();
                     }

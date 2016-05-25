@@ -181,6 +181,15 @@ public class PostDetailActivity extends BaseActivity {
                 vh.type.setText("楼主");
                 vh.name.setText(data.getValue().getHeader().getUserName());
                 PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getHeader().getUserPhotoSrc(), vh.imageSrc);
+                vh.imageSrc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        List<String> list = new ArrayList<String>();
+                        list.add(data.getValue().getHeader().getUserPhotoSrc());
+
+                        PhotoActivity.newInstance(PostDetailActivity.this, 0, list);
+                    }
+                });
                 vh.date.setText(data.getValue().getHeader().getDate());
                 vh.itemPostTitleTextView.setText(data.getValue().getTitle());
                 String content = data.getValue().getContent();
@@ -254,6 +263,14 @@ public class PostDetailActivity extends BaseActivity {
                 }
                 vh.itemBodyContentTextView.setText(content);
                 PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
+                vh.imageSrc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        List<String> list = new ArrayList<String>();
+                        list.add(data.getValue().getUserMessageModel().getUserPhotoSrc());
+                        PhotoActivity.newInstance(PostDetailActivity.this, 0, list);
+                    }
+                });
                 vh.commentContent.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
