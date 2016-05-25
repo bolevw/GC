@@ -27,7 +27,13 @@ public class Cache {
     }
 
     public String readStringValue(String name, String defValue) {
-        return sharedPreferences.getString(name, defValue);
+        String result = defValue;
+        try {
+            result = sharedPreferences.getString(name, defValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public void saveBooleanValue(String name, boolean value) {
@@ -35,7 +41,13 @@ public class Cache {
     }
 
     public boolean readBooleanValue(String name, boolean defValue) {
-        return sharedPreferences.getBoolean(name, defValue);
+        boolean result = defValue;
+        try {
+            result = sharedPreferences.getBoolean(name, defValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

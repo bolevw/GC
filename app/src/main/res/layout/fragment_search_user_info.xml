@@ -4,10 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbarLayout"
+        layout="@layout/global_include_toolbar" />
+
     <LinearLayout
         android:id="@+id/headView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_below="@id/toolbarLayout"
         android:background="@color/common_background_white">
 
         <android.support.v7.widget.AppCompatButton

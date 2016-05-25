@@ -20,14 +20,12 @@ public abstract class BaseFragment extends Fragment {
     public static final String TAG = BaseFragment.class.getSimpleName();
     private LoadingView loadingView;
     private BaseActivity activity;
-    protected Cache cache;
+    protected Cache cache = Cache.getInstance(BaseApplication.getContext());
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadingView = (LoadingView) view.findViewById(R.id.loadingView);
-        cache = Cache.getInstance(BaseApplication.getContext());
-
         startLoading();
         initView(view);
         setListener();

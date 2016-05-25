@@ -3,12 +3,12 @@ package com.example.administrator.gc.ui.fragment.childfragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -58,7 +58,9 @@ public class RecommendCFragment extends BaseFragment {
     private ClickGetMoreListener getMoreListener;
 
 
-    int[] colors = new int[]{Color.RED, Color.WHITE, Color.BLACK, Color.YELLOW, Color.BLUE};
+    int[] colors = new int[]{R.mipmap.ic_banner_01, R.mipmap.ic_banner_02, R.mipmap.ic_banner_03,
+            R.mipmap.ic_banner_04, R.mipmap.ic_banner_05, R.mipmap.ic_banner_06,
+            R.mipmap.ic_banner_07};
     int currentPosition = 0;
 
     private String[] lolTitles = new String[]{"玩家信息查询", "战绩查询", "常用英雄", "玩家段位", "段位预测", "隐藏分", "玩家关键信息"};
@@ -398,7 +400,7 @@ public class RecommendCFragment extends BaseFragment {
     private class ViewPagerAdapter extends PagerAdapter {
         @Override
         public int getCount() {
-            return 5;
+            return colors.length;
         }
 
         @Override
@@ -414,8 +416,10 @@ public class RecommendCFragment extends BaseFragment {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             TextView view = new TextView(context);
-            view.setBackgroundColor(colors[position]);
+            view.setBackgroundResource(colors[position]);
             view.setText(lolTitles[position]);
+            view.setTextColor(ContextCompat.getColor(getBaseActivity(), R.color.white));
+            view.setTextSize(getResources().getDimensionPixelSize(R.dimen.text_title));
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

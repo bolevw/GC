@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
-import com.example.administrator.gc.utils.FragmentUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,18 +19,22 @@ import butterknife.OnClick;
 /**
  * Created by liubo on 2016/5/24.
  */
-public class SearchUserInfoFragment extends BaseFragment {
+public class SearchUserInfoFragment extends BaseFragment implements AreaListFragment.OnItemClickListener {
 
     @BindView(R.id.lolAreaButton)
-    AppCompatButton spinner;
+    AppCompatButton areaButton;
     @BindView(R.id.resultTextView)
     TextView resultTextView;
     @BindView(R.id.userIdEditText)
     EditText userIdEditText;
 
+    private AreaListFragment fragment = AreaListFragment.newInstance();
+    private String area = "选择大区";
+
     @OnClick(R.id.lolAreaButton)
     void show() {
-        FragmentUtils.replaceFragment(getFragmentManager(), R.id.fragmentContainer, AreaListFragment.newInstance(), true, AreaListFragment.class.getSimpleName());
+        getFragmentManager().beginTransaction().addToBackStack(AreaListFragment.class.getSimpleName()).add(R.id.fragmentContainer, fragment).commit();
+//        FragmentUtils.replaceFragment(getFragmentManager(), R.id.fragmentContainer, fragment, true, AreaListFragment.class.getSimpleName());
     }
 
 
@@ -63,11 +66,24 @@ public class SearchUserInfoFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
-
+        fragment.setOnItemClickListener(SearchUserInfoFragment.this);
     }
 
     @Override
     protected void unbind() {
 
+    }
+
+/*
+    @Override
+    public void onResume() {
+        super.onResume();
+        areaButton.setText(area);
+    }*/
+
+    @Override
+    public void onItemClick(String area) {
+        this.area = area;
+        areaButton.setText(area);
     }
 }

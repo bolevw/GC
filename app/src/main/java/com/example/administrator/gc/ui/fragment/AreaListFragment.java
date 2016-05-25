@@ -40,6 +40,8 @@ public class AreaListFragment extends BaseFragment {
         close();
     }
 
+    private OnItemClickListener onItemClickListener;
+
     private String[] areas = new String[]{
             "艾欧尼亚", "祖安", "诺克萨斯", "班德尔城", "皮尔特沃夫", "战争学院", "巨神峰", "雷瑟守备", "裁决之地", "黑色玫瑰",
             "暗影岛", "钢铁烈阳", "均衡教派", "水晶之痕", "影流", "守望之海", "征服之海", "卡拉曼达", "皮城警备", "比尔吉沃特",
@@ -127,8 +129,17 @@ public class AreaListFragment extends BaseFragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
             ((ItemVh) holder).areaTextView.setText(areas[position]);
+            ((ItemVh) holder).rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(areas[position]);
+                        close();
+                    }
+                }
+            });
         }
 
         @Override
@@ -138,11 +149,26 @@ public class AreaListFragment extends BaseFragment {
 
         private class ItemVh extends RecyclerView.ViewHolder {
             private TextView areaTextView;
+            private LinearLayout rootView;
 
             public ItemVh(View itemView) {
                 super(itemView);
                 areaTextView = (TextView) itemView.findViewById(R.id.areaTextView);
+                rootView = (LinearLayout) itemView.findViewById(R.id.rootView);
             }
         }
+    }
+
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(String area);
     }
 }
