@@ -347,6 +347,11 @@
         </LinearLayout>
 
 
+        <com.example.administrator.gc.widget.lable_view.LabelImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/ic_load_fail" />
+
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
