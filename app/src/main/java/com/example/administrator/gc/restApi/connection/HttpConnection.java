@@ -2,6 +2,8 @@ package com.example.administrator.gc.restApi.connection;
 
 import com.example.administrator.gc.restApi.client.OkClient;
 
+import java.lang.reflect.Proxy;
+
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -37,4 +39,8 @@ public class HttpConnection<T> {
         return retrofit;
     }
 
+    public  <T>  T create(Class<T> clazz) {
+        T t = retrofit.create(clazz);
+        return (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz},null);
+    }
 }

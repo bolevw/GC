@@ -56,6 +56,11 @@ public class LoadingFailView extends LinearLayout {
         });
     }
 
+    public void setLoadFailText(String text) {
+        loadFailTextView.setText(text);
+        invalidate();
+    }
+
     public interface ReloadClickListener {
         void onReload();
     }

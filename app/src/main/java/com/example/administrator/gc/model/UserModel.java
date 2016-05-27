@@ -13,6 +13,7 @@ public class UserModel extends BaseModel {
     private String updatedAt;
     private String username;
     private String createdAt;
+    private String userAvatarUrl;
     private boolean emailVerified;
     private boolean mobilePhoneVerified;
 
@@ -28,6 +29,14 @@ public class UserModel extends BaseModel {
                 ", emailVerified=" + emailVerified +
                 ", mobilePhoneVerified=" + mobilePhoneVerified +
                 '}';
+    }
+
+    public String getUserAvatarUrl() {
+        return userAvatarUrl;
+    }
+
+    public void setUserAvatarUrl(String userAvatarUrl) {
+        this.userAvatarUrl = userAvatarUrl;
     }
 
     public String getObjectId() {

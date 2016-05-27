@@ -6,4 +6,6 @@ package com.example.administrator.gc.restApi;
 public class Urls {
     public static final String BASE_URL = "https://api.leancloud.cn/";
 
+    public static final String LOL_BASE_URL = "http://API.xunjob.cn/";
+
 }

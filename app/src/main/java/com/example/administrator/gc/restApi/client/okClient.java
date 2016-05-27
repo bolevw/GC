@@ -30,14 +30,26 @@ public class OkClient {
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
                 .connectTimeout(5, TimeUnit.SECONDS)
-                .addInterceptor(new UserIn())
+                .addInterceptor(new NormalIn())
                 .addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
 
         return client;
     }
 
-    static class UserIn implements Interceptor {
+    public static OkHttpClient getUpdateUserClient(String session) {
+        client = new OkHttpClient.Builder()
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .addInterceptor(new UserIn(session))
+                .addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
+
+        return client;
+    }
+
+    static class NormalIn implements Interceptor {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
@@ -46,6 +58,26 @@ public class OkClient {
                     .addHeader("X-LC-Id", "3KIaGcxNRBLjQHTIdW53qxPG-gzGzoHsz")
                     .addHeader("X-LC-Key", "dRW0Ct5da9dUmIQGEUDDb669")
                     .addHeader("Content-Type", "application/json")
+                    .build();
+            return chain.proceed(newRequest);
+        }
+    }
+
+    static class UserIn implements Interceptor {
+        private String session;
+
+        public UserIn(String session) {
+            this.session = session;
+        }
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            Request newRequest = request.newBuilder()
+                    .addHeader("X-LC-Id", "3KIaGcxNRBLjQHTIdW53qxPG-gzGzoHsz")
+                    .addHeader("X-LC-Key", "dRW0Ct5da9dUmIQGEUDDb669")
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("X-LC-Session", session)
                     .build();
             return chain.proceed(newRequest);
         }
@@ -62,7 +94,7 @@ class HttpLoggingInterceptor implements Interceptor {
         NONE,
         /**
          * Logs request and response lines.
-         * <p>
+         * <p/>
          * <p>Example:
          * <pre>{@code
          * --> POST /greeting HTTP/1.1 (3-byte body)
@@ -73,7 +105,7 @@ class HttpLoggingInterceptor implements Interceptor {
         BASIC,
         /**
          * Logs request and response lines and their respective headers.
-         * <p>
+         * <p/>
          * <p>Example:
          * <pre>{@code
          * --> POST /greeting HTTP/1.1
@@ -91,7 +123,7 @@ class HttpLoggingInterceptor implements Interceptor {
         HEADERS,
         /**
          * Logs request and response lines and their respective headers and bodies (if present).
-         * <p>
+         * <p/>
          * <p>Example:
          * <pre>{@code
          * --> POST /greeting HTTP/1.1

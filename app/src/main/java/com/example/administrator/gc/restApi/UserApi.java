@@ -1,7 +1,10 @@
 package com.example.administrator.gc.restApi;
 
+import com.example.administrator.gc.base.BaseApplication;
 import com.example.administrator.gc.base.BaseSub;
+import com.example.administrator.gc.cache.Cache;
 import com.example.administrator.gc.model.RegisterModel;
+import com.example.administrator.gc.model.SaveAvatar;
 import com.example.administrator.gc.model.UserModel;
 import com.example.administrator.gc.restApi.client.OkClient;
 import com.example.administrator.gc.restApi.connection.HttpConnection;
@@ -13,6 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -53,6 +57,21 @@ public class UserApi {
         } catch (Exception e) {
             sub.onError(e);
         }
+    }
+
+    public static void saveUserAvatar(String url, String id, Subscriber<Void> subscriber) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Urls.BASE_URL)
+                .client(OkClient.getUpdateUserClient(Cache.getInstance(BaseApplication.getContext()).readStringValue(UserModel.SESSIONTOKEN, "")))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Observable<Void> observable = retrofit.create(UserService.class).saveAvatar(new SaveAvatar(url), id);
+
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
 
     }
 
