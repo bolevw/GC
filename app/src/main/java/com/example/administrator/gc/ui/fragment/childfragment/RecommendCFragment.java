@@ -46,6 +46,12 @@ import java.util.List;
  */
 public class RecommendCFragment extends BaseFragment {
 
+    public static final int LOL_SEARCH = 0;
+    public static final int LOL_RECORD = 1;
+    public static final int LOL_COMMON_HERO = 2;
+    public static final int LOL_LEVEL = 3;
+    public static final int LOL_FORECAST = 4;
+
     private static final int TYPE_BANNER = 1;
     private static final int TYPE_HOT = 2;
     private static final int TYPE_NORMAL = 3;
@@ -414,7 +420,7 @@ public class RecommendCFragment extends BaseFragment {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             TextView view = new TextView(context);
             view.setBackgroundResource(colors[position]);
             view.setText(lolTitles[position]);
@@ -423,7 +429,9 @@ public class RecommendCFragment extends BaseFragment {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getBaseActivity(), LoLActivity.class));
+                    Intent intent = new Intent(getBaseActivity(), LoLActivity.class);
+                    intent.putExtra("lol_action", position);
+                    startActivity(intent);
                 }
             });
             view.setGravity(Gravity.CENTER);
