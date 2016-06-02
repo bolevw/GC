@@ -39,8 +39,8 @@ public class HttpConnection<T> {
         return retrofit;
     }
 
-    public  <T>  T create(Class<T> clazz) {
+    public <T> T create(Class<T> clazz) {
         T t = retrofit.create(clazz);
-        return (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz},null);
+        return (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class[]{clazz}, null);
     }
 }

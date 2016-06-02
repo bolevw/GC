@@ -41,12 +41,26 @@ public class AreaListFragment extends BaseFragment {
     }
 
     private OnItemClickListener onItemClickListener;
+    private boolean nums = false;
 
-    private String[] areas = new String[]{
+    public String[] areas = new String[]{
             "艾欧尼亚", "祖安", "诺克萨斯", "班德尔城", "皮尔特沃夫", "战争学院", "巨神峰", "雷瑟守备", "裁决之地", "黑色玫瑰",
             "暗影岛", "钢铁烈阳", "均衡教派", "水晶之痕", "影流", "守望之海", "征服之海", "卡拉曼达", "皮城警备", "比尔吉沃特",
             "德玛西亚", "弗雷尔卓德", "无畏先锋", "恕瑞玛", "扭曲丛林", "巨龙之巢", "教育专区"
     };
+
+    public String[] numAreas = new String[]{"电信一", "电信二", "电信三", "电信四", "电信五", "电信六", "电信七", "电信八",
+            "电信九", "电信十", "电信十一", "电信十二", "电信十三", "电信十四", "电信十五", "电信十六", "电信十七", "电信十八",
+            "电信十九", "网通一", "网通二", "网通三", "网通四", "网通五", "网通六", "网通七", "教育专区"};
+
+    public static AreaListFragment newInstance(boolean nums) {
+
+        Bundle args = new Bundle();
+        args.putBoolean("nums", nums);
+        AreaListFragment fragment = new AreaListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public static AreaListFragment newInstance() {
 
@@ -62,6 +76,10 @@ public class AreaListFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_area_list, container, false);
         ButterKnife.bind(this, v);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            nums = bundle.getBoolean("nums", false);
+        }
         return v;
     }
 
@@ -130,12 +148,20 @@ public class AreaListFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            ((ItemVh) holder).areaTextView.setText(areas[position]);
+            if (nums) {
+                ((ItemVh) holder).areaTextView.setText(areas[position] + " " + numAreas[position]);
+            } else {
+                ((ItemVh) holder).areaTextView.setText(areas[position]);
+            }
             ((ItemVh) holder).rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(areas[position]);
+                        if (nums) {
+                            onItemClickListener.onItemClick(areas[position] + " " + numAreas[position]);
+                        } else {
+                            onItemClickListener.onItemClick(areas[position]);
+                        }
                         close();
                     }
                 }

@@ -82,6 +82,7 @@ public class SearchUserInfoFragment extends BaseFragment implements AreaListFrag
         }
         if (serverName.equals(DEFAULT_SERVER_NAME)) {
             ToastUtils.showNormalToast("请选择大区");
+            return;
         }
         resetLoad();
         hideSoftKeyboard();

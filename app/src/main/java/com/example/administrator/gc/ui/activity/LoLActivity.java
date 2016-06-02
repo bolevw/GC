@@ -4,6 +4,7 @@ import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.ui.fragment.CommonHeroFragment;
 import com.example.administrator.gc.ui.fragment.ForecastFragment;
+import com.example.administrator.gc.ui.fragment.HeroMessageFragment;
 import com.example.administrator.gc.ui.fragment.LevelFragment;
 import com.example.administrator.gc.ui.fragment.RecordFragment;
 import com.example.administrator.gc.ui.fragment.SearchUserInfoFragment;
@@ -26,6 +27,9 @@ public class LoLActivity extends BaseActivity {
                 break;
             case RecommendCFragment.LOL_RECORD:
                 FragmentUtils.replaceFragment(getSupportFragmentManager(), R.id.fragmentContainer, RecordFragment.newInstance(), false, RecordFragment.class.getSimpleName());
+                break;
+            case RecommendCFragment.LOL_HERO_MESSAGE:
+                FragmentUtils.replaceFragment(getSupportFragmentManager(), R.id.fragmentContainer, HeroMessageFragment.newInstance(), false, HeroMessageFragment.class.getSimpleName());
                 break;
             case RecommendCFragment.LOL_COMMON_HERO:
                 FragmentUtils.replaceFragment(getSupportFragmentManager(), R.id.fragmentContainer, CommonHeroFragment.newInstance(), false, CommonHeroFragment.class.getSimpleName());

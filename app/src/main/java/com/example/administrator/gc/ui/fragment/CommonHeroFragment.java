@@ -66,6 +66,7 @@ public class CommonHeroFragment extends BaseFragment implements AreaListFragment
         }
         if (serverName.equals(DEFAULT_SERVER_NAME)) {
             ToastUtils.showNormalToast("请选择大区");
+            return;
         }
         resetLoad();
         hideSoftKeyboard();

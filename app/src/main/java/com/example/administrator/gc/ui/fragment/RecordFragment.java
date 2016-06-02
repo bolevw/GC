@@ -49,7 +49,6 @@ public class RecordFragment extends BaseFragment implements AreaListFragment.OnI
     @OnClick(R.id.lolAreaButton)
     void show() {
         getFragmentManager().beginTransaction().addToBackStack(AreaListFragment.class.getSimpleName()).add(R.id.fragmentContainer, fragment).commit();
-//        FragmentUtils.replaceFragment(getFragmentManager(), R.id.fragmentContainer, fragment, true, AreaListFragment.class.getSimpleName());
     }
 
     @OnClick(R.id.searchButton)
@@ -61,6 +60,7 @@ public class RecordFragment extends BaseFragment implements AreaListFragment.OnI
         }
         if (serverName.equals(DEFAULT_SERVER_NAME)) {
             ToastUtils.showNormalToast("请选择大区");
+            return;
         }
         resetLoad();
         hideSoftKeyboard();

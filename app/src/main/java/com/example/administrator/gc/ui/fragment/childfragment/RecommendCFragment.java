@@ -66,11 +66,10 @@ public class RecommendCFragment extends BaseFragment {
 
 
     int[] colors = new int[]{R.mipmap.ic_banner_01, R.mipmap.ic_banner_02, R.mipmap.ic_banner_03,
-            R.mipmap.ic_banner_04, R.mipmap.ic_banner_05, R.mipmap.ic_banner_06,
-            R.mipmap.ic_banner_07};
+            R.mipmap.ic_banner_04, R.mipmap.ic_banner_05};
     int currentPosition = 0;
 
-    private String[] lolTitles = new String[]{"玩家信息查询", "战绩查询", "常用英雄", "英雄数据", "玩家段位", "段位预测", "隐藏分", "玩家关键信息"};
+    private String[] lolTitles = new String[]{"玩家信息查询", "战绩查询", "常用英雄", "英雄数据", "玩家段位", "段位预测"};
 
     private RecyclerView recyclerView;
     RecyclerViewData data = new RecyclerViewData();

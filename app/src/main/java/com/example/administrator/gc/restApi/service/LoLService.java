@@ -24,7 +24,7 @@ public interface LoLService {
     @GET("/hero.php?")
     Observable<CommonHeroModel> getCommonHero(@Query("serverName") String serverName, @Query("playerName") String playerName);
 
-    @GET("/championslist")
+    @GET("index.php?_do=personal/championslist")
     Observable<HeroMessageModel> getHeroMessage(@Query("serverName") String serverName, @Query("playerName") String playerName);
 
     @GET("/s5str.php?")

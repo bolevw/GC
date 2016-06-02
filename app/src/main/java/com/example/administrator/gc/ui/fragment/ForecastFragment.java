@@ -18,15 +18,15 @@ public class ForecastFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_search_user_info, container, false);
+        View v = inflater.inflate(R.layout.fragment_forecast, container, false);
         ButterKnife.bind(this, v);
         return v;
     }
 
     public static ForecastFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
+
         ForecastFragment fragment = new ForecastFragment();
         fragment.setArguments(args);
         return fragment;

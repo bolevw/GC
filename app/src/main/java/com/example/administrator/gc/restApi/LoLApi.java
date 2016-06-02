@@ -13,6 +13,7 @@ import com.example.administrator.gc.restApi.connection.HttpConnection;
 import com.example.administrator.gc.restApi.service.LoLService;
 import com.example.administrator.gc.ui.fragment.CommonHeroFragment;
 import com.example.administrator.gc.ui.fragment.ForecastFragment;
+import com.example.administrator.gc.ui.fragment.HeroMessageFragment;
 import com.example.administrator.gc.ui.fragment.LevelFragment;
 import com.example.administrator.gc.ui.fragment.RecordFragment;
 import com.example.administrator.gc.ui.fragment.SearchUserInfoFragment;
@@ -63,8 +64,8 @@ public class LoLApi {
                 .subscribe(sub);
     }
 
-    public static void getHeroMeesage(String serverName, String playerName, BaseSub<HeroMessageModel, ForecastFragment> sub) {
-        HttpConnection connection = getHttp("http://lolbox.duowan.com/new/api/index.php?_do=personal/");
+    public static void getHeroMessage(String serverName, String playerName, BaseSub<HeroMessageModel, HeroMessageFragment> sub) {
+        HttpConnection connection = getHttp("http://lolbox.duowan.com/new/api/");
         Observable<HeroMessageModel> observable = connection.getConnection().create(LoLService.class).getHeroMessage(serverName, playerName);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
