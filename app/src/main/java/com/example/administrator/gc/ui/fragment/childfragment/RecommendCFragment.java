@@ -49,8 +49,9 @@ public class RecommendCFragment extends BaseFragment {
     public static final int LOL_SEARCH = 0;
     public static final int LOL_RECORD = 1;
     public static final int LOL_COMMON_HERO = 2;
-    public static final int LOL_LEVEL = 3;
-    public static final int LOL_FORECAST = 4;
+    public static final int LOL_HERO_MESSAGE = 3;
+    public static final int LOL_LEVEL = 4;
+    public static final int LOL_FORECAST = 5;
 
     private static final int TYPE_BANNER = 1;
     private static final int TYPE_HOT = 2;
@@ -69,7 +70,7 @@ public class RecommendCFragment extends BaseFragment {
             R.mipmap.ic_banner_07};
     int currentPosition = 0;
 
-    private String[] lolTitles = new String[]{"玩家信息查询", "战绩查询", "常用英雄", "玩家段位", "段位预测", "隐藏分", "玩家关键信息"};
+    private String[] lolTitles = new String[]{"玩家信息查询", "战绩查询", "常用英雄", "英雄数据", "玩家段位", "段位预测", "隐藏分", "玩家关键信息"};
 
     private RecyclerView recyclerView;
     RecyclerViewData data = new RecyclerViewData();

@@ -1,5 +1,9 @@
 package com.example.administrator.gc.restApi.service;
 
+import com.example.administrator.gc.model.CommonHeroModel;
+import com.example.administrator.gc.model.HeroMessageModel;
+import com.example.administrator.gc.model.LevelForecastModel;
+import com.example.administrator.gc.model.LevelModel;
 import com.example.administrator.gc.model.PlayerInfoModel;
 import com.example.administrator.gc.model.RecordModel;
 
@@ -16,4 +20,16 @@ public interface LoLService {
 
     @GET("/Record.php")
     Observable<RecordModel> getRecord(@Query("serverName") String serverName, @Query("playerName") String playerName);
+
+    @GET("/hero.php?")
+    Observable<CommonHeroModel> getCommonHero(@Query("serverName") String serverName, @Query("playerName") String playerName);
+
+    @GET("/championslist")
+    Observable<HeroMessageModel> getHeroMessage(@Query("serverName") String serverName, @Query("playerName") String playerName);
+
+    @GET("/s5str.php?")
+    Observable<LevelModel> getLevel(@Query("serverName") String serverName, @Query("playerName") String playerName);
+
+    @GET("/rank.php?")
+    Observable<LevelForecastModel> getForecast(@Query("serverName") String serverName, @Query("playerName") String playerName);
 }

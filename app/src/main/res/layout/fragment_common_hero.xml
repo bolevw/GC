@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_background_white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/headView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/lolAreaButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="选择大区"></android.support.v7.widget.AppCompatButton>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/userIdEditText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/searchButton"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/headView"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:text="search" />
+
+    <RelativeLayout
+        android:id="@+id/avatarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchButton"
+        android:gravity="center"
+        android:visibility="invisible">
+
+
+        <com.example.administrator.gc.widget.CircleImageView
+            android:id="@+id/avatarImageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/avatarImageView"
+            android:text="是否设置为头像"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/setAvatarButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text"
+            android:layout_toRightOf="@+id/avatarImageView"
+            android:minHeight="10dp"
+            android:text="设置"
+            android:textSize="12sp" />
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/text"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/setSuccessTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/text"
+            android:text="设置成功"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/resultRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/avatarContainer"
+        android:layout_marginTop="1px" />
+
+    <com.example.administrator.gc.widget.LoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchButton"
+        android:visibility="gone"></com.example.administrator.gc.widget.LoadingView>
+
+    <com.example.administrator.gc.widget.LoadingFailView
+        android:id="@+id/loadingFailView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchButton"
+        android:visibility="gone"></com.example.administrator.gc.widget.LoadingFailView>
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+</RelativeLayout>

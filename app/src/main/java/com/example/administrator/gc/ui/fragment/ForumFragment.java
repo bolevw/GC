@@ -136,7 +136,7 @@ public class ForumFragment extends BaseFragment {
             return recycleViewData.size();
         }
 
-        class VH extends RecyclerView.ViewHolder {
+        private class VH extends RecyclerView.ViewHolder {
 
             private ImageView forumImageView;
             private TextView name;

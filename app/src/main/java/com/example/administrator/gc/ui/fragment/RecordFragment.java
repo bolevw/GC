@@ -41,10 +41,10 @@ public class RecordFragment extends BaseFragment implements AreaListFragment.OnI
     @BindView(R.id.loadingFailView)
     LoadingFailView loadingFailView;
 
-    private RecordPresenter presenter;
     private AreaListFragment fragment = AreaListFragment.newInstance();
     private String serverName = DEFAULT_SERVER_NAME;
     private String playerName;
+    private RecordPresenter presenter;
 
     @OnClick(R.id.lolAreaButton)
     void show() {
