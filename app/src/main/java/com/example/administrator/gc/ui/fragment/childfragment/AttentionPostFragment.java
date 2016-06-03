@@ -58,6 +58,11 @@ public class AttentionPostFragment extends BaseFragment {
     protected void bind() {
         this.presenter = new AttentionPostPresenter();
         this.presenter.bind(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         presenter.getData(userId);
     }
 

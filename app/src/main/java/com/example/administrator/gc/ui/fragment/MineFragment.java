@@ -1,8 +1,10 @@
 package com.example.administrator.gc.ui.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,11 @@ public class MineFragment extends BaseFragment {
     protected void initView(View v) {
         aboutLinearLayout = (LinearLayout) v.findViewById(R.id.aboutLinearLayout);
         loginButton = (Button) v.findViewById(R.id.loginButton);
+        if (isLogin) {
+            loginButton.setText("退出登录");
+        } else {
+            loginButton.setText("登录");
+        }
     }
 
     @Override
@@ -73,7 +80,34 @@ public class MineFragment extends BaseFragment {
     };
 
     private void logOut() {
-        
+        AlertDialog.Builder builder = new AlertDialog.Builder(getBaseActivity())
+                .setTitle("是否退出")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        cache.saveBooleanValue("isLogin", false);
+                        reset();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        reset();
+    }
+
+    private void reset() {
+        isLogin = cache.readBooleanValue("isLogin", false);
+        if (isLogin) {
+            loginButton.setText("退出登录");
+        } else {
+            loginButton.setText("登录");
+        }
     }
 
     @Override
