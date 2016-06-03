@@ -123,6 +123,9 @@ public class LevelFragment extends BaseFragment implements AreaListFragment.OnIt
     protected void initView(View v) {
         areaButton.setText(DEFAULT_SERVER_NAME);
         userIdEditText.setText(playerName);
+        if (getBaseActivity().getSupportActionBar() != null) {
+            getBaseActivity().getSupportActionBar().setTitle("玩家段位");
+        }
     }
 
     @Override

@@ -131,6 +131,9 @@ public class HeroMessageFragment extends BaseFragment implements AreaListFragmen
     protected void initView(View v) {
         areaButton.setText(serverName);
         userIdEditText.setText(playerName);
+        if (getBaseActivity().getSupportActionBar() != null) {
+            getBaseActivity().getSupportActionBar().setTitle("英雄信息");
+        }
     }
 
     @Override

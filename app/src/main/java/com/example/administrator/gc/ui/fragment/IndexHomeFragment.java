@@ -30,7 +30,7 @@ public class IndexHomeFragment extends BaseFragment implements RecommendCFragmen
     private ViewPager indexHomeViewPager;
     private TabLayout indexHomeTabLayout;
 
-    private int[] viewPagerTitles = new int[]{R.string.recommend, R.string.game, R.string.recreation, R.string.joke, R.string.picture};
+    private int[] viewPagerTitles = new int[]{R.string.recommend, R.string.game, R.string.joke, R.string.picture};
     private BaseFragment[] fragments = new BaseFragment[viewPagerTitles.length];
 
     @Nullable

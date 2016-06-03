@@ -10,11 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:fitsSystemWindows="false"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:navigationIcon="@mipmap/ic_action_back"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:navigationIcon="@mipmap/ic_action_back" />
 
     <View
         android:layout_width="match_parent"

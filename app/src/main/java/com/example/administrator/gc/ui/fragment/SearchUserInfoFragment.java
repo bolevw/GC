@@ -141,6 +141,7 @@ public class SearchUserInfoFragment extends BaseFragment implements AreaListFrag
         ButterKnife.bind(this, v);
         serverName = cache.readStringValue("lolServerName", DEFAULT_SERVER_NAME);
         playerName = cache.readStringValue("lolPlayerName", "");
+        getBaseActivity().getSupportActionBar().setTitle("玩家信息");
         return v;
     }
 

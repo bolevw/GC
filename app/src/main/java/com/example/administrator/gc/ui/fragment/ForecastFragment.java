@@ -34,7 +34,9 @@ public class ForecastFragment extends BaseFragment {
 
     @Override
     protected void initView(View v) {
-
+        if (getBaseActivity().getSupportActionBar() != null) {
+            getBaseActivity().getSupportActionBar().setTitle("段位预测");
+        }
     }
 
     @Override

@@ -131,6 +131,9 @@ public class CommonHeroFragment extends BaseFragment implements AreaListFragment
     protected void initView(View v) {
         areaButton.setText(serverName);
         userIdEditText.setText(playerName);
+        if (getBaseActivity().getSupportActionBar() != null) {
+            getBaseActivity().getSupportActionBar().setTitle("常用英雄");
+        }
     }
 
     @Override
