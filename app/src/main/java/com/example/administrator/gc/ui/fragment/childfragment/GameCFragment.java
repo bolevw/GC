@@ -147,7 +147,7 @@ public class GameCFragment extends BaseFragment {
             notifyItemRemoved(position);
         }
 
-        class VH extends RecyclerView.ViewHolder {
+        private class VH extends RecyclerView.ViewHolder {
             private LinearLayout item1;
             private ImageView image1;
             private TextView name1;
