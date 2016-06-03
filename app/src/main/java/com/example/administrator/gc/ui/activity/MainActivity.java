@@ -39,6 +39,13 @@ public class MainActivity extends BaseActivity {
     BottomNav.OnNavItemClickListener onNavItemClickListener = new BottomNav.OnNavItemClickListener() {
         @Override
         public void onItemClick(int position) {
+            if (position == 2) {
+                if (!cache.readBooleanValue("isLogin", false)) {
+                    position = 3;
+                    ToastUtils.showNormalToast("请先登录！");
+                    bottomNav.selectItem(position);
+                }
+            }
             switchFragment(position);
         }
     };

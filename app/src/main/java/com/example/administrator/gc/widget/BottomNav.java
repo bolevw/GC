@@ -54,7 +54,7 @@ public class BottomNav extends LinearLayout implements View.OnClickListener {
         selectItem(position);
     }
 
-    private void selectItem(int position) {
+    public void selectItem(int position) {
 
         if (position == currentPosition) {
             return;

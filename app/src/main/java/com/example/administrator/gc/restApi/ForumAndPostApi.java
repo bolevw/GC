@@ -1,8 +1,10 @@
 package com.example.administrator.gc.restApi;
 
 import com.example.administrator.gc.base.BaseSub;
+import com.example.administrator.gc.model.AttentionQueryModel;
 import com.example.administrator.gc.model.FollowPostModel;
 import com.example.administrator.gc.model.FollowResponse;
+import com.example.administrator.gc.model.GetFollowPostResponse;
 import com.example.administrator.gc.model.IsFollowModel;
 import com.example.administrator.gc.model.IsFollowResponse;
 import com.example.administrator.gc.restApi.connection.HttpConnection;
@@ -10,8 +12,6 @@ import com.example.administrator.gc.restApi.service.ForumAndPostService;
 import com.example.administrator.gc.ui.activity.PostDetailActivity;
 import com.example.administrator.gc.ui.fragment.childfragment.AttentionPostFragment;
 import com.google.gson.Gson;
-
-import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -52,7 +52,12 @@ public class ForumAndPostApi {
     }
 
 
-    public static void getFollowPost(String userId, BaseSub<List<FollowPostModel>, AttentionPostFragment> sub) {
-
+    public static void getFollowPost(String userId, BaseSub<GetFollowPostResponse, AttentionPostFragment> sub) {
+        HttpConnection connection = new HttpConnection.Builder(Urls.BASE_URL)
+                .build();
+        Observable<GetFollowPostResponse> observable = connection.getConnection().create(ForumAndPostService.class).getFollow("FollowPost", new Gson().toJson(new AttentionQueryModel(userId)));
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(sub);
     }
 }

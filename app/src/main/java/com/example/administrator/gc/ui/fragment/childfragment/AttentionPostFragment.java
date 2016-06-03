@@ -14,6 +14,7 @@ import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
 import com.example.administrator.gc.model.FollowPostModel;
 import com.example.administrator.gc.presenter.fragment.AttentionPostPresenter;
+import com.example.administrator.gc.ui.activity.PostDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,9 +66,14 @@ public class AttentionPostFragment extends BaseFragment {
 
     }
 
+    public void setViewData(List<FollowPostModel> viewData) {
+        this.viewData = viewData;
+        attentionRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
     @Override
     protected void unbind() {
-
+        presenter.unBind();
     }
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -84,11 +90,17 @@ public class AttentionPostFragment extends BaseFragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
             if (position < viewData.size()) {
                 VH vh = (VH) holder;
                 vh.titleTextView.setText(viewData.get(position).getPostTitle());
                 vh.authorTextView.setText(viewData.get(position).getLzName());
+                vh.rootView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PostDetailActivity.newInstance(getBaseActivity(), viewData.get(position).getPostUrl());
+                    }
+                });
             }
         }
 
@@ -106,12 +118,14 @@ public class AttentionPostFragment extends BaseFragment {
             }
         }
 
-        class VH extends RecyclerView.ViewHolder {
-            TextView titleTextView;
-            TextView authorTextView;
+        private class VH extends RecyclerView.ViewHolder {
+            private TextView titleTextView;
+            private TextView authorTextView;
+            private LinearLayout rootView;
 
             public VH(View itemView) {
                 super(itemView);
+                rootView = (LinearLayout) itemView.findViewById(R.id.rootView);
                 titleTextView = (TextView) itemView.findViewById(R.id.itemTitleTextView);
                 authorTextView = (TextView) itemView.findViewById(R.id.itemAuthorTextView);
             }

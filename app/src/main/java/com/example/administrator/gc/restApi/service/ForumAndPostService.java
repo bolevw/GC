@@ -2,6 +2,7 @@ package com.example.administrator.gc.restApi.service;
 
 import com.example.administrator.gc.model.FollowPostModel;
 import com.example.administrator.gc.model.FollowResponse;
+import com.example.administrator.gc.model.GetFollowPostResponse;
 import com.example.administrator.gc.model.IsFollowResponse;
 
 import retrofit2.http.Body;
@@ -27,5 +28,7 @@ public interface ForumAndPostService {
     @DELETE("1.1/classes/{class}/{objectId}")
     Observable<Void> cancelFollow(@Path("class") String name, @Path("objectId") String objectId);
 
+    @GET("1.1/classes/{class}")
+    Observable<GetFollowPostResponse> getFollow(@Path("class") String name, @Query("where") String query);
 
 }
