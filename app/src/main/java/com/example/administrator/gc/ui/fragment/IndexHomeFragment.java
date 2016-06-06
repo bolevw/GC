@@ -17,9 +17,9 @@ import android.view.ViewGroup;
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
 import com.example.administrator.gc.ui.fragment.childfragment.GameCFragment;
+import com.example.administrator.gc.ui.fragment.childfragment.JokeCFragment;
 import com.example.administrator.gc.ui.fragment.childfragment.PictureCFragment;
 import com.example.administrator.gc.ui.fragment.childfragment.RecommendCFragment;
-import com.example.administrator.gc.ui.fragment.childfragment.RecreationCFragment;
 import com.example.administrator.gc.utils.ToastUtils;
 
 /**
@@ -92,7 +92,7 @@ public class IndexHomeFragment extends BaseFragment implements RecommendCFragmen
                         fragments[1] = fragment;
                         break;
                     case 2:
-                        fragment = new RecreationCFragment();
+                        fragment = new JokeCFragment();
                         fragments[2] = fragment;
                         break;
                     case 3:
