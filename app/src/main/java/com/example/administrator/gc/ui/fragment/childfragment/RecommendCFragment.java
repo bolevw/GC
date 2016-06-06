@@ -65,14 +65,14 @@ public class RecommendCFragment extends BaseFragment {
     private ClickGetMoreListener getMoreListener;
 
 
-    int[] colors = new int[]{R.mipmap.ic_banner_01, R.mipmap.ic_banner_02, R.mipmap.ic_banner_03,
+    private int[] colors = new int[]{R.mipmap.ic_banner_01, R.mipmap.ic_banner_02, R.mipmap.ic_banner_03,
             R.mipmap.ic_banner_04, R.mipmap.ic_banner_05};
-    int currentPosition = 0;
+    private int currentPosition = 0;
 
     private String[] lolTitles = new String[]{"玩家信息查询", "战绩查询", "常用英雄", "英雄数据", "玩家段位", "段位预测"};
 
     private RecyclerView recyclerView;
-    RecyclerViewData data = new RecyclerViewData();
+    private RecyclerViewData data = new RecyclerViewData();
 
     @Nullable
     @Override
@@ -137,7 +137,7 @@ public class RecommendCFragment extends BaseFragment {
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
     }
 
-    SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
             presenter.getData(true);

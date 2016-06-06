@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rootView"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,8 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbarContent"
-            tools:listitem="@layout/item_post_detail_recyclerview"
-            android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+            tools:listitem="@layout/item_post_detail_recyclerview"/>
 
 
         <LinearLayout
@@ -34,7 +33,12 @@
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:hint="评论"
+                android:inputType="text"
+                android:paddingRight="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:textColorHint="@color/text_hint_color" />
 
             <Button
                 android:layout_width="wrap_content"

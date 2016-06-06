@@ -49,7 +49,7 @@ public class OkClient {
         return client;
     }
 
-    static class NormalIn implements Interceptor {
+    private static class NormalIn implements Interceptor {
 
         @Override
         public Response intercept(Chain chain) throws IOException {

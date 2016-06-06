@@ -10,7 +10,7 @@ import com.example.administrator.gc.ui.fragment.RecordFragment;
  * Created by liubo on 2016/5/30.
  */
 public class RecordPresenter implements BasePresenter<RecordFragment> {
-    RecordFragment view;
+    private RecordFragment view;
 
     @Override
     public void bind(RecordFragment view) {

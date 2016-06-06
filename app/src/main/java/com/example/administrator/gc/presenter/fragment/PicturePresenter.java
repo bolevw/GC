@@ -10,7 +10,7 @@ import com.example.administrator.gc.ui.fragment.childfragment.PictureCFragment;
  * Created by liubo on 2016/6/3.
  */
 public class PicturePresenter implements BasePresenter<PictureCFragment> {
-    PictureCFragment view;
+    private PictureCFragment view;
 
     @Override
     public void bind(PictureCFragment view) {

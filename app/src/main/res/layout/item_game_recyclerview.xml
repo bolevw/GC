@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
+    android:baselineAligned="false"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -22,7 +23,7 @@
             android:id="@+id/itemGameImageView1"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            tools:background="@mipmap/ic_test" />
+            />
 
         <TextView
             android:id="@+id/itemGameTextView1"
@@ -30,9 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:gravity="center_horizontal"
+            android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="@dimen/text_normal"
-            android:singleLine="true"
             tools:text="test" />
     </LinearLayout>
 

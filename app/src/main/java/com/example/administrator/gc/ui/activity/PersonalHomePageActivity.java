@@ -67,7 +67,7 @@ public class PersonalHomePageActivity extends BaseActivity {
         hisThemeLinearLayout.setOnClickListener(listener);
     }
 
-    View.OnClickListener listener = new View.OnClickListener() {
+    private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int id = v.getId();

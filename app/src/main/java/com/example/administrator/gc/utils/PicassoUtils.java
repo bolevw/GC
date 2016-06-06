@@ -11,17 +11,16 @@ import com.squareup.picasso.Picasso;
  * Created by Administrator on 2016/3/25.
  */
 public class PicassoUtils {
-    private static Picasso picasso;
 
     public static void normalShowImage(String url, ImageView imageView, Callback callback) {
-        picasso.with(BaseApplication.getContext())
+        Picasso.with(BaseApplication.getContext())
                 .load(url)
                 .fit()
                 .into(imageView, callback);
     }
 
     public static void normalShowImage(Context context, String urls, ImageView imageView) {
-        picasso
+        Picasso
                 .with(BaseApplication.getContext())
                 .load(urls)
                 .fit()
@@ -29,7 +28,7 @@ public class PicassoUtils {
     }
 
     public static void normalShowImage(Context context, String urls, ImageView imageView, Callback callback) {
-        picasso.with(BaseApplication.getContext())
+        Picasso.with(BaseApplication.getContext())
                 .load(urls)
                 .fit()
                 .into(imageView, callback);

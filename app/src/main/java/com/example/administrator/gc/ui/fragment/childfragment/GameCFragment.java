@@ -37,7 +37,6 @@ public class GameCFragment extends BaseFragment {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private List<GameItemModel> recyclerData = new ArrayList<>();
-    private ItemTouchHelper mItemTouchHelper;
 
     @Nullable
     @Override
@@ -70,7 +69,7 @@ public class GameCFragment extends BaseFragment {
         }
     }
 
-    SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
             presenter.getData(true);
@@ -105,7 +104,7 @@ public class GameCFragment extends BaseFragment {
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 

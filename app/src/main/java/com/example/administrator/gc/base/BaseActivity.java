@@ -153,7 +153,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SlidingP
         return toolbar;
     }
 
-    public void hideSoftKeyboard() {
+    protected void hideSoftKeyboard() {
         final InputMethodManager inputMethod = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         final View view = getCurrentFocus();
         if (null == view) {

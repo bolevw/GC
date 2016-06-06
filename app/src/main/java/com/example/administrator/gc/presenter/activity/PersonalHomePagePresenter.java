@@ -11,7 +11,7 @@ import com.example.administrator.gc.ui.activity.PersonalHomePageActivity;
  */
 public class PersonalHomePagePresenter implements BasePresenter<PersonalHomePageActivity> {
 
-    PersonalHomePageActivity view;
+    private PersonalHomePageActivity view;
 
     @Override
     public void bind(PersonalHomePageActivity view) {

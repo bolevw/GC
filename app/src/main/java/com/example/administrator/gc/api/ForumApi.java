@@ -39,7 +39,7 @@ public class ForumApi {
      * @param url
      * @param subscriber
      */
-    public static final void getForum(String url, Subscriber<ForumPartitionModel> subscriber) {
+    public static void getForum(String url, Subscriber<ForumPartitionModel> subscriber) {
         GetWebObservable.getInstance(Urls.BASE_URL + "/" + url)
                 .map(new Func1<Document, ForumPartitionModel>() {
                     @Override
@@ -59,9 +59,7 @@ public class ForumApi {
                         final ArrayList<ForumItemDetailModel> res = new ArrayList<ForumItemDetailModel>();
                         getPartitionList(el, res);
 
-                        ForumPartitionModel forumPartitionModel = new ForumPartitionModel(title, imgSrc, videoList, res);
-//                        Log.d("partition", forumPartitionModel.toString());
-                        return forumPartitionModel;
+                        return  new ForumPartitionModel(title, imgSrc, videoList, res);
                     }
 
                     private String getImgSrc(Element el, String imgSrc) {
@@ -121,7 +119,7 @@ public class ForumApi {
     }
 
 
-    public static final void getPostList(String urls, Subscriber<ForumPostPageListItemModel> subscriber) {
+    public static void getPostList(String urls, Subscriber<ForumPostPageListItemModel> subscriber) {
         GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls)
                 .map(new Func1<Document, ForumPostPageListItemModel>() {
                     @Override
@@ -165,7 +163,7 @@ public class ForumApi {
     }
 
 
-    public static final void getPostDetail(String urls, final boolean getNextPage, BaseSub<PostBodyModel, PostDetailActivity> subscriber) {
+    public static void getPostDetail(String urls, final boolean getNextPage, BaseSub<PostBodyModel, PostDetailActivity> subscriber) {
         GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls).map(new Func1<Document, PostBodyModel>() {
             @Override
             public PostBodyModel call(Document document) {

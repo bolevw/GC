@@ -11,5 +11,5 @@
     <com.example.administrator.gc.widget.LoadMoreRecyclerView.LoadMoreRecyclerView
         android:id="@+id/forumPostRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.example.administrator.gc.widget.LoadMoreRecyclerView.LoadMoreRecyclerView>
+        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -98,7 +98,7 @@ public class LoadingView extends ViewGroup {
         view.layout(getWidth() / 2 - view.getMeasuredWidth() / 2, getHeight() / 2 + getChildAt(0).getMeasuredHeight(), getWidth() / 2 + view.getMeasuredWidth() / 2, getHeight() / 2 + getChildAt(0).getMeasuredHeight() + view.getMeasuredHeight());
     }
 
-    public void setPointCount(int count) {
+    private void setPointCount(int count) {
         this.pointCount = count;
         moveView = new ImageView(this.weakContext.get());
         moveView.setImageResource(R.mipmap.ic_icon);
@@ -123,7 +123,7 @@ public class LoadingView extends ViewGroup {
     }
 
 
-    Runnable ru = new Runnable() {
+    private Runnable ru = new Runnable() {
         @Override
         public void run() {
             start();
@@ -137,11 +137,7 @@ public class LoadingView extends ViewGroup {
             return;
         }
 
-        if (i < roadList.size()) {
-            isAnim = true;
-        } else {
-            isAnim = false;
-        }
+        isAnim = i < roadList.size();
         startLoading();
         handler.removeCallbacks(ru);
         handler.postDelayed(ru, moveSpeed * (getChildCount() - 2));
@@ -177,7 +173,7 @@ public class LoadingView extends ViewGroup {
                         alphaAnim = ObjectAnimator.ofFloat(vi, "alpha", 1f, 0f);
                         alphaAnim.setDuration(0);
                         alphaAnim.start();
-                        ObjectAnimator.ofFloat(moveView, View.ALPHA, moveView.getAlpha(), moveView.getAlpha() + (float) (1f / (getChildCount() - 1) * i))
+                        ObjectAnimator.ofFloat(moveView, View.ALPHA, moveView.getAlpha(), moveView.getAlpha() + 1f / (getChildCount() - 1) * i)
                                 .setDuration(0)
                                 .start();
                         i++;

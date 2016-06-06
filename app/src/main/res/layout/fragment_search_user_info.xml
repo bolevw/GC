@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="选择大区"></android.support.v7.widget.AppCompatButton>
+            android:text="选择大区"/>
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/userIdEditText"
@@ -105,17 +105,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/searchButton"
-        android:visibility="gone"></com.example.administrator.gc.widget.LoadingView>
+        android:visibility="gone"/>
 
     <com.example.administrator.gc.widget.LoadingFailView
         android:id="@+id/loadingFailView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/searchButton"
-        android:visibility="gone"></com.example.administrator.gc.widget.LoadingFailView>
+        android:visibility="gone"/>
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"/>
 </RelativeLayout>

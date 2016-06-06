@@ -54,8 +54,7 @@ public class IndexApi {
                 List<PreviewGroup> previewGroups = new ArrayList<PreviewGroup>();
                 List<HotRankingModel> hotRankingModels = new ArrayList<HotRankingModel>();
 
-                Document doc = document;
-                Element bodyE = doc.body();
+                Element bodyE = document.body();
                 hotRankingModels = getHotRankingLit(bodyE);
                 previewGroups = getPreviewGroupList(bodyE);
 

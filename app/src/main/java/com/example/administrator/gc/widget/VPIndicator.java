@@ -80,7 +80,7 @@ public class VPIndicator extends LinearLayout {
 
     }
 
-    public void in(View v) {
+    private void in(View v) {
         if (animOut.isRunning())
             animOut.end();
         if (animIn.isRunning())
@@ -90,7 +90,7 @@ public class VPIndicator extends LinearLayout {
         animIn.start();
     }
 
-    public void out(View v) {
+    private void out(View v) {
         if (animIn.isRunning())
             animIn.end();
         if (animOut.isRunning())
@@ -100,7 +100,7 @@ public class VPIndicator extends LinearLayout {
         animOut.start();
     }
 
-    public int dip2px(int value) {
+    private int dip2px(int value) {
         if (value < 0) {
             value = 5;
         }

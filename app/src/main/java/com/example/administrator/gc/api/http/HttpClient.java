@@ -24,7 +24,7 @@ import okio.BufferedSource;
  */
 public class HttpClient {
 
-    static OkHttpClient client = new OkHttpClient.Builder()
+    private static OkHttpClient client = new OkHttpClient.Builder()
             .writeTimeout(10, TimeUnit.SECONDS)
             .connectTimeout(5, TimeUnit.SECONDS)
             .readTimeout(5, TimeUnit.SECONDS)
@@ -137,7 +137,7 @@ class HttpLoggingInterceptor implements Interceptor {
         this(Logger.DEFAULT);
     }
 
-    public HttpLoggingInterceptor(Logger logger) {
+    private HttpLoggingInterceptor(Logger logger) {
         this.logger = logger;
     }
 

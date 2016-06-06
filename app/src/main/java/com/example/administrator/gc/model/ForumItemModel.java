@@ -5,7 +5,7 @@ import com.example.administrator.gc.base.BaseModel;
 /**
  * Created by Administrator on 2016/4/5.
  */
-public class ForumItemModel extends BaseModel {
+class ForumItemModel extends BaseModel {
     private String name;
     private String urls;
 

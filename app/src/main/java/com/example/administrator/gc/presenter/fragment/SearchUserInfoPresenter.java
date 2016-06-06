@@ -14,7 +14,7 @@ import rx.Subscriber;
  * Created by liubo on 2016/5/24.
  */
 public class SearchUserInfoPresenter implements BasePresenter<SearchUserInfoFragment> {
-    SearchUserInfoFragment view;
+    private SearchUserInfoFragment view;
 
     @Override
     public void bind(SearchUserInfoFragment view) {

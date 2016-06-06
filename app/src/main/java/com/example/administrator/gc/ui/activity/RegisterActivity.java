@@ -86,7 +86,7 @@ public class RegisterActivity extends BaseActivity {
         });
     }
 
-    public void showWarning(String string) {
+    private void showWarning(String string) {
         Snackbar sk = Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_SHORT);
         SnackbarUtils.setBackground(sk, RegisterActivity.this, android.R.color.holo_red_light);
         sk.show();

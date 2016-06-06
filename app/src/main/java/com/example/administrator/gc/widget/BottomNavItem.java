@@ -77,7 +77,7 @@ public class BottomNavItem extends LinearLayout {
         itemNavBottomImageView.setEnabled(true);
     }
 
-    public class RetrieveInterpolator implements Interpolator {
+    private class RetrieveInterpolator implements Interpolator {
 
         @Override
         public float getInterpolation(float input) {

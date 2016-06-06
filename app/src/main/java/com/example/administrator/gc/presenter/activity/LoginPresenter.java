@@ -11,7 +11,7 @@ import com.example.administrator.gc.ui.activity.LoginActivity;
  */
 public class LoginPresenter implements BasePresenter<LoginActivity> {
     private static final String TAG = "LoginPresenter";
-    LoginActivity view;
+    private LoginActivity view;
 
     @Override
     public void bind(LoginActivity view) {

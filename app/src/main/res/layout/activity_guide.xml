@@ -18,7 +18,7 @@
             android:id="@+id/guideVp"
             android:layout_width="match_parent"
             android:layout_height="15dp"
-            android:layout_gravity="bottom"></com.example.administrator.gc.widget.VPIndicator>
+            android:layout_gravity="bottom"/>
     </FrameLayout>
 
     <View
@@ -36,7 +36,7 @@
             android:id="@+id/skipButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="right|end"
+            android:layout_gravity="end"
             android:background="?attr/selectableItemBackground"
             android:text="skip" />
     </FrameLayout>

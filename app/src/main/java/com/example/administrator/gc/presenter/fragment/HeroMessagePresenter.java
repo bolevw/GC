@@ -10,7 +10,7 @@ import com.example.administrator.gc.ui.fragment.HeroMessageFragment;
  * Created by liubo on 2016/6/2.
  */
 public class HeroMessagePresenter implements BasePresenter<HeroMessageFragment> {
-    HeroMessageFragment view;
+    private HeroMessageFragment view;
 
     @Override
     public void bind(HeroMessageFragment view) {

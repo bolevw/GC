@@ -10,7 +10,7 @@ import com.example.administrator.gc.ui.fragment.LevelFragment;
  * Created by liubo on 2016/6/2.
  */
 public class LevelPresenter implements BasePresenter<LevelFragment> {
-    LevelFragment view;
+    private LevelFragment view;
 
     @Override
     public void bind(LevelFragment view) {

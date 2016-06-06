@@ -21,8 +21,8 @@ public class GuideActivity extends BaseActivity {
     private ViewPager mGuideViewPager;
     private VPIndicator mGuideVp;
 
-    int[] colors = new int[]{Color.CYAN, Color.BLUE, Color.GREEN};
-    int[] imageViews = new int[]{R.mipmap.ic_about, R.mipmap.ic_action_back, R.mipmap.ic_friend};
+    private int[] colors = new int[]{Color.CYAN, Color.BLUE, Color.GREEN};
+    private int[] imageViews = new int[]{R.mipmap.ic_about, R.mipmap.ic_action_back, R.mipmap.ic_friend};
 
     @Override
     protected void initView() {

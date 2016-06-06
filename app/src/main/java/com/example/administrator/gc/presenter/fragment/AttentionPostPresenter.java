@@ -11,7 +11,7 @@ import com.example.administrator.gc.ui.fragment.childfragment.AttentionPostFragm
  */
 public class AttentionPostPresenter implements BasePresenter<AttentionPostFragment> {
 
-    AttentionPostFragment view;
+    private AttentionPostFragment view;
 
     @Override
     public void bind(AttentionPostFragment view) {

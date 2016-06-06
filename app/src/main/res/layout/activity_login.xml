@@ -19,7 +19,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -42,6 +42,8 @@
                         android:hint="账号"
                         android:paddingBottom="4dp"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_vertical_margin"
+                        android:paddingStart="@dimen/activity_vertical_margin"
                         android:paddingTop="4dp"
                         android:textSize="@dimen/text_normal" />
 
@@ -51,8 +53,10 @@
                         android:layout_height="40dp"
                         android:layout_marginTop="@dimen/activity_horizontal_margin"
                         android:hint="密码"
+                        android:inputType="textPassword"
                         android:paddingBottom="4dp"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_vertical_margin"
                         android:paddingTop="4dp"
                         android:textSize="@dimen/text_normal" />
 
@@ -70,6 +74,7 @@
                             android:layout_weight="1"
                             android:hint="输入验证码"
                             android:paddingLeft="@dimen/activity_horizontal_margin"
+                            android:paddingRight="@dimen/activity_vertical_margin"
                             android:textSize="@dimen/text_normal" />
 
                         <ImageView
@@ -112,8 +117,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_vertical_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:gravity="right"
+                    android:gravity="end"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin">
 
                     <TextView

@@ -20,7 +20,7 @@ public class LoadingFailView extends LinearLayout {
     private ImageView loadFailImageView;
     private TextView loadFailTextView;
 
-    ReloadClickListener reloadClickListener;
+    private ReloadClickListener reloadClickListener;
 
 
     public ReloadClickListener getReloadClickListener() {

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.StatFs;
+import android.text.format.Formatter;
 import android.util.Log;
 
 import com.example.administrator.gc.base.BaseApplication;
@@ -139,10 +140,9 @@ public class DownLoad {
         long fileSize = statFs.getFreeBlocksLong();
         long avSize = statFs.getAvailableBlocksLong();
         long s = statFs.getBlockCountLong();
-        android.text.format.Formatter formatter = new android.text.format.Formatter();
-        String fileS = formatter.formatFileSize(BaseApplication.getContext(), fileSize);
-        String aS = formatter.formatFileSize(BaseApplication.getContext(), avSize);
-        String cS = formatter.formatFileSize(BaseApplication.getContext(), s);
+        String fileS = Formatter.formatFileSize(BaseApplication.getContext(), fileSize);
+        String aS = Formatter.formatFileSize(BaseApplication.getContext(), avSize);
+        String cS = Formatter.formatFileSize(BaseApplication.getContext(), s);
 
         Log.d("fileSize", "freeS:" + fileS + " available size:" + aS + " blockSize:" + cS);
     }
@@ -150,11 +150,7 @@ public class DownLoad {
     private boolean hasSDCard() {
         // 获取外部存储的状态
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            // 有SD卡
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 
     public static void downLoad(final String url, Subscriber<ResponseBody> subscriber) {

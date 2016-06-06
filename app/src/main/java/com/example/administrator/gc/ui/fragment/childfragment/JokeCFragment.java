@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 public class JokeCFragment extends BaseFragment {
     private static final int TYPE_NORMAL = 0x0001;
     private static final int TYPE_LOADING = 0x0002;
-    public static final int TYPE_NO_DATA = 0x0003;
+    private static final int TYPE_NO_DATA = 0x0003;
 
     private JokePresenter presenter;
     private int index = 1;

@@ -26,7 +26,7 @@ import rx.schedulers.Schedulers;
  * Created by liubo on 2016/5/27.
  */
 public class LoLApi {
-    public static HttpConnection getHttp(String url) {
+    private static HttpConnection getHttp(String url) {
         if (TextUtils.isEmpty(url)) {
             HttpConnection httpConnection = new HttpConnection.Builder(Urls.LOL_BASE_URL)
                     .build();

@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity {
         getToolbar().setNavigationOnClickListener(null);
     }
 
-    BottomNav.OnNavItemClickListener onNavItemClickListener = new BottomNav.OnNavItemClickListener() {
+    private BottomNav.OnNavItemClickListener onNavItemClickListener = new BottomNav.OnNavItemClickListener() {
         @Override
         public void onItemClick(int position) {
             if (position == 2) {
@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity {
                     break;
             }
         }
-        FragmentUtils.replaceFragment(getSupportFragmentManager(), R.id.containerFrameLayout, fragments[p], false, fragment.TAG);
+        FragmentUtils.replaceFragment(getSupportFragmentManager(), R.id.containerFrameLayout, fragments[p], false, BaseFragment.TAG);
     }
 
     @Override

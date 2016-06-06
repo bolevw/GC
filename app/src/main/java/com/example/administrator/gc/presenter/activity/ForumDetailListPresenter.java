@@ -12,7 +12,7 @@ import rx.Subscriber;
  */
 public class ForumDetailListPresenter implements BasePresenter<ForumLabelListActivity> {
 
-    ForumLabelListActivity view;
+    private ForumLabelListActivity view;
 
     @Override
     public void bind(ForumLabelListActivity view) {

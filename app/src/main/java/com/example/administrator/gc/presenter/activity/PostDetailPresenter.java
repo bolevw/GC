@@ -51,7 +51,6 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
         if (nextPage.contains("javascript:void")) {
             view.notifyNoData();
             setHasData(false);
-            return;
         } else {
             getData(nextPage, true);
             setHasData(true);
@@ -80,7 +79,6 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
 
     public void isFollow(IsFollowModel model) {
         if (!view.isLogin()) {
-            return;
         } else {
 
             ForumAndPostApi.isFollow(model, new BaseSub<IsFollowResponse, PostDetailActivity>(view) {

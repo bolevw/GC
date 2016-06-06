@@ -10,7 +10,7 @@ import com.example.administrator.gc.ui.fragment.CommonHeroFragment;
  * Created by liubo on 2016/6/2.
  */
 public class CommonHeroPresenter implements BasePresenter<CommonHeroFragment> {
-    CommonHeroFragment view;
+    private CommonHeroFragment view;
 
     @Override
     public void bind(CommonHeroFragment view) {

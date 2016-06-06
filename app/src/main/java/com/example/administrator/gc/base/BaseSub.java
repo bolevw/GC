@@ -15,7 +15,7 @@ import rx.Subscriber;
  */
 public abstract class BaseSub<T, V> extends Subscriber<T> {
 
-    V view;
+    private V view;
 
     public BaseSub(V view) {
         this.view = view;

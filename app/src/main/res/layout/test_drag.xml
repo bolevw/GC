@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.example.administrator.gc.widget.GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gridView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/common_background_white"
-    android:orientation="vertical">
-
-</com.example.administrator.gc.widget.GridView>

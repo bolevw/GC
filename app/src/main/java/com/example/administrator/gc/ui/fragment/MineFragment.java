@@ -52,17 +52,13 @@ public class MineFragment extends BaseFragment {
         presenter.getData();
     }
 
-    public void show(String s) {
-
-    }
-
     @Override
     protected void setListener() {
         aboutLinearLayout.setOnClickListener(listener);
         loginButton.setOnClickListener(listener);
     }
 
-    View.OnClickListener listener = new View.OnClickListener() {
+    private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int id = v.getId();

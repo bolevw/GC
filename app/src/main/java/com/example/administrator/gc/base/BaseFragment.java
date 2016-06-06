@@ -56,11 +56,11 @@ public abstract class BaseFragment extends Fragment {
         Log.e("error", e.toString());
     }
 
-    public BaseActivity getBaseActivity() {
+    protected BaseActivity getBaseActivity() {
         return this.activity;
     }
 
-    public void hideSoftKeyboard() {
+    protected void hideSoftKeyboard() {
         final InputMethodManager inputMethodManager = (InputMethodManager) getBaseActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         View view = getBaseActivity().getCurrentFocus();
         if (null == view) {
