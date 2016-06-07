@@ -38,7 +38,7 @@ public class MinePresenter implements BasePresenter<MineFragment> {
 
             @Override
             public void onNext(String s) {
-                view.show(s);
+
             }
         });
     }
