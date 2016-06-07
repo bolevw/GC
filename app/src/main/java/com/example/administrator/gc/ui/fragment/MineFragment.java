@@ -9,13 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
 import com.example.administrator.gc.presenter.fragment.MinePresenter;
 import com.example.administrator.gc.ui.activity.AboutActivity;
 import com.example.administrator.gc.ui.activity.LoginActivity;
+import com.example.administrator.gc.utils.PicassoUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/3/22.
@@ -26,10 +32,16 @@ public class MineFragment extends BaseFragment {
     private Button loginButton;
     private boolean isLogin;
 
+    @BindView(R.id.avatarImageView)
+    ImageView avatarImageView;
+    @BindView(R.id.usernameTextView)
+    TextView usernameTextView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_mine, container, false);
+        ButterKnife.bind(this, v);
         isLogin = cache.readBooleanValue("isLogin", false);
         return v;
     }
@@ -38,11 +50,18 @@ public class MineFragment extends BaseFragment {
     protected void initView(View v) {
         aboutLinearLayout = (LinearLayout) v.findViewById(R.id.aboutLinearLayout);
         loginButton = (Button) v.findViewById(R.id.loginButton);
+        avatarImageView = (ImageView) v.findViewById(R.id.avatarImageView);
+        usernameTextView = (TextView) v.findViewById(R.id.usernameTextView);
+
         if (isLogin) {
             loginButton.setText("退出登录");
+            PicassoUtils.normalShowImage(getBaseActivity(), cache.readStringValue("avatar", "default"), avatarImageView);
+            usernameTextView.setText(cache.readStringValue("username", ""));
         } else {
             loginButton.setText("登录");
+            usernameTextView.setText("");
         }
+
     }
 
     @Override
@@ -101,8 +120,12 @@ public class MineFragment extends BaseFragment {
         isLogin = cache.readBooleanValue("isLogin", false);
         if (isLogin) {
             loginButton.setText("退出登录");
+            PicassoUtils.normalShowImage(getBaseActivity(), cache.readStringValue("avatar", "default"), avatarImageView);
+            usernameTextView.setText(cache.readStringValue("username", ""));
         } else {
+            avatarImageView.setImageResource(R.mipmap.ic_load_fail);
             loginButton.setText("登录");
+            usernameTextView.setText("");
         }
     }
 

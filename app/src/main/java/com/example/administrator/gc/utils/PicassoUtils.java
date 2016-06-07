@@ -1,6 +1,7 @@
 package com.example.administrator.gc.utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.administrator.gc.base.BaseApplication;
@@ -20,6 +21,7 @@ public class PicassoUtils {
     }
 
     public static void normalShowImage(Context context, String urls, ImageView imageView) {
+        Log.d("urls", "urls:" + urls);
         Picasso
                 .with(BaseApplication.getContext())
                 .load(urls)

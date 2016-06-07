@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_background_white">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -20,12 +20,14 @@
                 android:id="@+id/avatarImageView"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                tools:src="@mipmap/ic_right" />
+                tools:src="@mipmap/ic_load_fail" />
 
             <TextView
+                android:id="@+id/usernameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_toRightOf="@+id/avatarImageView"
                 android:textSize="@dimen/text_large"
                 tools:text="name" />
@@ -48,7 +50,8 @@
             android:orientation="horizontal"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:splitMotionEvents="false">
+            android:splitMotionEvents="false"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -185,7 +188,8 @@
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -196,8 +200,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:text="test"
                     android:textSize="@dimen/text_normal" />
 
@@ -219,7 +223,8 @@
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -230,8 +235,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:text="test"
                     android:textSize="@dimen/text_normal" />
 
@@ -253,7 +258,8 @@
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -264,8 +270,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:text="test"
                     android:textSize="@dimen/text_normal" />
 
@@ -299,8 +305,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:text="@string/title_about"
                     android:textSize="@dimen/text_normal" />
 
@@ -322,7 +328,8 @@
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -333,8 +340,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_vertical_margin"
                     android:text="test"
                     android:textSize="@dimen/text_normal" />
 
@@ -351,12 +358,6 @@
                 android:background="@color/cut_line" />
         </LinearLayout>
 
-
-        <com.example.administrator.gc.widget.lable_view.LabelImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@mipmap/ic_load_fail" />
-
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
@@ -364,6 +365,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@drawable/bg_click_orange"
             android:text="立即登录"
             android:textColor="@color/white"

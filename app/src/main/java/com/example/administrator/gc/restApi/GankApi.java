@@ -1,12 +1,11 @@
 package com.example.administrator.gc.restApi;
 
-import com.example.administrator.gc.base.BaseSub;
 import com.example.administrator.gc.model.PictureListModel;
 import com.example.administrator.gc.restApi.connection.HttpConnection;
 import com.example.administrator.gc.restApi.service.GankService;
-import com.example.administrator.gc.ui.fragment.childfragment.PictureCFragment;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -14,7 +13,7 @@ import rx.schedulers.Schedulers;
  * Created by liubo on 2016/6/3.
  */
 public class GankApi {
-    public static void getPicture(Integer index, BaseSub<PictureListModel, PictureCFragment> sub) {
+    public static void getPicture(Integer index, Subscriber<PictureListModel> sub) {
         HttpConnection connection = new HttpConnection.Builder(Urls.GANK_BASE_URL)
                 .build();
 

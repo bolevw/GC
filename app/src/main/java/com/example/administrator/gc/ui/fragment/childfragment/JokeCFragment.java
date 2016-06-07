@@ -1,5 +1,6 @@
 package com.example.administrator.gc.ui.fragment.childfragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.administrator.gc.R;
@@ -105,10 +107,22 @@ public class JokeCFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (position < viewData.size()) {
-                JokeModel model = viewData.get(position);
+                final JokeModel model = viewData.get(position);
                 VH vh = (VH) holder;
                 vh.jokeTextView.setText(model.getContent());
                 vh.dateTextView.setText(model.getUpdatetime());
+                vh.rootView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_TEXT, model.getContent());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setType("text/plain"); // 纯文本
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "ss");
+                        startActivity(Intent.createChooser(intent, "分享"));
+                        return true;
+                    }
+                });
             }
         }
 
@@ -131,9 +145,11 @@ public class JokeCFragment extends BaseFragment {
         private class VH extends RecyclerView.ViewHolder {
             private TextView jokeTextView;
             private TextView dateTextView;
+            private LinearLayout rootView;
 
             public VH(View itemView) {
                 super(itemView);
+                rootView = (LinearLayout) itemView.findViewById(R.id.rootView);
                 jokeTextView = (TextView) itemView.findViewById(R.id.itemJokeTextView);
                 dateTextView = (TextView) itemView.findViewById(R.id.itemTimeTextView);
             }

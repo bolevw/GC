@@ -27,6 +27,7 @@ public class BottomNavItem extends LinearLayout {
 
     private Animator animatorIn;
     private Animator animatorOut;
+    private boolean isAnimation = false;
 
 
     public BottomNavItem(Context context) {

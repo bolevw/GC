@@ -23,7 +23,7 @@ public class Cache {
     }
 
     public void saveStringValue(String name, String value) {
-        editor.putString(name, value).commit();
+        editor.putString(name, value).apply();
     }
 
     public String readStringValue(String name, String defValue) {
@@ -37,7 +37,7 @@ public class Cache {
     }
 
     public void saveBooleanValue(String name, boolean value) {
-        editor.putBoolean(name, value).commit();
+        editor.putBoolean(name, value).apply();
     }
 
     public boolean readBooleanValue(String name, boolean defValue) {

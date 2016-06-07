@@ -69,8 +69,8 @@ public class SearchUserInfoFragment extends BaseFragment implements AreaListFrag
 
     @OnClick(R.id.lolAreaButton)
     void show() {
+        hideSoftKeyboard();
         getFragmentManager().beginTransaction().addToBackStack(AreaListFragment.class.getSimpleName()).add(R.id.fragmentContainer, fragment).commit();
-//        FragmentUtils.replaceFragment(getFragmentManager(), R.id.fragmentContainer, fragment, true, AreaListFragment.class.getSimpleName());
     }
 
     @OnClick(R.id.searchButton)

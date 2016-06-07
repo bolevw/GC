@@ -54,6 +54,7 @@ public class HeroMessageFragment extends BaseFragment implements AreaListFragmen
 
     @OnClick(R.id.lolAreaButton)
     void show() {
+        hideSoftKeyboard();
         getFragmentManager().beginTransaction().addToBackStack(AreaListFragment.class.getSimpleName()).add(R.id.fragmentContainer, fragment).commit();
     }
 

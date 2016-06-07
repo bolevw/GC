@@ -48,6 +48,7 @@ public class RecordFragment extends BaseFragment implements AreaListFragment.OnI
 
     @OnClick(R.id.lolAreaButton)
     void show() {
+        hideSoftKeyboard();
         getFragmentManager().beginTransaction().addToBackStack(AreaListFragment.class.getSimpleName()).add(R.id.fragmentContainer, fragment).commit();
     }
 
