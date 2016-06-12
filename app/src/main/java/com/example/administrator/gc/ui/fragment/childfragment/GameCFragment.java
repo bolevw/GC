@@ -143,7 +143,7 @@ public class GameCFragment extends BaseFragment {
 
         @Override
         public void onItemDisMiss(int position) {
-            notifyItemRemoved(position);
+//            notifyItemRemoved(position);
         }
 
         private class VH extends RecyclerView.ViewHolder {
