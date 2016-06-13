@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 
 /**
  * Created by liubo on 2016/5/26.
@@ -44,7 +45,6 @@ public class LabelViewHelper {
     private int height;
     private int orientation = DEFAULT_ORIENTATION;
     private String text = "thi is a tag";
-
 
 
     public LabelViewHelper(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -124,12 +124,10 @@ public class LabelViewHelper {
                 endPosX = measuredWidth;
                 endPosY = measuredHeight - actualDistance;
                 break;
-
         }
-
     }
 
     private int dip2Px(float dip) {
-        return (int) (dip * context.getResources().getDisplayMetrics().density + 0.5f);
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, dip, context.getResources().getDisplayMetrics());
     }
 }
