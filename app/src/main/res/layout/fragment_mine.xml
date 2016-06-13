@@ -358,6 +358,11 @@
                 android:background="@color/cut_line" />
         </LinearLayout>
 
+        <com.example.administrator.gc.widget.MovePath
+            android:id="@+id/movePath"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"

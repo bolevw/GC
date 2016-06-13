@@ -19,9 +19,11 @@ import com.example.administrator.gc.presenter.fragment.MinePresenter;
 import com.example.administrator.gc.ui.activity.AboutActivity;
 import com.example.administrator.gc.ui.activity.LoginActivity;
 import com.example.administrator.gc.utils.PicassoUtils;
+import com.example.administrator.gc.widget.MovePath;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/3/22.
@@ -36,6 +38,14 @@ public class MineFragment extends BaseFragment {
     ImageView avatarImageView;
     @BindView(R.id.usernameTextView)
     TextView usernameTextView;
+
+    @BindView(R.id.movePath)
+    MovePath movePath;
+
+    @OnClick(R.id.movePath)
+    void move() {
+        movePath.run();
+    }
 
     @Nullable
     @Override

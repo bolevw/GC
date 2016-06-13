@@ -8,10 +8,8 @@ import android.text.format.Formatter;
 import android.util.Log;
 
 import com.example.administrator.gc.base.BaseApplication;
-import com.example.administrator.gc.base.BaseSub;
 import com.example.administrator.gc.restApi.Converter.ScalarsConverterFactory;
 import com.example.administrator.gc.restApi.service.DownLoadService;
-import com.example.administrator.gc.ui.activity.PhotoActivity;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -35,7 +33,7 @@ import rx.schedulers.Schedulers;
  * Created by liubo on 2016/5/20.
  */
 public class DownLoad {
-    public static void downLoadImage(final String url, final BaseSub<String, PhotoActivity> sub) {
+    public static void downLoadImage(final String url, Subscriber<String> sub) {
 
       /*
         Retrofit retrofit = new Retrofit.Builder()
@@ -82,12 +80,12 @@ public class DownLoad {
                     connection.setReadTimeout(5 * 1000);
                     InputStream inputStream = connection.getInputStream();
 
-                    File filePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+                    File filePath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
                     Log.d("filePath", filePath.getPath());
                     if (!filePath.exists()) {
                         filePath.mkdir();
                     }
-                    filePath.createNewFile();
+//                    filePath.createNewFile();
 
                     String fileName = System.currentTimeMillis() + ".jpg";
                     File picFile = null;
@@ -97,6 +95,7 @@ public class DownLoad {
                         picFile = new File(filePath + fileName);
                     } else {
                         picFile = new File(BaseApplication.getContext().getFilesDir().getPath(), fileName);
+                        Log.d("filePath", "getFilesDir: " + BaseApplication.getContext().getFilesDir() + "  getExternalFilesDir" + BaseApplication.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES));
                     }
 
                     if (!picFile.exists()) {
@@ -119,6 +118,7 @@ public class DownLoad {
                     inputStream.close();
                     fos.flush();
                     fos.close();
+                    bm.recycle();
                 } catch (MalformedURLException e) {
                     subscriber.onError(e);
                     e.printStackTrace();

@@ -28,6 +28,7 @@ import com.example.administrator.gc.model.PostBodyModel;
 import com.example.administrator.gc.model.PostDetailHeaderModel;
 import com.example.administrator.gc.model.PostDetailModel;
 import com.example.administrator.gc.model.TransformContentModel;
+import com.example.administrator.gc.model.UserMessageModel;
 import com.example.administrator.gc.presenter.activity.PostDetailPresenter;
 import com.example.administrator.gc.utils.ConvertArticleUtils;
 import com.example.administrator.gc.utils.PicassoUtils;
@@ -176,118 +177,142 @@ public class PostDetailActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
             if (getItemViewType(position) == TYPE_HEADER) {
-                final ItemData<Integer, PostDetailHeaderModel> data = (ItemData<Integer, PostDetailHeaderModel>) viewData.get(position);
-                final HeaderVh vh = (HeaderVh) holder;
-                vh.type.setText("楼主");
-                vh.name.setText(data.getValue().getHeader().getUserName());
-                PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getHeader().getUserPhotoSrc(), vh.imageSrc);
-                vh.imageSrc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        List<String> list = new ArrayList<String>();
-                        list.add(data.getValue().getHeader().getUserPhotoSrc());
-
-                        PhotoActivity.newInstance(PostDetailActivity.this, 0, list);
-                    }
-                });
-                vh.date.setText(data.getValue().getHeader().getDate());
-                vh.itemPostTitleTextView.setText(data.getValue().getTitle());
-                String content = data.getValue().getContent();
-                TransformContentModel contentModel = ConvertArticleUtils.convert(content);
-                if (contentModel.getPicUrls().size() > 0) {
-                    content = contentModel.getArticle();
-                    vh.setUrls(contentModel.getPicUrls());
-                } else {
-                    vh.picRecyclerView.setVisibility(View.GONE);
-                }
-                vh.itemBodyContentTextView.setText(content);
-                vh.itemFollowButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!isFollow) {
-                            followPost(data.getValue());
-                        } else {
-                            presenter.cancelFollow(getObjectId());
-                        }
-                    }
-                });
-                subscriber = new Subscriber() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(Object o) {
-                        isFollow = true;
-                        vh.itemFollowButton.setText("取消关注");
-
-                    }
-                };
-                if (isFollow) {
-                    vh.itemFollowButton.setText("取消关注");
-                } else {
-                    vh.itemFollowButton.setText("关注");
-                }
-                vh.content.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PersonalHomePageActivity.newInstance(PostDetailActivity.this, data.getValue().getHeader().getUserHomePageUrl());
-                    }
-                });
+                bindHeader((HeaderVh) holder, position);
             } else if (getItemViewType(position) == TYPE_COMMENT) {
-                final ItemData<Integer, PostDetailModel> data = (ItemData<Integer, PostDetailModel>) viewData.get(position);
-                final CommentVh vh = (CommentVh) holder;
-                vh.date.setText(data.getValue().getUserMessageModel().getDate());
-                vh.name.setText(data.getValue().getUserMessageModel().getUserName());
-                if (position == 1) {
-                    vh.type.setText("沙发");
-                } else if (position == 2) {
-                    vh.type.setText("板凳");
-                } else if (position == 3) {
-                    vh.type.setText("地板");
-                } else {
-                    vh.type.setText(position + "楼");
-                }
-
-                String content = data.getValue().getContent();
-                TransformContentModel contentModel = ConvertArticleUtils.convert(content);
-                if (contentModel.getPicUrls().size() > 0) {
-                    content = contentModel.getArticle();
-                    vh.setUrls(contentModel.getPicUrls());
-                } else {
-                    vh.picRecyclerView.setVisibility(View.GONE);
-                }
-                vh.itemBodyContentTextView.setText(content);
-                PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
-                vh.imageSrc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        List<String> list = new ArrayList<String>();
-                        list.add(data.getValue().getUserMessageModel().getUserPhotoSrc());
-                        PhotoActivity.newInstance(PostDetailActivity.this, 0, list);
-                    }
-                });
-                vh.commentContent.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        PersonalHomePageActivity.newInstance(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserHomePageUrl());
-                    }
-                });
-
+                bindComment((CommentVh) holder, position);
             } else if (getItemViewType(position) == TYPE_LOADING) {
-                FootVh vh = (FootVh) holder;
-                if (!presenter.isHasData()) {
-                    vh.loadingContent.setVisibility(View.GONE);
-                    vh.noDataTextView.setVisibility(View.VISIBLE);
-                } else {
-                    vh.loadingContent.setVisibility(View.VISIBLE);
-                    vh.noDataTextView.setVisibility(View.GONE);
-                }
+                bindLoading((FootVh) holder);
             }
+        }
+
+        private void bindLoading(FootVh holder) {
+            FootVh vh = holder;
+            if (!presenter.isHasData()) {
+                vh.loadingContent.setVisibility(View.GONE);
+                vh.noDataTextView.setVisibility(View.VISIBLE);
+            } else {
+                vh.loadingContent.setVisibility(View.VISIBLE);
+                vh.noDataTextView.setVisibility(View.GONE);
+            }
+        }
+
+        private void bindComment(CommentVh holder, int position) {
+            final ItemData<Integer, PostDetailModel> data = (ItemData<Integer, PostDetailModel>) viewData.get(position);
+            final CommentVh vh = holder;
+            vh.date.setText(data.getValue().getUserMessageModel().getDate());
+            vh.name.setText(data.getValue().getUserMessageModel().getUserName());
+            if (position == 1) {
+                vh.type.setText("沙发");
+            } else if (position == 2) {
+                vh.type.setText("板凳");
+            } else if (position == 3) {
+                vh.type.setText("地板");
+            } else {
+                vh.type.setText(position + "楼");
+            }
+
+            String content = data.getValue().getContent();
+            TransformContentModel contentModel = ConvertArticleUtils.convert(content);
+            if (contentModel.getPicUrls().size() > 0) {
+                content = contentModel.getArticle();
+                vh.setUrls(contentModel.getPicUrls());
+            } else {
+                vh.picRecyclerView.setVisibility(View.GONE);
+            }
+            vh.itemBodyContentTextView.setText(content);
+            PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
+            vh.imageSrc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<String> list = new ArrayList<String>();
+                    list.add(data.getValue().getUserMessageModel().getUserPhotoSrc());
+                    PhotoActivity.newInstance(PostDetailActivity.this, 0, list);
+                }
+            });
+            vh.commentContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PersonalHomePageActivity.newInstance(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserHomePageUrl());
+                }
+            });
+        }
+
+        private void bindHeader(HeaderVh holder, int position) {
+            final ItemData<Integer, PostDetailHeaderModel> data = (ItemData<Integer, PostDetailHeaderModel>) viewData.get(position);
+            final UserMessageModel userMessageModel = data.getValue().getHeader();
+            final HeaderVh vh = holder;
+
+            vh.type.setText("楼主");
+            vh.name.setText(userMessageModel.getUserName());
+            PicassoUtils.normalShowImage(PostDetailActivity.this, userMessageModel.getUserPhotoSrc(), vh.imageSrc);
+            vh.imageSrc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<String> list = new ArrayList<String>();
+                    list.add(userMessageModel.getUserPhotoSrc());
+                    PhotoActivity.newInstance(PostDetailActivity.this, 0, list);
+                }
+            });
+
+            vh.date.setText(userMessageModel.getDate());
+            vh.itemPostTitleTextView.setText(data.getValue().getTitle());
+
+            convertArticle(data, vh);
+
+            handleFollowButton(data, vh);
+
+            vh.content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PersonalHomePageActivity.newInstance(PostDetailActivity.this, data.getValue().getHeader().getUserHomePageUrl());
+                }
+            });
+        }
+
+        private void handleFollowButton(final ItemData<Integer, PostDetailHeaderModel> data, final HeaderVh vh) {
+            vh.itemFollowButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!isFollow) {
+                        followPost(data.getValue());
+                    } else {
+                        presenter.cancelFollow(getObjectId());
+                    }
+                }
+            });
+            subscriber = new Subscriber() {
+                @Override
+                public void onCompleted() {
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                }
+
+                @Override
+                public void onNext(Object o) {
+                    isFollow = true;
+                    vh.itemFollowButton.setText("取消关注");
+
+                }
+            };
+            if (isFollow) {
+                vh.itemFollowButton.setText("取消关注");
+            } else {
+                vh.itemFollowButton.setText("关注");
+            }
+        }
+
+        private void convertArticle(ItemData<Integer, PostDetailHeaderModel> data, HeaderVh vh) {
+            String content = data.getValue().getContent();
+            TransformContentModel contentModel = ConvertArticleUtils.convert(content);
+            if (contentModel.getPicUrls().size() > 0) {
+                content = contentModel.getArticle();
+                vh.setUrls(contentModel.getPicUrls());
+            } else {
+                vh.picRecyclerView.setVisibility(View.GONE);
+            }
+            vh.itemBodyContentTextView.setText(content);
         }
 
         @Override
@@ -479,20 +504,24 @@ public class PostDetailActivity extends BaseActivity {
             model.setPostTitle(i.getTitle());
             presenter.followPost(model);
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            final AlertDialog adl = builder.create();
-            builder.setTitle("请登录！")
-                    .setMessage("请先登录，在进行关注！")
-                    .setNegativeButton("暂不关注", null)
-                    .setPositiveButton("登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            adl.dismiss();
-                            startActivity(new Intent(PostDetailActivity.this, LoginActivity.class));
-                        }
-                    });
-            builder.show();
+            showLoginDialog();
         }
+    }
+
+    private void showLoginDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog adl = builder.create();
+        builder.setTitle("请登录！")
+                .setMessage("请先登录，在进行关注！")
+                .setNegativeButton("暂不关注", null)
+                .setPositiveButton("登录", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adl.dismiss();
+                        startActivity(new Intent(PostDetailActivity.this, LoginActivity.class));
+                    }
+                });
+        builder.show();
     }
 
     RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {

@@ -2,6 +2,8 @@ package com.example.administrator.gc.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.Log;
@@ -14,7 +16,6 @@ import android.widget.ImageView;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseActivity;
-import com.example.administrator.gc.base.BaseSub;
 import com.example.administrator.gc.restApi.DownLoad;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.utils.ToastUtils;
@@ -27,6 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
 
 /**
  * Created by liubo on 2016/5/20.
@@ -96,15 +98,20 @@ public class PhotoActivity extends BaseActivity {
 
     @OnClick(R.id.saveButton)
     void saveImage() {
-        DownLoad.downLoadImage(urls.get(startPosition), new BaseSub<String, PhotoActivity>(this) {
+        DownLoad.downLoadImage(urls.get(startPosition), new Subscriber<String>() {
             @Override
-            protected void error(String e) {
+            public void onCompleted() {
 
             }
 
             @Override
-            protected void next(String filePath) {
-                ToastUtils.showNormalToast("图片保存成功" + filePath);
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                ToastUtils.showNormalToast("图片保存成功" + s);
             }
         });
     }
@@ -153,8 +160,7 @@ public class PhotoActivity extends BaseActivity {
             return;
         }
 
-        Drawable drawable = imageView.getDrawable();
-        drawable = null;
+        recycleBitmap();
 
         startPosition++;
         progressBar.setVisibility(View.VISIBLE);
@@ -173,14 +179,24 @@ public class PhotoActivity extends BaseActivity {
 
     }
 
+    private void recycleBitmap() {
+        Drawable drawable = imageView.getDrawable();
+        if (drawable != null && drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+            if (bitmap != null && !bitmap.isRecycled()) {
+                bitmap.recycle();
+            }
+        }
+    }
+
     private void move2Left() {
         if (startPosition == 0) {
             ToastUtils.showNormalToast("已经是第一张了！");
             return;
         }
 
-        Drawable drawable = imageView.getDrawable();
-        drawable = null;
+        recycleBitmap();
         startPosition--;
 
         progressBar.setVisibility(View.VISIBLE);

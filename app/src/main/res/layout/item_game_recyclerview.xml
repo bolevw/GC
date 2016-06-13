@@ -7,6 +7,11 @@
     android:baselineAligned="false"
     android:orientation="horizontal">
 
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="@color/cut_line" />
+
     <LinearLayout
         android:id="@+id/itemGameLinearLayout1"
         android:layout_width="0dp"
@@ -22,8 +27,7 @@
         <com.example.administrator.gc.widget.CircleImageView
             android:id="@+id/itemGameImageView1"
             android:layout_width="35dp"
-            android:layout_height="35dp"
-            />
+            android:layout_height="35dp" />
 
         <TextView
             android:id="@+id/itemGameTextView1"
@@ -37,4 +41,8 @@
             tools:text="test" />
     </LinearLayout>
 
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="@color/cut_line" />
 </LinearLayout>

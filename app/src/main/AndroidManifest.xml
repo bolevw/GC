@@ -77,15 +77,15 @@
 
         <activity
             android:name=".ui.activity.VideoActivity"
-            android:screenOrientation="user" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.PhotoActivity"
-            android:screenOrientation="user" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.LoLActivity"
-            android:screenOrientation="user" />
+            android:screenOrientation="portrait" />
     </application>
 
 
