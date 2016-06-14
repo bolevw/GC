@@ -20,7 +20,6 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2016/3/29.
  */
 public class AllGameApi {
-
     private static final String TAG = "AllGameApi";
 
     public static void getAllGame(String urls, Subscriber<List<GameItemModel>> subscriber) {

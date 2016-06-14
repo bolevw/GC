@@ -27,14 +27,23 @@ public class LoginPresenter implements BasePresenter<LoginActivity> {
 
             @Override
             protected void next(UserModel userModel) {
-                view.cache.saveStringValue(UserModel.SESSIONTOKEN, userModel.getSessionToken());
-                view.cache.saveStringValue("username", userModel.getUsername());
-                view.cache.saveStringValue("userId", userModel.getObjectId());
-                view.cache.saveStringValue("avatar", userModel.getUserAvatarUrl());
-                view.cache.saveBooleanValue("isLogin", true);
-                view.loginSuccess();
+                loginSuccess(userModel);
             }
         });
+    }
+
+    /**
+     * 登录成功
+     *
+     * @param userModel
+     */
+    private void loginSuccess(UserModel userModel) {
+        view.cache.saveStringValue(UserModel.SESSIONTOKEN, userModel.getSessionToken());
+        view.cache.saveStringValue("username", userModel.getUsername());
+        view.cache.saveStringValue("userId", userModel.getObjectId());
+        view.cache.saveStringValue("avatar", userModel.getUserAvatarUrl());
+        view.cache.saveBooleanValue("isLogin", true);
+        view.loginSuccess();
     }
 
     @Override

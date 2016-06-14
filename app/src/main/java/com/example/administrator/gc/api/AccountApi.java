@@ -20,24 +20,7 @@ import rx.schedulers.Schedulers;
  * Created by Administrator on 2016/3/29.
  */
 public class AccountApi {
-
-
     private static final String TAG = "AccountApi";
-
-    public static void getLogin(String url, Subscriber<String> subscriber) {
-        GetWebObservable.getInstance(url).map(new Func1<Document, String>() {
-            @Override
-            public String call(Document document) {
-                Element bodyEl = document.body();
-                return bodyEl.toString();
-            }
-
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
-
-    }
-
 
     public static void getHomePage(String url, BaseSub<PersonalHomePageModel, PersonalHomePageActivity> subscriber) {
         GetWebObservable.getInstance(Urls.BASE_URL + "/" + url)
@@ -65,7 +48,6 @@ public class AccountApi {
                         model.setBgSrc(wrapper);
                         model.setThemeUrl(wrapperEls.get(0).getElementsByAttributeValue(Fields.WebField.CLASS, "m-personal__enter").get(0).getElementsByTag(Fields.WebField.A).get(0).attr(Fields.WebField.HREF));
                         model.setFriendUrl(wrapperEls.get(0).getElementsByAttributeValue(Fields.WebField.CLASS, "m-personal__enter").get(0).getElementsByTag(Fields.WebField.A).get(1).attr(Fields.WebField.HREF));
-
 
                         return model;
                     }

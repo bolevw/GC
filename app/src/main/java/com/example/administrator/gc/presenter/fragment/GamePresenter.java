@@ -27,10 +27,8 @@ public class GamePresenter implements BasePresenter<GameCFragment> {
     }
 
     public void getData(final boolean swipe) {
-        if (null != view) {
-            if (!swipe) {
-                view.startLoading();
-            }
+        if (!swipe) {
+            view.startLoading();
         }
 
         AllGameApi.getAllGame(Urls.INDEX_URL, new Subscriber<List<GameItemModel>>() {

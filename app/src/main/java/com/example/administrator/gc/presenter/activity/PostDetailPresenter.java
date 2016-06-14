@@ -24,13 +24,13 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
         this.view = view;
     }
 
-    public void getData(String urls, final boolean getNextpage) {
+    public void getData(String urls, final boolean getNextPage) {
         if (view != null) {
             view.setLoading(true);
             view.startLoading();
         }
 
-        ForumApi.getPostDetail(urls, getNextpage, new BaseSub<PostBodyModel, PostDetailActivity>(view) {
+        ForumApi.getPostDetail(urls, getNextPage, new BaseSub<PostBodyModel, PostDetailActivity>(view) {
             @Override
             protected void error(String e) {
                 view.stopLoading();
@@ -41,7 +41,7 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
             protected void next(PostBodyModel s) {
                 view.stopLoading();
                 view.setLoading(false);
-                view.notifyChange(s, getNextpage);
+                view.notifyChange(s, getNextPage);
                 nextPage = s.getNextPageUrl();
             }
         });
@@ -72,10 +72,6 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
         });
     }
 
-    @Override
-    public void unBind() {
-        this.view = null;
-    }
 
     public void isFollow(IsFollowModel model) {
         if (!view.isLogin()) {
@@ -119,4 +115,10 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
     public void setHasData(boolean hasData) {
         this.hasData = hasData;
     }
+
+    @Override
+    public void unBind() {
+        this.view = null;
+    }
+
 }

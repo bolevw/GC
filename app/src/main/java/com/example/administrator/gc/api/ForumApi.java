@@ -45,8 +45,6 @@ public class ForumApi {
                     @Override
                     public ForumPartitionModel call(Document document) {
                         Element el = document.body();
-//                        Log.d("forum", el.toString());
-
                         String title = "";
                         title = getTitle(el, title);
 

@@ -23,23 +23,4 @@ public class MinePresenter implements BasePresenter<MineFragment> {
     public void unBind() {
         this.view = null;
     }
-
-    public void getData() {
-        AccountApi.getLogin(Urls.INDEX_URL, new Subscriber<String>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(String s) {
-
-            }
-        });
-    }
 }

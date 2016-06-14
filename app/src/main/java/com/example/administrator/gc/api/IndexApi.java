@@ -25,7 +25,6 @@ import rx.schedulers.Schedulers;
  */
 public class IndexApi {
 
-
     /**
      * 获取首页数据
      *
@@ -33,19 +32,6 @@ public class IndexApi {
      * @param subscriber
      */
     public static void getIndex(final String url, Subscriber<IndexModel> subscriber) {
-
-/*        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .client(HttpClient.getClient())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(new StringConverter())
-                .build();
-
-        Observable<String> observable = retrofit.create(IndexService.class).get();
-
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);*/
 
         GetWebObservable.getInstance(url).map(new Func1<Document, IndexModel>() {
             @Override
@@ -163,6 +149,4 @@ public class IndexApi {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-
-
 }

@@ -20,10 +20,8 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
     }
 
     public void getData(final boolean swipe) {
-        if (null != view) {
-            if (swipe)
-                view.startLoading();
-        }
+        if (swipe)
+            view.startLoading();
         IndexApi.getIndex(Urls.INDEX_URL, new Subscriber<IndexModel>() {
             @Override
             public void onCompleted() {

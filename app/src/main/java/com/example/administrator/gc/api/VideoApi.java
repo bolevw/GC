@@ -28,7 +28,6 @@ public class VideoApi {
                     public Observable<String> call(Document document) {
                         Element el = document.body();
                         String videoUrl = el.getElementsByAttributeValue("id", "video_embed").get(0).getElementsByTag("embed").attr("src");
-//                        Log.d("video", videoUrl);
                         Retrofit retrofit = new Retrofit.Builder()
                                 .baseUrl("http://assets.dwstatic.com/video/")
                                 .client(HttpClient.getClient())

@@ -44,6 +44,9 @@ public abstract class BaseActivity extends AppCompatActivity implements SlidingP
         bind();
     }
 
+    /**
+     * 滑动关闭页面
+     */
     private void iniSwipeBack() {
         if (isSupportSwipeBack()) {
             SlidingPaneLayout layout = new SlidingPaneLayout(this);
@@ -103,6 +106,9 @@ public abstract class BaseActivity extends AppCompatActivity implements SlidingP
         initToolbar();
     }
 
+    /**
+     * 初始化toolbar
+     */
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar == null) {
@@ -175,6 +181,4 @@ public abstract class BaseActivity extends AppCompatActivity implements SlidingP
         super.onDestroy();
         unBind();
     }
-
-
 }

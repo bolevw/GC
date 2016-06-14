@@ -21,9 +21,7 @@ public class ForumPresenter implements BasePresenter<ForumFragment> {
     }
 
     public void getData() {
-        if (view != null) {
-            view.startLoading();
-        }
+        view.startLoading();
         IndexApi.getIndexDetail(new Subscriber<List<ForumModel>>() {
             @Override
             public void onCompleted() {

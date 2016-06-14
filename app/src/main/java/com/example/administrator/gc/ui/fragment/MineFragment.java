@@ -78,7 +78,7 @@ public class MineFragment extends BaseFragment {
     protected void bind() {
         presenter = new MinePresenter();
         presenter.bind(this);
-        presenter.getData();
+
     }
 
     @Override
