@@ -1,6 +1,8 @@
 package com.example.administrator.gc.ui.activity;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
@@ -8,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +47,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/4/8.
@@ -219,7 +223,7 @@ public class PostDetailActivity extends BaseActivity {
             } else {
                 vh.picRecyclerView.setVisibility(View.GONE);
             }
-            vh.itemBodyContentTextView.setText(content);
+            supportCopyData(vh, content);
             PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
             vh.imageSrc.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -233,6 +237,50 @@ public class PostDetailActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     PersonalHomePageActivity.newInstance(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserHomePageUrl());
+                }
+            });
+        }
+
+        private void supportCopyData(final CommentVh vh, String content) {
+            vh.itemBodyContentTextView.setText(content);
+            vh.itemBodyContentTextView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
+                    ClipData clipData = ClipData.newPlainText("copy", vh.itemBodyContentTextView.getText().toString().trim());
+                    clipboardManager.setPrimaryClip(clipData);
+
+                    Observable.create(new Observable.OnSubscribe<Void>() {
+                        @Override
+                        public void call(Subscriber<? super Void> subscriber) {
+                            subscriber.onNext(null);
+                            subscriber.onError(null);
+                            subscriber.onCompleted();
+                        }
+                    })
+                            .subscribeOn(Schedulers.io())
+//                            .delay(2000, TimeUnit.SECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<Void>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    e.printStackTrace();
+                                }
+
+                                @Override
+                                public void onNext(Void aVoid) {
+                                    ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
+                                    ClipData.Item paseData = clipboardManager.getPrimaryClip().getItemAt(0);
+                                    String paseString = (String) paseData.getText();
+                                    Log.d("pase", "pasteData: " + paseString);
+                                }
+                            });
+                    return true;
                 }
             });
         }
@@ -259,12 +307,57 @@ public class PostDetailActivity extends BaseActivity {
 
             convertArticle(data, vh);
 
+            supportCopyData(vh);
+
             handleFollowButton(data, vh);
 
             vh.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PersonalHomePageActivity.newInstance(PostDetailActivity.this, data.getValue().getHeader().getUserHomePageUrl());
+                }
+            });
+        }
+
+        private void supportCopyData(final HeaderVh vh) {
+            vh.itemBodyContentTextView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
+                    ClipData clipData = ClipData.newPlainText("copy", vh.itemBodyContentTextView.getText().toString().trim());
+                    clipboardManager.setPrimaryClip(clipData);
+
+                    Observable.create(new Observable.OnSubscribe<Void>() {
+                        @Override
+                        public void call(Subscriber<? super Void> subscriber) {
+                            subscriber.onNext(null);
+                            subscriber.onError(null);
+                            subscriber.onCompleted();
+                        }
+                    })
+                            .subscribeOn(Schedulers.io())
+//                            .delay(2000, TimeUnit.SECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<Void>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    e.printStackTrace();
+                                }
+
+                                @Override
+                                public void onNext(Void aVoid) {
+                                    ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
+                                    ClipData.Item paseData = clipboardManager.getPrimaryClip().getItemAt(0);
+                                    String paseString = (String) paseData.getText();
+                                    Log.d("pase", "pasteData: " + paseString);
+                                }
+                            });
+                    return true;
                 }
             });
         }
