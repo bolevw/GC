@@ -3,15 +3,11 @@ package com.example.administrator.gc.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.text.TextUtils;
-import android.view.View;
 import android.widget.VideoView;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.presenter.activity.VideoPresenter;
-import com.example.administrator.gc.utils.ToastUtils;
 
 /**
  * Created by Administrator on 2016/4/27.
@@ -33,7 +29,7 @@ public class VideoActivity extends BaseActivity {
     protected void initView() {
         setContentView(R.layout.activity_video);
 
-        Intent intent = getIntent();
+     /*   Intent intent = getIntent();
         if (TextUtils.isEmpty(intent.getStringExtra("url"))) {
             ToastUtils.showNormalToast("视频地址错误！");
             finish();
@@ -45,7 +41,7 @@ public class VideoActivity extends BaseActivity {
             public void onClick(View v) {
                 videoView.stopPlayback();
             }
-        });
+        });*/
     }
 
     @Override
@@ -57,21 +53,21 @@ public class VideoActivity extends BaseActivity {
 /*        TextView text = (TextView) findViewById(R.id.show);
         text.setText(s);
         text.setMovementMethod(ScrollingMovementMethod.getInstance());*/
-        Uri uri = Uri.parse(s);
+     /*   Uri uri = Uri.parse(s);
         videoView.setVideoURI(uri);
         videoView.start();
-
+*/
     }
 
     @Override
     protected void bind() {
-        this.presenter = new VideoPresenter();
+  /*      this.presenter = new VideoPresenter();
         this.presenter.bind(this);
         this.presenter.getData(url);
-    }
+  */  }
 
     @Override
     protected void unBind() {
-        this.presenter.unBind();
+//        this.presenter.unBind();
     }
 }

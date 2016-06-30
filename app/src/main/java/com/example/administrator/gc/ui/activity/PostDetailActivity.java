@@ -40,6 +40,7 @@ import com.example.administrator.gc.widget.RecyclerViewCutLine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -258,13 +259,15 @@ public class PostDetailActivity extends BaseActivity {
                             subscriber.onCompleted();
                         }
                     })
-                            .subscribeOn(Schedulers.io())
-//                            .delay(2000, TimeUnit.SECONDS)
-                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.newThread())
+                            .delay(50000, TimeUnit.MILLISECONDS)
                             .subscribe(new Subscriber<Void>() {
                                 @Override
                                 public void onCompleted() {
-
+                                    ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
+                                    ClipData.Item paseData = clipboardManager.getPrimaryClip().getItemAt(0);
+                                    String paseString = (String) paseData.getText();
+                                    Log.d("pase", "pasteData: " + paseString);
                                 }
 
                                 @Override
