@@ -36,7 +36,6 @@
                 android:layout_weight="1"
                 android:hint="评论"
                 android:inputType="text"
-                android:paddingRight="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_vertical_margin"
                 android:textColorHint="@color/text_hint_color" />
 
