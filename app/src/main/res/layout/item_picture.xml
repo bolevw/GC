@@ -17,6 +17,7 @@
         android:layout_gravity="right|bottom"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:scaleType="fitXY"
         android:src="@mipmap/ic_empty_favorite" />
 
 </FrameLayout>

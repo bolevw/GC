@@ -98,7 +98,7 @@ public class PhotoActivity extends BaseActivity {
 
     @OnClick(R.id.saveButton)
     void saveImage() {
-        DownLoad.downLoadImage(urls.get(startPosition), new Subscriber<String>() {
+        DownLoad.downLoadImage(PhotoActivity.this, urls.get(startPosition), new Subscriber<String>() {
             @Override
             public void onCompleted() {
 

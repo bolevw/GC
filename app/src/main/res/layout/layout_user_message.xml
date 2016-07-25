@@ -22,7 +22,8 @@
             android:id="@+id/itemUserNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
+            android:singleLine="true"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/text_normal" />
 
         <TextView
@@ -31,7 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/itemUserNameTextView"
             android:layout_marginTop="7dp"
-            android:text="1"
+            android:singleLine="true"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/text_normal" />
 
         <TextView
@@ -40,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="1"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/text_normal" />
     </RelativeLayout>
 

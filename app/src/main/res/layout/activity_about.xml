@@ -12,5 +12,5 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:padding="@dimen/activity_vertical_margin"
-        android:text="本客户端通过jsoup结合RXJAVA实现对多玩论坛网站的网页的抓取，进行显示,仅作为对Android技术的学习实践，目前注册登录功能还没有做出来，所以我的，以及关注界面暂时没有接通。\n版本号1.0" />
+        android:text="@string/app_about" />
 </LinearLayout>

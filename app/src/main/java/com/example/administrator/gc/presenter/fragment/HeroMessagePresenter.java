@@ -28,7 +28,12 @@ public class HeroMessagePresenter implements BasePresenter<HeroMessageFragment> 
             @Override
             protected void next(HeroMessageModel heroMessageModel) {
                 view.stopLoading();
-                view.setResult(heroMessageModel);
+                if (null == heroMessageModel || heroMessageModel.getContent() == null || heroMessageModel.getContent().size() == 0) {
+                    view.loadingFail();
+                } else {
+                    view.setResult(heroMessageModel);
+
+                }
             }
         });
     }

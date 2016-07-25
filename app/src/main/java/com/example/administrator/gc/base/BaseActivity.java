@@ -1,6 +1,5 @@
 package com.example.administrator.gc.base;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -11,8 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.administrator.gc.R;
@@ -124,11 +121,11 @@ public abstract class BaseActivity extends AppCompatActivity implements SlidingP
         loadingView = (LoadingView) findViewById(R.id.loadingView);
         failView = (LoadingFailView) findViewById(R.id.loadingFailView);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
+        }*/
     }
 
     public void startLoading() {

@@ -45,6 +45,8 @@ public abstract class BaseSub<T, V> extends Subscriber<T> {
                 }
             }
             error(message);
+        } else{
+            error("view is null");
         }
     }
 

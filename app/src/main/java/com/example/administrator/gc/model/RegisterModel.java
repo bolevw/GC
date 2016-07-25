@@ -1,12 +1,13 @@
 package com.example.administrator.gc.model;
 
+import com.example.administrator.gc.base.BaseModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by liubo on 2016/5/17.
  */
-public class RegisterModel {
+public class RegisterModel extends BaseModel{
     @SerializedName("username")
     @Expose
     private String username;

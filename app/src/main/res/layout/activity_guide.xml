@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:background="?attr/selectableItemBackground"
-            android:text="skip" />
+            android:text="@string/skip" />
     </FrameLayout>
 
 </LinearLayout>

@@ -1,9 +1,11 @@
 package com.example.administrator.gc.model;
 
+import com.example.administrator.gc.base.BaseModel;
+
 /**
  * Created by liubo on 2016/6/6.
  */
-public class JokeModel {
+public class JokeModel extends BaseModel{
     private String content;
 
     private String hashId;

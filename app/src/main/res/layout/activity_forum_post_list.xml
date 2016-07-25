@@ -8,7 +8,7 @@
     <include layout="@layout/global_include_toolbar_with_loadingview" />
 
 
-    <com.example.administrator.gc.widget.LoadMoreRecyclerView.LoadMoreRecyclerView
+    <RecyclerView
         android:id="@+id/forumPostRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

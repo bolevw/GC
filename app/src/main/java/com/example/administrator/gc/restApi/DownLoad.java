@@ -1,5 +1,6 @@
 package com.example.administrator.gc.restApi;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -11,12 +12,9 @@ import com.example.administrator.gc.base.BaseApplication;
 import com.example.administrator.gc.restApi.Converter.ScalarsConverterFactory;
 import com.example.administrator.gc.restApi.service.DownLoadService;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,7 +31,7 @@ import rx.schedulers.Schedulers;
  * Created by liubo on 2016/5/20.
  */
 public class DownLoad {
-    public static void downLoadImage(final String url, Subscriber<String> sub) {
+    public static void downLoadImage(final Context context, final String url, final Subscriber<String> sub) {
 
       /*
         Retrofit retrofit = new Retrofit.Builder()
@@ -79,8 +77,22 @@ public class DownLoad {
                     connection.setConnectTimeout(5 * 1000);
                     connection.setReadTimeout(5 * 1000);
                     InputStream inputStream = connection.getInputStream();
+                    String imageName = context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + System.currentTimeMillis() + "_temp.jpeg";
 
-                    File filePath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
+                    File newFile = new File(imageName);
+                    if (newFile.exists()) {
+                        newFile.delete();
+                    }
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    FileOutputStream fosm = new FileOutputStream(newFile);
+                    if (bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fosm)) {
+                        fosm.flush();
+                        fosm.close();
+                    }
+                    subscriber.onNext(newFile.getPath());
+                    subscriber.onCompleted();
+
+                    /*File filePath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
                     Log.d("filePath", filePath.getPath());
                     if (!filePath.exists()) {
                         filePath.mkdir();
@@ -118,11 +130,11 @@ public class DownLoad {
                     inputStream.close();
                     fos.flush();
                     fos.close();
-                    bm.recycle();
+                    bm.recycle();*/
                 } catch (MalformedURLException e) {
                     subscriber.onError(e);
                     e.printStackTrace();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     subscriber.onError(e);
                     e.printStackTrace();
                 }

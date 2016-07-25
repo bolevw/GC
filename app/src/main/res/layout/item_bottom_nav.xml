@@ -11,8 +11,7 @@
         android:id="@+id/itemNavBottomImageView"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginTop="6dp"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_marginTop="6dp" />
 
     <TextView
         android:id="@+id/itemNavBottomTextView"
@@ -21,7 +20,6 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="6dp"
-        android:text="11"
-        android:textSize="12sp" />
+        android:textSize="@dimen/text_small" />
 
 </LinearLayout>

@@ -1,11 +1,13 @@
 package com.example.administrator.gc.model;
 
+import com.example.administrator.gc.base.BaseModel;
+
 import java.util.List;
 
 /**
  * Created by liubo on 2016/5/19.
  */
-public class TransformContentModel {
+public class TransformContentModel extends BaseModel{
     private String article;
     private List<String> picUrls;
 

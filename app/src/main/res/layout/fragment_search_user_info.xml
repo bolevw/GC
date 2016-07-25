@@ -18,15 +18,19 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="选择大区"/>
+            android:text="选择大区" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/userIdEditText"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
+            android:hint="召唤师名称"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp" />
+            android:paddingRight="5dp"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/text_hint_color"
+            android:textSize="@dimen/text_normal" />
     </LinearLayout>
 
     <android.support.v7.widget.AppCompatButton
@@ -105,17 +109,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/searchButton"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <com.example.administrator.gc.widget.LoadingFailView
         android:id="@+id/loadingFailView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/searchButton"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </RelativeLayout>

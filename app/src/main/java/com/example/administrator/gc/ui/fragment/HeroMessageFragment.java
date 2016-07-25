@@ -49,7 +49,7 @@ public class HeroMessageFragment extends BaseFragment implements AreaListFragmen
     private String serverName = DEFAULT_SERVER_NAME;
     private String playerName;
 
-    HeroMessagePresenter presenter;
+    private HeroMessagePresenter presenter;
 
 
     @OnClick(R.id.lolAreaButton)

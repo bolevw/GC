@@ -18,6 +18,7 @@ import com.example.administrator.gc.widget.LoadingView;
 public abstract class BaseFragment extends Fragment {
 
     public static final String TAG = BaseFragment.class.getSimpleName();
+
     private LoadingView loadingView;
     private BaseActivity activity;
     protected Cache cache = Cache.getInstance(BaseApplication.getContext());

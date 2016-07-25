@@ -188,8 +188,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:visibility="gone">
+                android:paddingRight="@dimen/activity_horizontal_margin">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -202,7 +201,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_vertical_margin"
-                    android:text="test"
+                    android:text="设置"
                     android:textSize="@dimen/text_normal" />
 
                 <ImageView

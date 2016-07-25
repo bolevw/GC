@@ -1,5 +1,7 @@
 package com.example.administrator.gc.presenter.fragment;
 
+import android.util.Log;
+
 import com.example.administrator.gc.base.BasePresenter;
 import com.example.administrator.gc.base.BaseSub;
 import com.example.administrator.gc.model.RecordModel;
@@ -22,13 +24,18 @@ public class RecordPresenter implements BasePresenter<RecordFragment> {
         LoLApi.getRecord(serverName, username, new BaseSub<RecordModel, RecordFragment>(view) {
             @Override
             protected void error(String e) {
+                Log.e("error", e);
                 view.loadingFail();
             }
 
             @Override
             protected void next(RecordModel recordModel) {
                 view.stopLoading();
-                view.setResult(recordModel);
+                if (null == recordModel) {
+                    view.loadingFail();
+                } else {
+                    view.setResult(recordModel);
+                }
             }
         });
     }

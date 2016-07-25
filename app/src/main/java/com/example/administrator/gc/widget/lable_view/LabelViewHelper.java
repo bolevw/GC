@@ -128,6 +128,6 @@ public class LabelViewHelper {
     }
 
     private int dip2Px(float dip) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, dip, context.getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, context.getResources().getDisplayMetrics());
     }
 }

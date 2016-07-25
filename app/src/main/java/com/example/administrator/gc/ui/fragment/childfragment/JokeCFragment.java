@@ -63,7 +63,10 @@ public class JokeCFragment extends BaseFragment {
         presenter.getData(index);
     }
 
-    public void setViewData(JokeResponse response) {
+    public void setViewData(JokeResponse response, int index) {
+        if (index == 1) {
+            viewData.clear();
+        }
         viewData.addAll(response.getResult());
         recyclerView.getAdapter().notifyDataSetChanged();
     }

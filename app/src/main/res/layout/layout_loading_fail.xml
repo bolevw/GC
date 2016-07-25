@@ -9,6 +9,7 @@
     <ImageView
         android:layout_width="90dp"
         android:layout_height="90dp"
+        android:scaleType="fitXY"
         android:src="@mipmap/ic_load_fail" />
 
     <TextView
@@ -16,13 +17,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="加载失败。。。。" />
+        android:text="加载失败。。" />
 
     <Button
         android:id="@+id/reLoadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="reLoad" />
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_click_orange"
+        android:text="重新加载"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_normal" />
 
 </LinearLayout>

@@ -16,7 +16,7 @@
         android:paddingRight="@dimen/activity_vertical_margin"
         android:paddingTop="4dp"
         android:text="test"
-        android:textColor="@color/black"
+        android:textColor="@color/text_color"
         android:textSize="@dimen/text_title" />
 
     <TextView

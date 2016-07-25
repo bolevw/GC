@@ -1,11 +1,13 @@
 package com.example.administrator.gc.model;
 
+import com.example.administrator.gc.base.BaseModel;
+
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/3/24.
  */
-public class PreviewGroup {
+public class PreviewGroup extends BaseModel{
 
     private String name;
     private String urls;

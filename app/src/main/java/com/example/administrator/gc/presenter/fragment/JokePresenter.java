@@ -18,7 +18,7 @@ public class JokePresenter implements BasePresenter<JokeCFragment> {
         this.view = view;
     }
 
-    public void getData(int index) {
+    public void getData(final int index) {
         JokeApi.getJoke("1418816972", index, new Subscriber<JokeResponse>() {
             @Override
             public void onCompleted() {
@@ -38,7 +38,7 @@ public class JokePresenter implements BasePresenter<JokeCFragment> {
                 if (view != null) {
                     view.stopLoading();
                     view.stopRefresh();
-                    view.setViewData(jokeResponse);
+                    view.setViewData(jokeResponse, index);
                 }
             }
         });

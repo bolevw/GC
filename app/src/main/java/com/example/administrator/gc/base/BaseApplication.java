@@ -35,4 +35,10 @@ public class BaseApplication extends Application {
         Log.d("DEVICE_MESSAGE", Build.DEVICE + "-" + Build.DISPLAY + "-" + new Date(Build.TIME));
         refWatcher = LeakCanary.install(this);
     }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Log.i("lowMemory", "onLowMemory");
+    }
 }
