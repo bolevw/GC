@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.cache.Cache;
@@ -45,6 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SlidingP
      * 滑动关闭页面
      */
     private void iniSwipeBack() {
+        int height = getWindowManager().getDefaultDisplay().getHeight();
         if (isSupportSwipeBack()) {
             SlidingPaneLayout layout = new SlidingPaneLayout(this);
             try {
@@ -59,16 +61,17 @@ public abstract class BaseActivity extends AppCompatActivity implements SlidingP
             layout.setPanelSlideListener(this);
             layout.setSliderFadeColor(ContextCompat.getColor(this, android.R.color.transparent));
 
-            View leftView = new View(this);
+            FrameLayout leftView = new FrameLayout(this);
             leftView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             layout.addView(leftView, 0);
             leftView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
 
-            ViewGroup diView = (ViewGroup) getWindow().getDecorView();
+            final ViewGroup diView = (ViewGroup) getWindow().getDecorView();
             ViewGroup childView = (ViewGroup) diView.getChildAt(0);
             childView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
-            diView.removeView(childView);
+            diView.removeAllViews();
             diView.addView(layout);
+            childView.setLayoutParams(new SlidingPaneLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
             layout.addView(childView, 1);
         }
     }
