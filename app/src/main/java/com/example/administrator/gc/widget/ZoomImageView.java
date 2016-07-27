@@ -22,6 +22,7 @@ public class ZoomImageView extends ImageView implements ViewTreeObserver.OnGloba
     private float mMaxScale;
     private Matrix mMatrix;
     private ScaleGestureDetector scaleGestureDetector;
+    private Drawable drawable;
 
     public ZoomImageView(Context context) {
         this(context, null);
@@ -47,8 +48,7 @@ public class ZoomImageView extends ImageView implements ViewTreeObserver.OnGloba
         if (!get) {
             int width = getWidth();
             int height = getHeight();
-
-            Drawable drawable = getDrawable();
+            drawable = getDrawable();
             int dw = drawable.getIntrinsicWidth();
             int dh = drawable.getIntrinsicHeight();
 

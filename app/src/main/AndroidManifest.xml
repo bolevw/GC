@@ -86,7 +86,6 @@
 
         <activity
             android:name=".ui.activity.LoLActivity"
-
             android:screenOrientation="portrait" />
     </application>
 

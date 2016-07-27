@@ -1,6 +1,7 @@
 package com.example.administrator.gc.ui.activity;
 
 import android.content.Intent;
+import android.util.Log;
 
 import com.android.debug.hv.ViewServer;
 import com.example.administrator.gc.R;
@@ -11,6 +12,7 @@ import com.example.administrator.gc.ui.fragment.ForumFragment;
 import com.example.administrator.gc.ui.fragment.IndexHomeFragment;
 import com.example.administrator.gc.ui.fragment.MineFragment;
 import com.example.administrator.gc.utils.FragmentUtils;
+import com.example.administrator.gc.utils.GetIPUtils;
 import com.example.administrator.gc.utils.ToastUtils;
 import com.example.administrator.gc.widget.BottomNav;
 
@@ -28,6 +30,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         bottomNav = (BottomNav) findViewById(R.id.mainBottomNav);
         switchFragment(0);
+        String ip = GetIPUtils.getIpAddress(false);
+        Log.d("ip", ip);
+
     }
 
     @Override
@@ -78,7 +83,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ViewServer.get(this).setFocusedWindow(this);
+//        ViewServer.get(this).setFocusedWindow(this);
     }
 
     @Override
@@ -87,7 +92,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void unBind() {
-        ViewServer.get(this).removeWindow(this);
+//        ViewServer.get(this).removeWindow(this);
     }
 
     private long times;

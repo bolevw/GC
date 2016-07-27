@@ -18,7 +18,7 @@ public class Cache {
     }
 
     private Cache(Context context) {
-        sharedPreferences = context.getSharedPreferences("Gc", Context.MODE_PRIVATE);
+        sharedPreferences = context.getApplicationContext().getSharedPreferences("Gc", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
