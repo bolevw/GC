@@ -22,4 +22,10 @@ public class GankApi {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(sub);
     }
+
+
+    public static void getComment() {
+        /*HttpConnection connection = new HttpConnection.Builder()
+                .build();*/
+    }
 }

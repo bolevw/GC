@@ -40,6 +40,8 @@ public abstract class BaseActivity extends AppCompatActivity implements SlidingP
         initView();
         setListener();
         bind();
+        /*  getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);*/
     }
 
     /**

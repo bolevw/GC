@@ -30,22 +30,21 @@ public class LoadingView extends ViewGroup {
 
     private static final int DEFAULT_COUNT = 4;
 
-    private int moveSpeed = 100;
-
     private ObjectAnimator moveAnim;
+
     private ObjectAnimator alphaAnim;
     private AnimatorSet set;
 
     private List<Integer> roadList = new ArrayList<>();
+    private int moveSpeed = 100;
     private int i = 1;
     private int pointCount;
+    private String loadingText = "正在加载...";
+    private boolean isAnim = false;
 
     private ImageView moveView;
+
     private WeakReference<Context> weakContext;
-
-    private String loadingText = "正在加载...";
-
-    private boolean isAnim = false;
 
     private static Handler handler = new Handler();
 
@@ -126,7 +125,7 @@ public class LoadingView extends ViewGroup {
         @Override
         public void run() {
             start();
-            removeCallbacks(this);
+            removeCallbacks(ru);
             handler.postDelayed(ru, moveSpeed * (getChildCount() - 2));
         }
     };

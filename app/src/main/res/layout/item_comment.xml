@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <ImageView
+            android:id="@+id/avatarImageView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:scaleType="fitXY"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:singleLine="true"
+            android:textColor="@color/orange_500"
+            android:textSize="@dimen/text_normal"
+            tools:text="username" />
+
+        <TextView
+            android:id="@+id/admireNoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:drawableLeft="@mipmap/ic_admire"
+            android:gravity="center_vertical"
+            android:text="sss"
+            android:drawablePadding="4dp"
+            android:textColor="@color/text_hint_color"
+            android:textSize="@dimen/text_small" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/commentTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lineSpacingExtra="3dp"
+        android:maxLines="8"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:paddingTop="4dp"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_small" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:paddingLeft="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:id="@+id/commentTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_hint_color"
+            android:textSize="@dimen/text_small"
+            tools:text="sflfjdfjdslfdj" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="@drawable/orange_circle" />
+
+        <TextView
+            android:id="@+id/reportButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:paddingRight="@dimen/activity_vertical_margin"
+            android:text="回复"
+            android:textColor="@color/text_hint_color"
+            android:textSize="@dimen/text_small" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

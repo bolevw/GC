@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:windowAnimationStyle">@style/base_activity_animation</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -43,10 +44,20 @@
         <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>
         <item name="android:activityCloseEnterAnimation">@anim/activity_close_enter</item>
         <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
+     <!--   <item name="android:windowEnterTransition">@transition/explode</item>
+        <item name="android:windowExitTransition">@transition/explode</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/explode</item>
+        <item name="android:windowSharedElementExitTransition">@transition/explode</item>-->
     </style>
 
     <declare-styleable name="GridView">
         <attr name="column" format="integer" />
     </declare-styleable>
 
+    <style name="Fullscreen_Dialog" parent="Base.V7.Theme.AppCompat.Dialog">
+        <item name="android:windowMinWidthMinor">100%</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
 </resources>

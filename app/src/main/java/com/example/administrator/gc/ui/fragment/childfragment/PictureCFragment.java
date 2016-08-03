@@ -3,19 +3,22 @@ package com.example.administrator.gc.ui.fragment.childfragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.administrator.gc.R;
+import com.example.administrator.gc.base.BaseApplication;
 import com.example.administrator.gc.base.BaseFragment;
 import com.example.administrator.gc.model.PictureListModel;
 import com.example.administrator.gc.model.PictureModel;
 import com.example.administrator.gc.presenter.fragment.PicturePresenter;
-import com.example.administrator.gc.utils.PicassoUtils;
+import com.example.administrator.gc.ui.activity.PictureCommentActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ public class PictureCFragment extends BaseFragment {
     private PicturePresenter presenter;
     private List<PictureModel> viewData = new ArrayList<>();
     private int index = 1;
+    private int imageHeight = -1;
 
     @BindView(R.id.pictureSwipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
@@ -48,7 +52,7 @@ public class PictureCFragment extends BaseFragment {
 
     @Override
     protected void initView(View v) {
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
         recyclerView.setAdapter(new RVAdapter());
     }
 
@@ -66,8 +70,18 @@ public class PictureCFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
-
+        recyclerView.addOnScrollListener(onScrollListener);
     }
+
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            int position = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+
+            Log.d("dy", String.valueOf(dy));
+
+        }
+    };
 
     @Override
     protected void unbind() {
@@ -82,9 +96,25 @@ public class PictureCFragment extends BaseFragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            VH vh = (VH) holder;
-            PicassoUtils.normalShowImage(getBaseActivity(), viewData.get(position).url, vh.picture);
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+            final VH vh = (VH) holder;
+            Picasso.with(BaseApplication.getContext().getApplicationContext())
+                    .load(viewData.get(position).url)
+                    .into(vh.picture);
+
+            vh.picture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PictureCommentActivity.enter(getBaseActivity(), viewData.get(position).url, vh.picture);
+                }
+            });
+
+            vh.favourite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
 
         @Override
