@@ -10,7 +10,7 @@ public class Urls {
 
     public static final String GANK_BASE_URL = "http://gank.io/api/";
 
-    public static final String JOKE_BASE_URL = " http://api.avatardata.cn/Joke/";
+    public static final String JOKE_BASE_URL = "http://api.avatardata.cn/Joke/";
 
     public static final String JOKE_KEY = "a343b8c96dc44d1da30f59f735659b30";
 

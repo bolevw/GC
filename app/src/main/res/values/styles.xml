@@ -50,10 +50,6 @@
         <item name="android:windowSharedElementExitTransition">@transition/explode</item>-->
     </style>
 
-    <declare-styleable name="GridView">
-        <attr name="column" format="integer" />
-    </declare-styleable>
-
     <style name="Fullscreen_Dialog" parent="Base.V7.Theme.AppCompat.Dialog">
         <item name="android:windowMinWidthMinor">100%</item>
         <item name="android:windowIsFloating">true</item>
