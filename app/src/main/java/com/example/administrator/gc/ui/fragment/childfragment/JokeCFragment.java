@@ -14,9 +14,10 @@ import android.widget.TextView;
 
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseFragment;
-import com.example.administrator.gc.model.JokeModel;
 import com.example.administrator.gc.model.JokeResponse;
 import com.example.administrator.gc.presenter.fragment.JokePresenter;
+import com.example.administrator.gc.widget.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +35,14 @@ public class JokeCFragment extends BaseFragment {
 
     private JokePresenter presenter;
     private int index = 1;
+    private boolean isLoading = false;
 
     @BindView(R.id.jokeRecyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.jokeSwipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
 
-    private List<JokeModel> viewData = new ArrayList<>();
+    private List<JokeResponse.ShowapiResBodyBean.JokeBean.ContentlistBean> viewData = new ArrayList<>();
 
     @Nullable
     @Override
@@ -67,13 +69,25 @@ public class JokeCFragment extends BaseFragment {
         if (index == 1) {
             viewData.clear();
         }
-        viewData.addAll(response.getResult());
+        viewData.addAll(response.getShowapi_res_body().getPagebean().getContentlist());
         recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     @Override
     protected void setListener() {
         refreshLayout.setOnRefreshListener(onRefreshListener);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int position = manager.findLastVisibleItemPosition();
+                if (position == viewData.size() && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
+                    index++;
+                    presenter.getData(index);
+                }
+            }
+        });
     }
 
     @Override
@@ -90,7 +104,8 @@ public class JokeCFragment extends BaseFragment {
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            presenter.getData(1);
+            index = 1;
+            presenter.getData(index);
         }
     };
 
@@ -104,21 +119,30 @@ public class JokeCFragment extends BaseFragment {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new VH(LayoutInflater.from(getBaseActivity()).inflate(R.layout.item_joke, parent, false));
+            if (viewType == TYPE_NORMAL) {
+                return new VH(LayoutInflater.from(getBaseActivity()).inflate(R.layout.item_joke, parent, false));
+            } else if (viewType == TYPE_LOADING) {
+                return new FootVh(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading_more, parent, false));
+            } else {
+                return null;
+            }
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (position < viewData.size()) {
-                final JokeModel model = viewData.get(position);
+                final JokeResponse.ShowapiResBodyBean.JokeBean.ContentlistBean model = viewData.get(position);
                 VH vh = (VH) holder;
-                vh.jokeTextView.setText(model.getContent());
-                vh.dateTextView.setText(model.getUpdatetime());
+                vh.jokeTextView.setText(model.getText());
+                vh.dateTextView.setText(model.getCreate_time());
+                Picasso.with(getBaseActivity()).load(model.getProfile_image())
+                        .fit().into(vh.iv);
+                vh.nameTv.setText(model.getName());
                 vh.rootView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
                         Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.putExtra(Intent.EXTRA_TEXT, model.getContent());
+                        intent.putExtra(Intent.EXTRA_TEXT, model.getText());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.setType("text/plain"); // 纯文本
                         intent.putExtra(Intent.EXTRA_SUBJECT, "ss");
@@ -126,8 +150,11 @@ public class JokeCFragment extends BaseFragment {
                         return true;
                     }
                 });
+            } else if (position == viewData.size()) {
+                FootVh vh = (FootVh) holder;
             }
         }
+
 
         @Override
         public int getItemCount() {
@@ -148,14 +175,38 @@ public class JokeCFragment extends BaseFragment {
         private class VH extends RecyclerView.ViewHolder {
             private TextView jokeTextView;
             private TextView dateTextView;
+            private TextView nameTv;
+            private CircleImageView iv;
             private LinearLayout rootView;
 
             public VH(View itemView) {
                 super(itemView);
+                nameTv = (TextView) itemView.findViewById(R.id.name);
+                iv = (CircleImageView) itemView.findViewById(R.id.avatarIv);
                 rootView = (LinearLayout) itemView.findViewById(R.id.rootView);
                 jokeTextView = (TextView) itemView.findViewById(R.id.itemJokeTextView);
                 dateTextView = (TextView) itemView.findViewById(R.id.itemTimeTextView);
             }
         }
+
+        private class FootVh extends RecyclerView.ViewHolder {
+            private LinearLayout loadingContent;
+            private TextView noDataTextView;
+
+            public FootVh(View itemView) {
+                super(itemView);
+                loadingContent = (LinearLayout) itemView.findViewById(R.id.loadingContent);
+                noDataTextView = (TextView) itemView.findViewById(R.id.noDataTextView);
+            }
+        }
+    }
+
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
     }
 }

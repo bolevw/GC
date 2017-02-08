@@ -19,7 +19,8 @@ public class JokePresenter implements BasePresenter<JokeCFragment> {
     }
 
     public void getData(final int index) {
-        JokeApi.getJoke("1418816972", index, new Subscriber<JokeResponse>() {
+        view.setLoading(true);
+        JokeApi.getJoke(index, new Subscriber<JokeResponse>() {
             @Override
             public void onCompleted() {
 
@@ -28,6 +29,7 @@ public class JokePresenter implements BasePresenter<JokeCFragment> {
             @Override
             public void onError(Throwable e) {
                 if (view != null) {
+                    view.setLoading(false);
                     view.stopLoading();
                     view.stopRefresh();
                 }
@@ -36,6 +38,7 @@ public class JokePresenter implements BasePresenter<JokeCFragment> {
             @Override
             public void onNext(JokeResponse jokeResponse) {
                 if (view != null) {
+                    view.setLoading(false);
                     view.stopLoading();
                     view.stopRefresh();
                     view.setViewData(jokeResponse, index);

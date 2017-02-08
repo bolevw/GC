@@ -6,7 +6,12 @@ import com.example.administrator.gc.base.BasePresenter;
 import com.example.administrator.gc.model.IndexModel;
 import com.example.administrator.gc.ui.fragment.childfragment.RecommendCFragment;
 
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/3/22.
@@ -25,7 +30,6 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
         IndexApi.getIndex(Urls.INDEX_URL, new Subscriber<IndexModel>() {
             @Override
             public void onCompleted() {
-
             }
 
             @Override
@@ -47,6 +51,28 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
                 }
             }
         });
+    }
+
+    public void startAutoScroll() {
+        Observable.interval(2, 4, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Long>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Long aLong) {
+
+                    }
+                });
     }
 
     @Override

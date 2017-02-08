@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="horizontal"
         android:paddingBottom="4dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -21,41 +21,40 @@
         android:paddingTop="4dp">
 
         <View
-            android:layout_width="3dp"
+            android:layout_width="2dp"
             android:layout_height="@dimen/text_normal"
             android:layout_marginRight="4dp"
             android:background="@drawable/vertical_bar" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            tools:src="@mipmap/ic_icon" />
 
         <TextView
             android:id="@+id/groupName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/text_normal"
-            tools:text="yinxiong liangmeng" />
+            tools:text="test" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|end"
-            android:layout_weight="1"
-            android:gravity="right|end"
-            tools:text="more" />
+        <View
+            android:layout_width="2dp"
+            android:layout_height="@dimen/text_normal"
+            android:layout_marginLeft="4dp"
 
-        <ImageView
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:src="@android:drawable/ic_menu_more" />
-
+            android:background="@drawable/vertical_bar" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:background="@color/cut_line" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:splitMotionEvents="false">
 
@@ -115,6 +114,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:orientation="horizontal"
         android:splitMotionEvents="false">
 
@@ -170,4 +170,5 @@
                 tools:text="name" />
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

@@ -15,3 +15,5 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class * extends com.example.administrator.gc.base.BaseActivity
+-keep class * extends com.example.administrator.gc.base.BaseFragment

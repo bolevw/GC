@@ -3,11 +3,14 @@ package com.example.administrator.gc.widget;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.administrator.gc.R;
 
@@ -16,11 +19,12 @@ import com.example.administrator.gc.R;
  */
 public class VPIndicator extends LinearLayout {
 
-    private int count;
+
     private Context context;
 
     private Animator animIn;
     private Animator animOut;
+    private String[] titles;
 
     public VPIndicator(Context context) {
         super(context);
@@ -31,8 +35,8 @@ public class VPIndicator extends LinearLayout {
         this.context = context;
         setOrientation(HORIZONTAL);
         setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
-        setPadding(0, 0, dip2px(16), 0);
-
+        setPadding(dip2px(16), 0, dip2px(16), 0);
+        setBackgroundResource(R.color.percent50Black);
         animIn = AnimatorInflater.loadAnimator(context, R.animator.vp_scale_with_alpha);
         animIn.setDuration(300);
 
@@ -41,17 +45,20 @@ public class VPIndicator extends LinearLayout {
         animOut.setDuration(300);
     }
 
-
-    public int getCount() {
-        return count;
-    }
-
     public void setCount(int count) {
-        this.count = count;
         createIndicator(count);
     }
 
+    public void setTitles(String[] titles) {
+        this.titles = titles;
+        if (titles.length > 0) {
+            TextView title = (TextView) getChildAt(getChildCount() - 1);
+            title.setText(titles[0]);
+        }
+    }
+
     private void createIndicator(int count) {
+
         for (int i = 0; i < count; i++) {
             View view = new View(context);
             view.setBackgroundResource(R.drawable.white_circle);
@@ -60,6 +67,14 @@ public class VPIndicator extends LinearLayout {
             out(view);
             addView(view, lp);
         }
+
+        TextView title = new TextView(context);
+        title.setTextColor(Color.WHITE);
+        title.setGravity(Gravity.CENTER);
+
+        LayoutParams titleLp = new LayoutParams(dip2px(0), ViewGroup.LayoutParams.WRAP_CONTENT);
+        titleLp.weight = 1;
+        addView(title, titleLp);
 
         View v = getChildAt(0);
         in(v);
@@ -74,6 +89,10 @@ public class VPIndicator extends LinearLayout {
 
         View v = getChildAt(currentPosition);
         View v2 = getChildAt(position);
+        if (titles.length > 0) {
+            TextView title = (TextView) getChildAt(getChildCount() - 1);
+            title.setText(titles[position]);
+        }
         currentPosition = position;
         out(v);
         in(v2);

@@ -8,14 +8,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,8 +62,7 @@ public class RecommendCFragment extends BaseFragment {
     private ClickGetMoreListener getMoreListener;
 
 
-    private int[] colors = new int[]{R.mipmap.ic_banner_01, R.mipmap.ic_banner_02, R.mipmap.ic_banner_03,
-            R.mipmap.ic_banner_04, R.mipmap.ic_banner_05};
+    private int[] colors = new int[]{R.mipmap.ic_banner_01, R.mipmap.ic_banner_02, R.mipmap.ic_banner_03, R.mipmap.ic_banner_04, R.mipmap.ic_banner_05};
     private int currentPosition = 0;
 
     private String[] lolTitles = new String[]{"玩家信息查询", "战绩查询", "常用英雄", "英雄数据", "玩家段位", "段位预测"};
@@ -77,8 +73,7 @@ public class RecommendCFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.child_fragment_recommond, container, false);
-        return v;
+        return inflater.inflate(R.layout.child_fragment_recommond, container, false);
     }
 
     @Override
@@ -242,6 +237,7 @@ public class RecommendCFragment extends BaseFragment {
                 bannerViewPager = (ViewPager) itemView.findViewById(R.id.bannerViewPager);
                 vpIndicator = (VPIndicator) itemView.findViewById(R.id.bannerVpIndicator);
                 vpIndicator.setCount(colors.length);
+                vpIndicator.setTitles(lolTitles);
                 bannerViewPager.setAdapter(new ViewPagerAdapter());
                 bannerViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                     @Override
@@ -317,7 +313,6 @@ public class RecommendCFragment extends BaseFragment {
                     Vh vh = (Vh) holder;
                     if (position < hotList.size()) {
                         final HotRankingModel model = hotList.get(position);
-                        Log.d("urls", model.getUrls());
                         vh.textView.setText(model.getName());
                         PicassoUtils.normalShowImage(context, model.getImageSrc(), vh.imageView);
                         vh.content.setOnClickListener(new View.OnClickListener() {
@@ -327,8 +322,8 @@ public class RecommendCFragment extends BaseFragment {
                             }
                         });
                     } else if (position == hotList.size()) {
-                        vh.textView.setText("get more");
-                        vh.imageView.setImageResource(android.R.drawable.ic_menu_more);
+                        vh.textView.setText("更多");
+                        vh.imageView.setImageResource(R.mipmap.ic_more);
                         vh.content.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -421,11 +416,8 @@ public class RecommendCFragment extends BaseFragment {
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            TextView view = new TextView(context);
+            View view = new View(context);
             view.setBackgroundResource(colors[position]);
-            view.setText(lolTitles[position]);
-            view.setTextColor(ContextCompat.getColor(getBaseActivity(), R.color.white));
-            view.setTextSize(getResources().getDimensionPixelSize(R.dimen.text_title));
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -434,7 +426,6 @@ public class RecommendCFragment extends BaseFragment {
                     startActivity(intent);
                 }
             });
-            view.setGravity(Gravity.CENTER);
             container.addView(view);
             return view;
         }
@@ -469,7 +460,7 @@ public class RecommendCFragment extends BaseFragment {
                 bannerViewPager.setCurrentItem(currentPosition);
                 currentPosition++;
 
-                handler.removeMessages(1);
+                handler.removeCallbacksAndMessages(null);
 
                 Message message = handler.obtainMessage();
                 message.what = 1;
@@ -478,10 +469,6 @@ public class RecommendCFragment extends BaseFragment {
         }
     };
 
-    public ClickGetMoreListener getGetMoreListener() {
-        return getMoreListener;
-    }
-
     public void setGetMoreListener(ClickGetMoreListener getMoreListener) {
         this.getMoreListener = getMoreListener;
     }
@@ -489,5 +476,4 @@ public class RecommendCFragment extends BaseFragment {
     public interface ClickGetMoreListener {
         void click();
     }
-
 }

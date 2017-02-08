@@ -46,6 +46,7 @@ public class HeroMessageFragment extends BaseFragment implements AreaListFragmen
 
     private HeroMessageModel viewData = new HeroMessageModel();
     private AreaListFragment fragment = AreaListFragment.newInstance();
+
     private String serverName = DEFAULT_SERVER_NAME;
     private String playerName;
 

@@ -115,7 +115,7 @@ public class ForumListActivity extends BaseActivity {
 
         @Override
         public int getItemCount() {
-            return viewData.size() == 0 ? 1 : viewData.size() + 1;
+            return viewData.size() + 1;
         }
 
         private class VH extends RecyclerView.ViewHolder {

@@ -19,6 +19,7 @@ public class PicturePresenter implements BasePresenter<PictureCFragment> {
     }
 
     public void getPicture(final Integer index) {
+        view.setLoading(true);
         GankApi.getPicture(index, new Subscriber<PictureListModel>() {
             @Override
             public void onCompleted() {
@@ -29,6 +30,7 @@ public class PicturePresenter implements BasePresenter<PictureCFragment> {
             public void onError(Throwable e) {
                 if (view != null) {
                     view.stopLoading();
+                    view.setLoading(false);
                 }
             }
 
@@ -37,6 +39,7 @@ public class PicturePresenter implements BasePresenter<PictureCFragment> {
                 if (view != null) {
                     view.stopLoading();
                     view.notify(model);
+                    view.setLoading(false);
                 }
             }
         });

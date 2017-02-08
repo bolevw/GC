@@ -9,8 +9,18 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
         android:padding="@dimen/activity_vertical_margin"
-        android:text="@string/app_about" />
+        android:text="@string/app_about"
+        android:visibility="gone" />
+
+    <com.example.administrator.gc.widget.ScrollButton
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

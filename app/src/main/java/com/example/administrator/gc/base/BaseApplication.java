@@ -5,9 +5,6 @@ import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
-
 import java.util.Date;
 
 /**
@@ -16,7 +13,7 @@ import java.util.Date;
 public class BaseApplication extends Application {
 
     private static Context applicationContext;
-    private RefWatcher refWatcher;
+//    private RefWatcher refWatcher;
 
 
     public static Context getContext() {
@@ -33,7 +30,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Log.d("DEVICE_MESSAGE", Build.DEVICE + "-" + Build.DISPLAY + "-" + new Date(Build.TIME));
-        refWatcher = LeakCanary.install(this);
+//        refWatcher = LeakCanary.install(this);
     }
 
     @Override
