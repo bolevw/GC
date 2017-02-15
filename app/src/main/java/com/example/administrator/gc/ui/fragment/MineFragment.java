@@ -65,7 +65,7 @@ public class MineFragment extends BaseFragment {
 
         if (isLogin) {
             loginButton.setText("退出登录");
-            PicassoUtils.normalShowImage(getBaseActivity(), cache.readStringValue("avatar", "default"), avatarImageView);
+            PicassoUtils.normalShowImage(cache.readStringValue("avatar", "default"), avatarImageView);
             usernameTextView.setText(cache.readStringValue("username", ""));
         } else {
             loginButton.setText("登录");
@@ -130,7 +130,7 @@ public class MineFragment extends BaseFragment {
         isLogin = cache.readBooleanValue("isLogin", false);
         if (isLogin) {
             loginButton.setText("退出登录");
-            PicassoUtils.normalShowImage(getBaseActivity(), cache.readStringValue("avatar", "default"), avatarImageView);
+            PicassoUtils.normalShowImage(cache.readStringValue("avatar", "default"), avatarImageView);
             usernameTextView.setText(cache.readStringValue("username", ""));
         } else {
             avatarImageView.setImageResource(R.mipmap.ic_load_fail);

@@ -192,10 +192,10 @@ public class RecommendCFragment extends BaseFragment {
                     normalVh.name_2.setText(itemList.get(1).getName());
                     normalVh.name_3.setText(itemList.get(2).getName());
                     normalVh.name_4.setText(itemList.get(3).getName());
-                    PicassoUtils.normalShowImage(context, itemList.get(0).getImageSrc(), normalVh.image_1);
-                    PicassoUtils.normalShowImage(context, itemList.get(1).getImageSrc(), normalVh.image_2);
-                    PicassoUtils.normalShowImage(context, itemList.get(2).getImageSrc(), normalVh.image_3);
-                    PicassoUtils.normalShowImage(context, itemList.get(3).getImageSrc(), normalVh.image_4);
+                    PicassoUtils.normalShowImage(itemList.get(0).getImageSrc(), normalVh.image_1);
+                    PicassoUtils.normalShowImage(itemList.get(1).getImageSrc(), normalVh.image_2);
+                    PicassoUtils.normalShowImage(itemList.get(2).getImageSrc(), normalVh.image_3);
+                    PicassoUtils.normalShowImage(itemList.get(3).getImageSrc(), normalVh.image_4);
                     for (int i = 0; i < normalVh.layouts.size(); i++) {
                         LinearLayout layout = normalVh.layouts.get(i);
                         final int finalI = i;
@@ -314,7 +314,7 @@ public class RecommendCFragment extends BaseFragment {
                     if (position < hotList.size()) {
                         final HotRankingModel model = hotList.get(position);
                         vh.textView.setText(model.getName());
-                        PicassoUtils.normalShowImage(context, model.getImageSrc(), vh.imageView);
+                        PicassoUtils.normalShowImage(model.getImageSrc(), vh.imageView);
                         vh.content.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

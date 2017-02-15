@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -20,7 +21,39 @@
         android:text="@string/app_about"
         android:visibility="gone" />
 
-    <com.example.administrator.gc.widget.ScrollButton
+    <com.example.administrator.gc.widget.Test.ScrollerLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.example.administrator.gc.widget.Test.ScrollerLayout>
+
+    <com.example.administrator.gc.widget.Test.BorderTextView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        app:text="fsdfjsdlfjsdffsdfjsdlfjsdffsdfjsdlfjsdffsdfjsdlfjsdffsdfjsdlfjsdf" />
+
+
+    <com.example.administrator.gc.widget.Test.CircleProgress
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:visibility="gone" />
+
+
+    <com.example.administrator.gc.widget.NineGridVIewGroup
+        android:id="@+id/nine"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.example.administrator.gc.widget.NineGridVIewGroup>
 </LinearLayout>

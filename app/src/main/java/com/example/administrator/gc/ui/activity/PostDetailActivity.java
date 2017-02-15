@@ -55,6 +55,8 @@ import rx.schedulers.Schedulers;
  */
 public class PostDetailActivity extends BaseActivity {
 
+    private static final String TAG = "PostDetailActivity";
+
     private static final int TYPE_HEADER = 1000;
     private static final int TYPE_COMMENT = 1001;
     private static final int TYPE_LOADING = 1002;
@@ -74,6 +76,21 @@ public class PostDetailActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.rootView)
     CoordinatorLayout coordinatorLayout;
+
+    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        int position;
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            position = manager.findLastVisibleItemPosition();
+            if (position == viewData.size() && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
+                presenter.getNextPage();
+            }
+
+        }
+    };
 
     public static void newInstance(Activity activity, String urls) {
         Intent intent = new Intent(activity, PostDetailActivity.class);
@@ -166,6 +183,90 @@ public class PostDetailActivity extends BaseActivity {
         recyclerView.getAdapter().notifyItemChanged(viewData.size());
     }
 
+    private void followPost(PostDetailHeaderModel i) {
+        if (isLogin) {
+            FollowPostModel model = new FollowPostModel();
+            model.setFollowDate(System.currentTimeMillis());
+            model.setLzName(i.getHeader().getUserName());
+            model.setPostUrl(urls);
+            model.setUsername(cache.readStringValue("username", "default_name"));
+            model.setUserId(cache.readStringValue("userId", "000"));
+            model.setPostTitle(i.getTitle());
+            presenter.followPost(model);
+        } else {
+            showLoginDialog();
+        }
+    }
+
+    private void showLoginDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog adl = builder.create();
+        builder.setTitle("请登录！")
+                .setMessage("请先登录，在进行关注！")
+                .setNegativeButton("暂不关注", null)
+                .setPositiveButton("登录", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adl.dismiss();
+                        startActivity(new Intent(PostDetailActivity.this, LoginActivity.class));
+                    }
+                });
+        builder.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_forum, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_share) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, Urls.BASE_URL + "/" + urls);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setType("text/plain"); // 纯文本
+            intent.putExtra(Intent.EXTRA_SUBJECT, "ss");
+            startActivity(Intent.createChooser(intent, "分享"));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setLogin(boolean login) {
+        isLogin = login;
+    }
+
+    public boolean isFollow() {
+        return isFollow;
+    }
+
+    public void setFollow(boolean follow) {
+        isFollow = follow;
+        recyclerView.getAdapter().notifyItemChanged(0);
+    }
+
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
@@ -225,7 +326,7 @@ public class PostDetailActivity extends BaseActivity {
                 vh.picRecyclerView.setVisibility(View.GONE);
             }
             supportCopyData(vh, content);
-            PicassoUtils.normalShowImage(PostDetailActivity.this, data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
+            PicassoUtils.normalShowImage(data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
             vh.imageSrc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -295,7 +396,7 @@ public class PostDetailActivity extends BaseActivity {
 
             vh.type.setText("楼主");
             vh.name.setText(userMessageModel.getUserName());
-            PicassoUtils.normalShowImage(PostDetailActivity.this, userMessageModel.getUserPhotoSrc(), vh.imageSrc);
+            PicassoUtils.normalShowImage(userMessageModel.getUserPhotoSrc(), vh.imageSrc);
             vh.imageSrc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -468,7 +569,7 @@ public class PostDetailActivity extends BaseActivity {
                 public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
                     HeaderVH vh = (HeaderVH) holder;
                     vh.text.setText("图" + position);
-                    PicassoUtils.normalShowImage(PostDetailActivity.this, urls.get(position), vh.pic);
+                    PicassoUtils.normalShowImage(urls.get(position), vh.pic);
                     vh.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -540,7 +641,7 @@ public class PostDetailActivity extends BaseActivity {
                 public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
                     CommentVH vh = (CommentVH) holder;
                     vh.text.setText("图" + position);
-                    PicassoUtils.normalShowImage(PostDetailActivity.this, urls.get(position), vh.pic);
+                    PicassoUtils.normalShowImage(urls.get(position), vh.pic);
                     vh.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -588,106 +689,4 @@ public class PostDetailActivity extends BaseActivity {
         }
 
     }
-
-    private void followPost(PostDetailHeaderModel i) {
-        if (isLogin) {
-            FollowPostModel model = new FollowPostModel();
-            model.setFollowDate(System.currentTimeMillis());
-            model.setLzName(i.getHeader().getUserName());
-            model.setPostUrl(urls);
-            model.setUsername(cache.readStringValue("username", "default_name"));
-            model.setUserId(cache.readStringValue("userId", "000"));
-            model.setPostTitle(i.getTitle());
-            presenter.followPost(model);
-        } else {
-            showLoginDialog();
-        }
-    }
-
-    private void showLoginDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final AlertDialog adl = builder.create();
-        builder.setTitle("请登录！")
-                .setMessage("请先登录，在进行关注！")
-                .setNegativeButton("暂不关注", null)
-                .setPositiveButton("登录", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        adl.dismiss();
-                        startActivity(new Intent(PostDetailActivity.this, LoginActivity.class));
-                    }
-                });
-        builder.show();
-    }
-
-    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        int position;
-
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-            position = manager.findLastVisibleItemPosition();
-            if (position == viewData.size() && newState == RecyclerView.SCROLL_STATE_IDLE && !isLoading) {
-                presenter.getNextPage();
-            }
-
-        }
-    };
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_forum, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_share) {
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, Urls.BASE_URL + "/" + urls);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setType("text/plain"); // 纯文本
-            intent.putExtra(Intent.EXTRA_SUBJECT, "ss");
-            startActivity(Intent.createChooser(intent, "分享"));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public boolean isLoading() {
-        return isLoading;
-    }
-
-    public void setLoading(boolean loading) {
-        isLoading = loading;
-    }
-
-    public String getObjectId() {
-        return objectId;
-    }
-
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
-
-    public boolean isLogin() {
-        return isLogin;
-    }
-
-    public void setLogin(boolean login) {
-        isLogin = login;
-    }
-
-
-    public boolean isFollow() {
-        return isFollow;
-    }
-
-    public void setFollow(boolean follow) {
-        isFollow = follow;
-        recyclerView.getAdapter().notifyItemChanged(0);
-    }
-
-
 }

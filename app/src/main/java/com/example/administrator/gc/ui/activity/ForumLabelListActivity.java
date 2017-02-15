@@ -76,7 +76,7 @@ public class ForumLabelListActivity extends BaseActivity {
         if (model.getVideoList().size() > 0) {
             imgSrc = model.getVideoList().get(0).getImgSrc();
         }
-        PicassoUtils.normalShowImage(this, imgSrc, bgImageView);
+        PicassoUtils.normalShowImage(imgSrc, bgImageView);
 
         if (model.getList().size() == 0 && model.getVideoList().size() == 0) {
             ForumListActivity.newInstance(ForumLabelListActivity.this, urls);
@@ -130,7 +130,7 @@ public class ForumLabelListActivity extends BaseActivity {
                 vh.title.setText(model.getTitle());
                 vh.nums.setText(model.getNums());
                 vh.time.setText(model.getTime());
-                PicassoUtils.normalShowImage(ForumLabelListActivity.this, model.getImgSrc(), vh.imgPic);
+                PicassoUtils.normalShowImage(model.getImgSrc(), vh.imgPic);
 
                 vh.container.setOnClickListener(new View.OnClickListener() {
                     @Override

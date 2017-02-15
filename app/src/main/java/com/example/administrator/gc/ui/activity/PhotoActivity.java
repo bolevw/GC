@@ -19,7 +19,6 @@ import com.example.administrator.gc.base.BaseActivity;
 import com.example.administrator.gc.restApi.DownLoad;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.utils.ToastUtils;
-import com.squareup.picasso.Callback;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,6 +34,7 @@ import rx.Subscriber;
  */
 public class PhotoActivity extends BaseActivity {
 
+    private static final String TAG = "PhotoActivity";
     private static final int MOVE_DISTANCE = 50;
 
     @BindView(R.id.backImageView)
@@ -59,6 +59,7 @@ public class PhotoActivity extends BaseActivity {
         Intent intent = new Intent(activity, PhotoActivity.class);
         intent.putExtra("startPosition", startPosition);
         intent.putExtra("urls", (Serializable) urls);
+        Log.e(TAG, "newInstance: urls " + urls.toString());
         activity.startActivity(intent);
     }
 
@@ -80,20 +81,24 @@ public class PhotoActivity extends BaseActivity {
 
     @Override
     protected void setListener() {
-        PicassoUtils.normalShowImage(this, urls.get(startPosition), imageView, new Callback() {
+        loadImage();
+
+        imageView.setOnTouchListener(onTouchListener);
+    }
+
+    private void loadImage() {
+        PicassoUtils.normalShowImage(urls.get(startPosition), imageView, new PicassoUtils.Callback() {
             @Override
-            public void onSuccess() {
+            public void loadSuccess() {
                 progressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onError() {
+            public void loadFail() {
                 ToastUtils.showNormalToast("参数错误!");
                 PhotoActivity.this.finish();
             }
         });
-
-        imageView.setOnTouchListener(onTouchListener);
     }
 
     @OnClick(R.id.saveButton)
@@ -111,6 +116,7 @@ public class PhotoActivity extends BaseActivity {
 
             @Override
             public void onNext(String s) {
+                Log.e("TAG", s);
                 ToastUtils.showNormalToast("图片保存成功" + s);
             }
         });
@@ -130,7 +136,7 @@ public class PhotoActivity extends BaseActivity {
                     startX = (int) event.getX();
                     startY = (int) event.getY();
                     return true;
-                case MotionEvent.ACTION_MOVE:
+                case MotionEvent.ACTION_UP:
                     int moveX = (int) event.getX() - startX;
                     int moveY = (int) event.getY() - startY;
 
@@ -144,10 +150,9 @@ public class PhotoActivity extends BaseActivity {
                         Log.d("photoMove", "move to right");
                         move2Right();
                     }
+
                     startX = (int) event.getX();
                     startY = (int) event.getY();
-                    break;
-                case MotionEvent.ACTION_UP:
                     break;
             }
             return true;
@@ -164,18 +169,7 @@ public class PhotoActivity extends BaseActivity {
 
         startPosition++;
         progressBar.setVisibility(View.VISIBLE);
-        PicassoUtils.normalShowImage(urls.get(startPosition), imageView, new Callback() {
-            @Override
-            public void onSuccess() {
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError() {
-                ToastUtils.showNormalToast("参数错误!");
-                PhotoActivity.this.finish();
-            }
-        });
+        loadImage();
 
     }
 
@@ -200,18 +194,7 @@ public class PhotoActivity extends BaseActivity {
         startPosition--;
 
         progressBar.setVisibility(View.VISIBLE);
-        PicassoUtils.normalShowImage(this, urls.get(startPosition), imageView, new Callback() {
-            @Override
-            public void onSuccess() {
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError() {
-                ToastUtils.showNormalToast("参数错误!");
-                PhotoActivity.this.finish();
-            }
-        });
+        loadImage();
     }
 
     @Override

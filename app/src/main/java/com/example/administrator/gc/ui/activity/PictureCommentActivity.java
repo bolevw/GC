@@ -156,7 +156,7 @@ public class PictureCommentActivity extends BaseActivity {
             if (position < viewData.size()) {
                 final CommentVh vh = (CommentVh) holder;
                 final CommentModel model = viewData.get(position);
-                PicassoUtils.normalShowImage(PictureCommentActivity.this, model.getAvatar(), vh.avatar);
+                PicassoUtils.normalShowImage(model.getAvatar(), vh.avatar);
                 vh.username.setText(model.getName());
                 vh.time.setText(new Date(Long.parseLong(model.getTime())) + "");
                 vh.admire.setText(String.valueOf(model.getAdmire()));

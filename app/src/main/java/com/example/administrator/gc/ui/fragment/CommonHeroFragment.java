@@ -179,7 +179,7 @@ public class CommonHeroFragment extends BaseFragment implements AreaListFragment
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             VH vh = (VH) holder;
             vh.heroNameTextView.setText(viewData.getHerostr().get(position).getAttr().getTitle());
-            PicassoUtils.normalShowImage(getBaseActivity(), viewData.getHerostr().get(position).getAttr().getSrc(), vh.heroImageView);
+            PicassoUtils.normalShowImage(viewData.getHerostr().get(position).getAttr().getSrc(), vh.heroImageView);
         }
 
         @Override

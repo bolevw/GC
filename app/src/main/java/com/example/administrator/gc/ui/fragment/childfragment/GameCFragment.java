@@ -121,7 +121,7 @@ public class GameCFragment extends BaseFragment {
             VH vh = (VH) holder;
             final GameItemModel model = recyclerData.get(position);
             vh.name1.setText(model.getName());
-            PicassoUtils.normalShowImage(getActivity(), model.getImageSrc(), vh.image1);
+            PicassoUtils.normalShowImage(model.getImageSrc(), vh.image1);
             vh.item1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

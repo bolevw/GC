@@ -153,7 +153,7 @@ public class SearchUserInfoFragment extends BaseFragment implements AreaListFrag
 
     public void setResult(PlayerInfoModel model) {
         avatarContainer.setVisibility(View.VISIBLE);
-        PicassoUtils.normalShowImage(getBaseActivity(), model.getPortrait(), avatarImageView);
+        PicassoUtils.normalShowImage(model.getPortrait(), avatarImageView);
         resultTextView.setText("召唤师等级：" + model.getLevel() + " 战斗力：" + model.getZhandouli() + " 被赞：" + model.getGood());
         avatarUrl = model.getPortrait();
     }

@@ -114,7 +114,7 @@ public class ForumFragment extends BaseFragment {
             final ForumModel model = recycleViewData.get(position);
             VH vh = (VH) holder;
             vh.name.setText(model.getForumName());
-            PicassoUtils.normalShowImage(getActivity(), model.getImageSrc(), vh.forumImageView);
+            PicassoUtils.normalShowImage(model.getImageSrc(), vh.forumImageView);
             vh.count.setText(String.format(getString(R.string.forum_count), model.getForumCount()));
             vh.content.setOnClickListener(new View.OnClickListener() {
                 @Override

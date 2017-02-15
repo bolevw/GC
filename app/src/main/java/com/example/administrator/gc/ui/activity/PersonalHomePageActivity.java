@@ -94,7 +94,7 @@ public class PersonalHomePageActivity extends BaseActivity {
         moneyTextView.setText(model.getMoney());
         prestigeTextView.setText(model.getPrestige());
         grassTextView.setText(model.getGrass());
-        PicassoUtils.normalShowImage(this, model.getAvatarSrc(), userPhotoImageView);
+        PicassoUtils.normalShowImage(model.getAvatarSrc(), userPhotoImageView);
         final ImageView imageView = new ImageView(this);
         Picasso.with(this).load(model.getBgSrc()).into(imageView, new Callback() {
             @Override
