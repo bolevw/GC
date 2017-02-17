@@ -1,9 +1,15 @@
 package com.example.administrator.gc.restApi.client;
 
+import com.example.administrator.gc.base.BaseApplication;
+import com.example.administrator.gc.utils.NetWorkUtils;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.Connection;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
@@ -26,10 +32,14 @@ public class OkClient {
     private static OkHttpClient client;
 
     public static OkHttpClient getInstance() {
+        File cacheFile = new File(BaseApplication.getContext().getCacheDir(), "/gcCache");
+        Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
+
         client = new OkHttpClient.Builder()
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
                 .connectTimeout(5, TimeUnit.SECONDS)
+                .cache(cache)
                 .addInterceptor(new NormalIn())
                 .addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
@@ -44,10 +54,38 @@ public class OkClient {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .addInterceptor(new UserIn(session))
                 .addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
+                .addNetworkInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
                 .build();
 
         return client;
     }
+
+    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+
+            Request request = chain.request();
+            if (!NetWorkUtils.hasNetWork(BaseApplication.getContext())) {
+                request = request.newBuilder()
+                        .cacheControl(CacheControl.FORCE_CACHE)
+                        .build();
+            }
+
+            Response originalResponse = chain.proceed(request);
+            if (!NetWorkUtils.hasNetWork(BaseApplication.getContext())) {
+                String cacheControl = request.cacheControl().toString();
+                return originalResponse.newBuilder().header("Cache-Control", cacheControl)
+                        .removeHeader("Pragma")
+                        .build();
+            } else {
+                return originalResponse.newBuilder()
+                        .header("Cache-Control", "public, only-if-cached, max-stale=2419200")
+                        .removeHeader("Pragma")
+                        .build();
+            }
+        }
+    };
 
     private static class NormalIn implements Interceptor {
 

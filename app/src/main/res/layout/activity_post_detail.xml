@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbarContent"
-            tools:listitem="@layout/item_post_detail_recyclerview"/>
+            tools:listitem="@layout/item_post_detail_recyclerview" />
 
 
         <LinearLayout
@@ -28,7 +28,8 @@
             android:layout_height="45dp"
             android:layout_alignParentBottom="true"
             android:background="@color/percent70WhiteColor"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <EditText
                 android:layout_width="0dp"

@@ -1,12 +1,15 @@
 package com.example.administrator.gc.ui.activity;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.base.BaseActivity;
-import com.example.administrator.gc.utils.ToastUtils;
 import com.example.administrator.gc.widget.NineGridVIewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/6.
@@ -14,10 +17,40 @@ import java.util.List;
 public class AboutActivity extends BaseActivity {
     NineGridVIewGroup nine;
 
+    private RecyclerView list;
+
+
     @Override
     protected void initView() {
         setContentView(R.layout.activity_about);
-        nine = (NineGridVIewGroup) findViewById(R.id.nine);
+        list = (RecyclerView) findViewById(R.id.list);
+        list.setLayoutManager(new LinearLayoutManager(this));
+        list.setAdapter(new RecyclerView.Adapter() {
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return new Vh(LayoutInflater.from(parent.getContext()).inflate(R.layout.test_b, parent, false));
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return 40;
+            }
+
+            class Vh extends RecyclerView.ViewHolder {
+                private Button b;
+
+                public Vh(View itemView) {
+                    super(itemView);
+                    b = (Button) itemView.findViewById(R.id.b);
+                }
+            }
+        });
+       /* nine = (NineGridVIewGroup) findViewById(R.id.nine);
         List<String> urls = new ArrayList<>(9);
         int i = 0;
         while (i < 8) {
@@ -30,7 +63,7 @@ public class AboutActivity extends BaseActivity {
             public void onItemClick(String url) {
                 ToastUtils.showNormalToast(url);
             }
-        });
+        });*/
     }
 
     @Override
@@ -46,5 +79,10 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected void unBind() {
 
+    }
+
+    @Override
+    protected boolean isSupportSwipeBack() {
+        return false;
     }
 }
