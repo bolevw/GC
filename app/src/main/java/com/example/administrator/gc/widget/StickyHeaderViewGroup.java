@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.InflateException;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -16,13 +17,15 @@ import android.widget.Scroller;
 
 public class StickyHeaderViewGroup extends ViewGroup {
     private static final String TAG = "StickyHeaderViewGroup";
-    private int mHeaderMinHeight = 30;
+
+    private int mHeaderMinHeight = 80;
 
     private Scroller mScroller;
-    private int mTouchSloup;
+    private int mTouchSlop;
     private int mScreenWidth;
     private int mScreenHeight;
     private View mHeader;
+    private VelocityTracker mVelocityTracker;
     private View mBody;
 
     private float mDownX;
@@ -43,8 +46,9 @@ public class StickyHeaderViewGroup extends ViewGroup {
 
     private void init(Context context, AttributeSet attrs) {
         mScroller = new Scroller(context);
-        mTouchSloup = ViewConfiguration.get(context).getScaledTouchSlop();
-
+        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        mVelocityTracker = VelocityTracker.obtain();
+        mHeaderMinHeight = (int) (context.getResources().getDisplayMetrics().density * mHeaderMinHeight + 0.5f);
     }
 
     @Override
@@ -61,7 +65,7 @@ public class StickyHeaderViewGroup extends ViewGroup {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         if (changed) {
             mHeader.layout(0, 0, mHeader.getMeasuredWidth(), mHeader.getMeasuredHeight());
-            mBody.layout(0, mHeader.getMeasuredHeight(), mBody.getMeasuredWidth(), mHeader.getMeasuredHeight() + mBody.getMeasuredHeight());
+            mBody.layout(0, mHeader.getMeasuredHeight(), mBody.getMeasuredWidth(), mHeader.getMeasuredHeight() + mBody.getMeasuredHeight() - (mHeader.getMeasuredHeight() - mHeaderMinHeight));
         }
     }
 
@@ -80,15 +84,11 @@ public class StickyHeaderViewGroup extends ViewGroup {
         boolean result = false;
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (!mScroller.isFinished()) {
-                    mScroller.forceFinished(true);
-
-                }
                 result = false;
                 mDownY = ev.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (isBodyInTopPlace(ev)) {
+                if (shouldIntercept(ev)) {
                     result = true;
                 } else {
                     result = false;
@@ -101,16 +101,13 @@ public class StickyHeaderViewGroup extends ViewGroup {
         return result;
     }
 
-    private boolean isBodyInTopPlace(MotionEvent ev) {
+    private boolean shouldIntercept(MotionEvent ev) {
         boolean result = false;
-        float disY = ev.getRawY() - mDownY;
-        if (mBody.getTop() > 0) {
-            Log.e(TAG, "isBodyInTopPlace: top" + mBody.getTop());
-            result = Math.abs(disY) > mTouchSloup;
+        if (mHeader.getMeasuredHeight() + mHeader.getTop() > mHeaderMinHeight) {
+            result = Math.abs(ev.getRawY() - mDownY) >= mTouchSlop;
         } else {
             result = false;
         }
-        mDownY = ev.getRawY();
         return result;
     }
 
@@ -118,29 +115,84 @@ public class StickyHeaderViewGroup extends ViewGroup {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (mVelocityTracker == null) {
+                    mVelocityTracker = VelocityTracker.obtain();
+                } else {
+                    mVelocityTracker.clear();
+                }
+                mVelocityTracker.addMovement(event);
                 mDownY = event.getRawY();
-                return true;
 
+                if (!mScroller.isFinished()) {
+                    mScroller.forceFinished(true);
+                }
+                return true;
             case MotionEvent.ACTION_MOVE:
-                float disY = event.getRawY() - mDownY;
-                scrollBy(0, (int) -disY);
-                Log.e(TAG, "onTouchEvent: disy " + disY);
+                mVelocityTracker.addMovement(event);
+                int disY = (int) (event.getRawY() - mDownY);
+//                scrollBy(0, (int) -disY);
+
+                layoutChild(disY, mHeader);
+                layoutChild(disY, mBody);
                 mDownY = event.getRawY();
                 break;
+            case MotionEvent.ACTION_CANCEL:
+                recycleVelocityTracker();
+                break;
             case MotionEvent.ACTION_UP:
-                disY = event.getRawY() - mDownY;
-                mScroller.startScroll(getScrollX(), getScrollY(), 0, (int) -disY);
-                mDownY = event.getRawY();
+                mVelocityTracker.addMovement(event);
+                mVelocityTracker.computeCurrentVelocity(1000);
+                float speedY = mVelocityTracker.getYVelocity();
+                if (Math.abs(speedY) >= mTouchSlop) {
+                    doFling(-speedY);
+                }
+                Log.e(TAG, "onTouchEvent: " + getScrollY() + " top" + getTop());
+                recycleVelocityTracker();
                 break;
         }
         return super.onTouchEvent(event);
     }
 
+    private void layoutChild(int i, View view) {
+        if (mHeader.getTop() > 0) {
+            mHeader.layout(0, 0, mHeader.getMeasuredWidth(), mHeader.getMeasuredHeight());
+            mBody.layout(0, mHeader.getMeasuredHeight(), mBody.getMeasuredWidth(), mHeader.getMeasuredHeight() + mBody.getMeasuredHeight() - (mHeader.getMeasuredHeight() - mHeaderMinHeight));
+            return;
+        }
+        if (mHeader.getMeasuredHeight() + mHeader.getTop() < mHeaderMinHeight) {
+            mHeader.layout(mHeader.getLeft(), -mHeader.getMeasuredHeight() + mHeaderMinHeight, mHeader.getRight(), mHeaderMinHeight);
+            mBody.layout(mBody.getLeft(), mHeaderMinHeight, mBody.getRight(), mHeaderMinHeight + mBody.getMeasuredHeight());
+            return;
+        }
+        view.layout(view.getLeft(), view.getTop() + i, view.getRight(), view.getBottom() + i);
+
+    }
+
+    private void recycleVelocityTracker() {
+        if (mVelocityTracker != null) {
+            try {
+                mVelocityTracker.clear();
+                mVelocityTracker.recycle();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void doFling(float v) {
+        if (mScroller != null) {
+            mScroller.forceFinished(true);
+            mScroller.fling(0, getScrollY(), 0, (int) v, 0, 0, 0, 0);
+            invalidate();
+        }
+    }
+
 
     @Override
     public void computeScroll() {
-        if (!mScroller.computeScrollOffset()) {
+        if (mScroller.computeScrollOffset()) {
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            postInvalidate();
         }
     }
 

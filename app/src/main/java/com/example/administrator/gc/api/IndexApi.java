@@ -1,5 +1,7 @@
 package com.example.administrator.gc.api;
 
+import android.util.Log;
+
 import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
 import com.example.administrator.gc.model.ForumModel;
@@ -25,6 +27,8 @@ import rx.schedulers.Schedulers;
  */
 public class IndexApi {
 
+    private static final String TAG = "IndexApi";
+
     /**
      * 获取首页数据
      *
@@ -39,7 +43,6 @@ public class IndexApi {
                 IndexModel model = new IndexModel();
                 List<PreviewGroup> previewGroups = new ArrayList<PreviewGroup>();
                 List<HotRankingModel> hotRankingModels = new ArrayList<HotRankingModel>();
-
                 Element bodyE = document.body();
                 hotRankingModels = getHotRankingLit(bodyE);
                 previewGroups = getPreviewGroupList(bodyE);
@@ -72,6 +75,7 @@ public class IndexApi {
                 hotRankingModels.add(hotRankingModel);
             }
         }
+        Log.e(TAG, "getHotRankingLit: " + hotRankingModels.toString());
         return hotRankingModels;
     }
 
@@ -85,6 +89,19 @@ public class IndexApi {
         mobileGroup = getPreviewGroup(bodyE, Fields.GroupCategory.mobileGame);
         previewGroups.add(mobileGroup);
 
+        PreviewGroup webGameGroup = new PreviewGroup();
+        webGameGroup = getPreviewGroup(bodyE, Fields.GroupCategory.webGame);
+        previewGroups.add(webGameGroup);
+
+        PreviewGroup standAloneGroup = new PreviewGroup();
+        standAloneGroup = getPreviewGroup(bodyE, Fields.GroupCategory.standAloneGame);
+        previewGroups.add(standAloneGroup);
+
+        PreviewGroup duowanCenterGroup = new PreviewGroup();
+        duowanCenterGroup = getPreviewGroup(bodyE, Fields.GroupCategory.duowanCenter);
+        previewGroups.add(duowanCenterGroup);
+
+        Log.e(TAG, "getPreviewGroupList: " + previewGroups.toString());
         return previewGroups;
     }
 

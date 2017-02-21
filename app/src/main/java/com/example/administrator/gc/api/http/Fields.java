@@ -33,6 +33,9 @@ public class Fields {
         public static final String mostPopular = "最受欢迎游戏专区";
         public static final String recommend = "推荐游戏专区";
         public static final String mobileGame = "手机网游专区";
+        public static final String webGame = "网页游戏广场";
+        public static final String standAloneGame = "电玩&单机广场";
+        public static final String duowanCenter = "多玩中心广场";
         public static final String TGS = "电玩&单机广场";
         public static final String H_4 = "<h4>";
         public static final String H_5 = "<h5>";

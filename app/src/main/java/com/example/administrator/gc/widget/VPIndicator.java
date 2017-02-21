@@ -89,7 +89,7 @@ public class VPIndicator extends LinearLayout {
 
         View v = getChildAt(currentPosition);
         View v2 = getChildAt(position);
-        if (titles.length > 0) {
+        if (titles != null && titles.length > 0) {
             TextView title = (TextView) getChildAt(getChildCount() - 1);
             title.setText(titles[position]);
         }

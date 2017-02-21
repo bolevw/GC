@@ -2,6 +2,7 @@ package com.example.administrator.gc.ui.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,10 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected void initView() {
         setContentView(R.layout.activity_about);
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int b = dm.widthPixels;
+        int a = dm.heightPixels;
         list = (RecyclerView) findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(new RecyclerView.Adapter() {

@@ -143,7 +143,6 @@ public class ForumApi {
                             model.setAuthName(authName);
                             model.setDate(date);
                             model.setCommentCount(commentCount);
-
                             list.add(model);
                         }
 

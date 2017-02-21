@@ -93,6 +93,7 @@ public class GuideActivity extends BaseActivity {
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView view = new ImageView(GuideActivity.this);
             view.setImageResource(imageViews[position]);
+            view.setScaleType(ImageView.ScaleType.CENTER_CROP);
             container.addView(view);
             return view;
         }

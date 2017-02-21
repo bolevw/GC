@@ -44,8 +44,6 @@ public class IndexHomeFragment extends BaseFragment implements RecommendCFragmen
     protected void initView(View v) {
         indexHomeTabLayout = (TabLayout) v.findViewById(R.id.indexHomeTabLayout);
         indexHomeViewPager = (ViewPager) v.findViewById(R.id.indexHomeViewPager);
-
-        getBaseActivity().getToolbar().setNavigationIcon(R.mipmap.ic_icon);
     }
 
     @Override
@@ -58,7 +56,6 @@ public class IndexHomeFragment extends BaseFragment implements RecommendCFragmen
         indexHomeViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager()));
         indexHomeTabLayout.setupWithViewPager(indexHomeViewPager);
         indexHomeViewPager.setOffscreenPageLimit(5);
-
     }
 
     @Override
