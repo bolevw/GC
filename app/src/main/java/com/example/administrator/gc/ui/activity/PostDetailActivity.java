@@ -5,11 +5,18 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +28,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.administrator.gc.R;
 import com.example.administrator.gc.api.Urls;
 import com.example.administrator.gc.base.BaseActivity;
@@ -30,13 +43,13 @@ import com.example.administrator.gc.model.IsFollowModel;
 import com.example.administrator.gc.model.PostBodyModel;
 import com.example.administrator.gc.model.PostDetailHeaderModel;
 import com.example.administrator.gc.model.PostDetailModel;
-import com.example.administrator.gc.model.TransformContentModel;
 import com.example.administrator.gc.model.UserMessageModel;
 import com.example.administrator.gc.presenter.activity.PostDetailPresenter;
-import com.example.administrator.gc.utils.ConvertArticleUtils;
 import com.example.administrator.gc.utils.PicassoUtils;
 import com.example.administrator.gc.utils.SnackbarUtils;
 import com.example.administrator.gc.widget.RecyclerViewCutLine;
+
+import org.xml.sax.XMLReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -254,20 +267,13 @@ public class PostDetailActivity extends BaseActivity {
         return isLogin;
     }
 
-    public void setLogin(boolean login) {
-        isLogin = login;
-    }
-
-    public boolean isFollow() {
-        return isFollow;
-    }
-
     public void setFollow(boolean follow) {
         isFollow = follow;
         recyclerView.getAdapter().notifyItemChanged(0);
     }
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        private ImageLoader imageLoader = new ImageLoader();
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -318,13 +324,6 @@ public class PostDetailActivity extends BaseActivity {
             }
 
             String content = data.getValue().getContent();
-            TransformContentModel contentModel = ConvertArticleUtils.convert(content);
-            if (contentModel.getPicUrls().size() > 0) {
-                content = contentModel.getArticle();
-                vh.setUrls(contentModel.getPicUrls());
-            } else {
-                vh.picRecyclerView.setVisibility(View.GONE);
-            }
             supportCopyData(vh, content);
             PicassoUtils.normalShowImage(data.getValue().getUserMessageModel().getUserPhotoSrc(), vh.imageSrc);
             vh.imageSrc.setOnClickListener(new View.OnClickListener() {
@@ -344,7 +343,8 @@ public class PostDetailActivity extends BaseActivity {
         }
 
         private void supportCopyData(final CommentVh vh, String content) {
-            vh.itemBodyContentTextView.setText(content);
+            imageLoader.container = vh.itemBodyContentTextView;
+            vh.itemBodyContentTextView.setText(Html.fromHtml("<html><head></head><body>" + content + "</body></html>", imageLoader, null));
             vh.itemBodyContentTextView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -502,14 +502,8 @@ public class PostDetailActivity extends BaseActivity {
 
         private void convertArticle(ItemData<Integer, PostDetailHeaderModel> data, HeaderVh vh) {
             String content = data.getValue().getContent();
-            TransformContentModel contentModel = ConvertArticleUtils.convert(content);
-            if (contentModel.getPicUrls().size() > 0) {
-                content = contentModel.getArticle();
-                vh.setUrls(contentModel.getPicUrls());
-            } else {
-                vh.picRecyclerView.setVisibility(View.GONE);
-            }
-            vh.itemBodyContentTextView.setText(content);
+            imageLoader.container = vh.itemBodyContentTextView;
+            vh.itemBodyContentTextView.setText(Html.fromHtml("<html><head></head><body>" + content + "</body></html>", imageLoader, null));
         }
 
         @Override
@@ -537,8 +531,6 @@ public class PostDetailActivity extends BaseActivity {
             private TextView itemBodyContentTextView;
             private LinearLayout content;
             private Button itemFollowButton;
-            private RecyclerView picRecyclerView;
-            private List<String> urls = new ArrayList<>();
 
             public HeaderVh(View itemView) {
                 super(itemView);
@@ -551,57 +543,6 @@ public class PostDetailActivity extends BaseActivity {
                 itemBodyContentTextView = (TextView) itemView.findViewById(R.id.itemBodyContentTextView);
                 itemFollowButton = (Button) itemView.findViewById(R.id.itemFollowButton);
                 content = (LinearLayout) itemView.findViewById(R.id.commentContent);
-                picRecyclerView = (RecyclerView) itemView.findViewById(R.id.picRecyclerView);
-
-                picRecyclerView.setLayoutManager(new LinearLayoutManager(PostDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                picRecyclerView.setAdapter(new PicAdapter());
-            }
-
-            private class PicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-                @Override
-                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    HeaderVH vh = new HeaderVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pic, parent, false));
-                    return vh;
-                }
-
-                @Override
-                public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-                    HeaderVH vh = (HeaderVH) holder;
-                    vh.text.setText("图" + position);
-                    PicassoUtils.normalShowImage(urls.get(position), vh.pic);
-                    vh.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            PhotoActivity.newInstance(PostDetailActivity.this, position, urls);
-                        }
-                    });
-                }
-
-                @Override
-                public int getItemCount() {
-                    return urls.size();
-                }
-
-                private class HeaderVH extends RecyclerView.ViewHolder {
-                    private TextView text;
-                    private ImageView pic;
-
-                    public HeaderVH(View itemView) {
-                        super(itemView);
-                        text = (TextView) itemView.findViewById(R.id.tagTextView);
-                        pic = (ImageView) itemView.findViewById(R.id.picImageView);
-                    }
-                }
-            }
-
-            public List<String> getUrls() {
-                return urls;
-            }
-
-            public void setUrls(List<String> urls) {
-                this.urls = urls;
-                this.picRecyclerView.getAdapter().notifyDataSetChanged();
             }
         }
 
@@ -612,8 +553,6 @@ public class PostDetailActivity extends BaseActivity {
             private TextView type;
             private TextView itemBodyContentTextView;
             private LinearLayout commentContent;
-            private RecyclerView picRecyclerView;
-            private List<String> urls = new ArrayList<>();
 
             public CommentVh(View itemView) {
                 super(itemView);
@@ -624,56 +563,6 @@ public class PostDetailActivity extends BaseActivity {
                 imageSrc = (ImageView) itemView.findViewById(R.id.itemUserImageView);
                 type = (TextView) itemView.findViewById(R.id.itemUserTypeTextView);
                 itemBodyContentTextView = (TextView) itemView.findViewById(R.id.itemBodyContentTextView);
-                picRecyclerView = (RecyclerView) itemView.findViewById(R.id.picRecyclerView);
-
-                picRecyclerView.setLayoutManager(new LinearLayoutManager(PostDetailActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                picRecyclerView.setAdapter(new PicAdapter());
-            }
-
-            private class PicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-                @Override
-                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    return new CommentVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pic, parent, false));
-                }
-
-                @Override
-                public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-                    CommentVH vh = (CommentVH) holder;
-                    vh.text.setText("图" + position);
-                    PicassoUtils.normalShowImage(urls.get(position), vh.pic);
-                    vh.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            PhotoActivity.newInstance(PostDetailActivity.this, position, urls);
-                        }
-                    });
-                }
-
-                @Override
-                public int getItemCount() {
-                    return urls.size();
-                }
-
-                private class CommentVH extends RecyclerView.ViewHolder {
-                    private TextView text;
-                    private ImageView pic;
-
-                    public CommentVH(View itemView) {
-                        super(itemView);
-                        text = (TextView) itemView.findViewById(R.id.tagTextView);
-                        pic = (ImageView) itemView.findViewById(R.id.picImageView);
-                    }
-                }
-            }
-
-            public List<String> getUrls() {
-                return urls;
-            }
-
-            public void setUrls(List<String> urls) {
-                this.urls = urls;
-                this.picRecyclerView.getAdapter().notifyDataSetChanged();
             }
         }
 
@@ -688,5 +577,56 @@ public class PostDetailActivity extends BaseActivity {
             }
         }
 
+        private class ImageLoader implements Html.ImageGetter {
+            protected TextView container;
+
+            @Override
+            public Drawable getDrawable(String source) {
+                container.setMovementMethod(LinkMovementMethod.getInstance());
+                final UrlDrawable drawable = new UrlDrawable();
+                Glide.with(PostDetailActivity.this).load(source).into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        Drawable dr = (Drawable) resource;
+                        if (dr instanceof BitmapDrawable) {
+                            BitmapDrawable bd = (BitmapDrawable) dr;
+                            drawable.bitmap = bd.getBitmap();
+                        } else if (dr instanceof GlideBitmapDrawable) {
+                            GlideBitmapDrawable gbd = (GlideBitmapDrawable) dr;
+                            drawable.bitmap = gbd.getBitmap();
+                        } else if (dr instanceof GifDrawable) {
+                            GifDrawable gfd = (GifDrawable) dr;
+                            drawable.bitmap = gfd.getFirstFrame();
+                        }
+                        drawable.setBounds(0, 0, resource.getIntrinsicWidth(), resource.getIntrinsicHeight());
+                        container.invalidate();
+                        container.setText(container.getText());
+                    }
+                });
+
+                return drawable;
+            }
+        }
+
+        private class UrlDrawable extends BitmapDrawable {
+            protected Bitmap bitmap;
+
+            @Override
+            public void draw(Canvas canvas) {
+                if (bitmap != null) {
+                    canvas.drawBitmap(bitmap, 0, 0, getPaint());
+                }
+            }
+        }
+
+        private class TagHandler implements Html.TagHandler {
+
+            @Override
+            public void handleTag(boolean opening, String tag, Editable output, XMLReader xmlReader) {
+                if (tag.toLowerCase().equals("img")) {
+
+                }
+            }
+        }
     }
 }

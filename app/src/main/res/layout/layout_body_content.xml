@@ -14,21 +14,14 @@
         android:paddingLeft="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_vertical_margin"
         android:paddingTop="4dp"
-        android:textSize="@dimen/text_normal"/>
+        android:textSize="@dimen/text_normal" />
 
-    <TextView
-        android:id="@+id/itemCommentTextView"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:drawableLeft="@drawable/white_circle"
+        android:src="@drawable/white_circle"
         android:paddingLeft="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_vertical_margin"
-        android:textSize="@dimen/text_normal" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/picRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"/>
-
+        />
 </LinearLayout>

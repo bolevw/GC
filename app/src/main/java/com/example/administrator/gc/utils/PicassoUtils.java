@@ -44,6 +44,26 @@ public class PicassoUtils {
     }
 
 
+    public static void normalShowImage(String urls, final Callback callback) {
+        Glide.with(BaseApplication.getContext())
+                .load(urls)
+                .fitCenter()
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        callback.loadSuccess();
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        callback.loadFail();
+                    }
+                })
+        ;
+    }
+
+
     public interface Callback {
         void loadSuccess();
 

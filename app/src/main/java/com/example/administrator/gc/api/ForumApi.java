@@ -1,6 +1,7 @@
 package com.example.administrator.gc.api;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.administrator.gc.api.http.Fields;
 import com.example.administrator.gc.api.web.GetWebObservable;
@@ -33,6 +34,8 @@ import rx.schedulers.Schedulers;
  */
 public class ForumApi {
 
+    private static final String TAG = "ForumApi";
+
     /**
      * 获取论坛分类
      *
@@ -57,7 +60,7 @@ public class ForumApi {
                         final ArrayList<ForumItemDetailModel> res = new ArrayList<ForumItemDetailModel>();
                         getPartitionList(el, res);
 
-                        return  new ForumPartitionModel(title, imgSrc, videoList, res);
+                        return new ForumPartitionModel(title, imgSrc, videoList, res);
                     }
 
                     private String getImgSrc(Element el, String imgSrc) {
@@ -167,7 +170,7 @@ public class ForumApi {
 
                 PostBodyModel body = new PostBodyModel();
                 List<PostDetailModel> detailModels = new ArrayList<PostDetailModel>();
-
+                Log.e(TAG, "call: " + document.toString());
                 Element element = document.body();
 
                 Elements els = element.getElementsByAttributeValue(Fields.WebField.CLASS, "m-comment__item m-comment__item--top");
@@ -201,11 +204,11 @@ public class ForumApi {
                             PostDetailHeaderModel headerModel = new PostDetailHeaderModel();
                             headerModel.setHeader(userMessageModel);
                             headerModel.setTitle(element.getElementsByAttributeValue(Fields.WebField.CLASS, "m-infoBBS__title").get(0).text());
-                            headerModel.setContent(commentEl.text());
+                            headerModel.setContent(commentEl.toString());
                             body.setHeader(headerModel);
                         } else {
                             PostDetailModel detail = new PostDetailModel();
-                            detail.setContent(TextUtils.isEmpty(commentEl.text()) ? "null" : commentEl.text());
+                            detail.setContent(TextUtils.isEmpty(commentEl.text()) ? "null" : commentEl.toString());
                             detail.setUserMessageModel(userMessageModel);
                             detailModels.add(detail);
                         }
