@@ -51,7 +51,7 @@
         android:visibility="invisible">
 
 
-        <com.example.administrator.gc.widget.CircleImageView
+        <com.boger.game.gc.widget.CircleImageView
             android:id="@+id/avatarImageView"
             android:layout_width="40dp"
             android:layout_height="40dp" />
@@ -100,14 +100,14 @@
         android:layout_below="@+id/avatarContainer"
         android:layout_marginTop="1px" />
 
-    <com.example.administrator.gc.widget.LoadingView
+    <com.boger.game.gc.widget.LoadingView
         android:id="@+id/loadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/searchButton"
         android:visibility="gone" />
 
-    <com.example.administrator.gc.widget.LoadingFailView
+    <com.boger.game.gc.widget.LoadingFailView
         android:id="@+id/loadingFailView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

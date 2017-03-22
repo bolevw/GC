@@ -9,7 +9,7 @@
     android:padding="@dimen/activity_horizontal_margin">
 
 
-    <com.example.administrator.gc.widget.CircleImageView
+    <com.boger.game.gc.widget.CircleImageView
         android:id="@+id/itemUserImageView"
         android:layout_width="35dp"
         android:layout_height="35dp" />

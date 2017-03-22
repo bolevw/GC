@@ -61,7 +61,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.example.administrator.gc.widget.CircleImageView
+                <com.boger.game.gc.widget.CircleImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@android:drawable/ic_menu_recent_history" />
@@ -86,7 +86,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.example.administrator.gc.widget.CircleImageView
+                <com.boger.game.gc.widget.CircleImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@android:drawable/ic_menu_recent_history" />
@@ -111,7 +111,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.example.administrator.gc.widget.CircleImageView
+                <com.boger.game.gc.widget.CircleImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@android:drawable/ic_menu_recent_history" />
@@ -136,7 +136,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.example.administrator.gc.widget.CircleImageView
+                <com.boger.game.gc.widget.CircleImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@android:drawable/ic_menu_recent_history" />
@@ -161,7 +161,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.example.administrator.gc.widget.CircleImageView
+                <com.boger.game.gc.widget.CircleImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@android:drawable/ic_menu_recent_history" />
@@ -353,7 +353,7 @@
                 android:background="@color/cut_line" />
         </LinearLayout>
 
-        <com.example.administrator.gc.widget.MovePath
+        <com.boger.game.gc.widget.MovePath
             android:id="@+id/movePath"
             android:layout_width="match_parent"
             android:layout_height="200dp" />

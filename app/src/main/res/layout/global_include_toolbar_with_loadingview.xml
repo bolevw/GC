@@ -18,12 +18,12 @@
         android:background="@color/cut_line" />
 
 
-    <com.example.administrator.gc.widget.LoadingView
+    <com.boger.game.gc.widget.LoadingView
         android:id="@+id/loadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <com.example.administrator.gc.widget.LoadingFailView
+    <com.boger.game.gc.widget.LoadingFailView
         android:id="@+id/loadingFailView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

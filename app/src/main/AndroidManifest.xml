@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.administrator.gc">
+    package="com.boger.game.gc">
 
     <!--外部存储权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".base.BaseApplication"
+        android:name="com.boger.game.gc.base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_icon"
         android:label="@string/app_name"
@@ -25,7 +25,7 @@
             android:value="${UMENG_CHANNEL_VALUE}" />
 
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name="com.boger.game.gc.ui.activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -35,61 +35,61 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.GuideActivity"
+            android:name="com.boger.game.gc.ui.activity.GuideActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.AboutActivity"
+            android:name="com.boger.game.gc.ui.activity.AboutActivity"
             android:label="@string/title_about"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.ForumLabelListActivity"
+            android:name="com.boger.game.gc.ui.activity.ForumLabelListActivity"
             android:label="@string/title_forum"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name="com.boger.game.gc.ui.activity.LoginActivity"
             android:label="@string/title_login"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
-            android:name=".ui.activity.RegisterActivity"
+            android:name="com.boger.game.gc.ui.activity.RegisterActivity"
             android:label="@string/title_register"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.ForumListActivity"
+            android:name="com.boger.game.gc.ui.activity.ForumListActivity"
             android:label="@string/title_post"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.PostDetailActivity"
+            android:name="com.boger.game.gc.ui.activity.PostDetailActivity"
             android:label="@string/title_post_detail"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".ui.activity.PersonalHomePageActivity"
+            android:name="com.boger.game.gc.ui.activity.PersonalHomePageActivity"
             android:label="@string/title_personal_home_page"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.VideoActivity"
+            android:name="com.boger.game.gc.ui.activity.VideoActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.PhotoActivity"
+            android:name="com.boger.game.gc.ui.activity.PhotoActivity"
             android:process=":picture"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.LoLActivity"
+            android:name="com.boger.game.gc.ui.activity.LoLActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activity.PictureCommentActivity"
+            android:name="com.boger.game.gc.ui.activity.PictureCommentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
     </application>

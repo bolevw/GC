@@ -10,7 +10,7 @@
         android:layout_height="300dp"
         android:background="@color/colorPrimaryDark" />-->
 
-    <com.example.administrator.gc.widget.Test.PaintCanvas
+    <com.boger.game.gc.widget.Test.PaintCanvas
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

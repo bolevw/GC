@@ -14,7 +14,7 @@
         android:paddingLeft="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_vertical_margin">
 
-        <com.example.administrator.gc.widget.CircleImageView
+        <com.boger.game.gc.widget.CircleImageView
             android:id="@+id/avatarIv"
             android:layout_width="40dp"
             android:layout_height="match_parent"

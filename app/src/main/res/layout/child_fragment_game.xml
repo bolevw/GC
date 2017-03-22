@@ -5,7 +5,7 @@
     android:background="@color/common_background_white"
     android:orientation="vertical">
 
-    <com.example.administrator.gc.widget.LoadingView
+    <com.boger.game.gc.widget.LoadingView
         android:id="@+id/loadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
