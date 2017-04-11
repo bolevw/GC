@@ -28,15 +28,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.load.resource.gif.GifDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.boger.game.gc.R;
 import com.boger.game.gc.api.Urls;
-import com.boger.game.gc.base.BaseActivity;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.base.ItemData;
 import com.boger.game.gc.model.FollowPostModel;
 import com.boger.game.gc.model.IsFollowModel;
@@ -48,6 +42,13 @@ import com.boger.game.gc.presenter.activity.PostDetailPresenter;
 import com.boger.game.gc.utils.ImageLoaderUtils;
 import com.boger.game.gc.utils.SnackbarUtils;
 import com.boger.game.gc.widget.RecyclerViewCutLine;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.umeng.analytics.MobclickAgent;
 
 import org.xml.sax.XMLReader;
 
@@ -56,7 +57,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -66,7 +66,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/4/8.
  */
-public class PostDetailActivity extends BaseActivity {
+public class PostDetailActivity extends BaseSwipeBackActivity {
 
     private static final String TAG = "PostDetailActivity";
 
@@ -112,10 +112,12 @@ public class PostDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
-        setContentView(R.layout.activity_post_detail);
-        ButterKnife.bind(this);
+    protected int getLayoutResId() {
+        return R.layout.activity_post_detail;
+    }
 
+    @Override
+    protected void initViewData() {
         isLogin = cache.readBooleanValue("isLogin", false);
         Intent intent = getIntent();
         urls = intent.getStringExtra("urls");
@@ -628,5 +630,19 @@ public class PostDetailActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
 }

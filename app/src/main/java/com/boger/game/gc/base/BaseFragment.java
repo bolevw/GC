@@ -5,23 +5,37 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.boger.game.gc.R;
 import com.boger.game.gc.cache.Cache;
 import com.boger.game.gc.widget.LoadingView;
+import com.umeng.analytics.MobclickAgent;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
- * Created by Administrator on 2016/3/21.
+ * Created by liubo on 2016/3/21.
  */
 public abstract class BaseFragment extends Fragment {
-
-    public static  String TAG = null;
+    public static String TAG = null;
 
     private LoadingView loadingView;
-    private BaseActivity activity;
+    private BaseSwipeBackActivity activity;
     protected Cache cache = Cache.getInstance(BaseApplication.getContext());
+    private Unbinder unbinder;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(getLayoutResId(), container, false);
+        unbinder = ButterKnife.bind(this, v);
+        return v;
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -29,7 +43,7 @@ public abstract class BaseFragment extends Fragment {
         loadingView = (LoadingView) view.findViewById(R.id.loadingView);
         TAG = this.getClass().getSimpleName();
         startLoading();
-        initView(view);
+        initViewData();
         setListener();
         bind();
     }
@@ -43,7 +57,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.activity = (BaseActivity) context;
+        this.activity = (BaseSwipeBackActivity) context;
+    }
+
+    @Override
+    public void onDetach() {
+        this.activity = null;
+        super.onDetach();
     }
 
     public void stopLoading() {
@@ -53,13 +73,12 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-
     public void logError(Throwable e) {
         Log.e("error", e.toString());
     }
 
-    protected BaseActivity getBaseActivity() {
-        return this.activity;
+    protected BaseSwipeBackActivity getBaseActivity() {
+        return activity;
     }
 
     protected void hideSoftKeyboard() {
@@ -71,7 +90,9 @@ public abstract class BaseFragment extends Fragment {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    protected abstract void initView(View v);
+    protected abstract int getLayoutResId();
+
+    protected abstract void initViewData();
 
     protected abstract void bind();
 
@@ -82,6 +103,21 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         unbind();
+        hideSoftKeyboard();
+        unbinder.unbind();
         super.onDestroyView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideSoftKeyboard();
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 }

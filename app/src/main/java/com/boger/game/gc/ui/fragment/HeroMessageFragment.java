@@ -1,7 +1,6 @@
 package com.boger.game.gc.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +21,6 @@ import com.boger.game.gc.widget.LoadingFailView;
 import com.boger.game.gc.widget.LoadingView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -88,6 +86,22 @@ public class HeroMessageFragment extends BaseFragment implements AreaListFragmen
 
     }
 
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_hreo_message;
+    }
+
+    @Override
+    protected void initViewData() {
+        serverName = cache.readStringValue("lolServerName", DEFAULT_SERVER_NAME);
+        playerName = cache.readStringValue("lolPlayerName", "");
+        areaButton.setText(serverName);
+        userIdEditText.setText(playerName);
+        if (getBaseActivity().getSupportActionBar() != null) {
+            getBaseActivity().getSupportActionBar().setTitle("英雄信息");
+        }
+    }
+
     public void loadingFail() {
         loadingView.stopAnim();
         loadingView.setVisibility(View.GONE);
@@ -117,25 +131,6 @@ public class HeroMessageFragment extends BaseFragment implements AreaListFragmen
         HeroMessageFragment fragment = new HeroMessageFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_hreo_message, container, false);
-        ButterKnife.bind(this, v);
-        serverName = cache.readStringValue("lolServerName", DEFAULT_SERVER_NAME);
-        playerName = cache.readStringValue("lolPlayerName", "");
-        return v;
-    }
-
-    @Override
-    protected void initView(View v) {
-        areaButton.setText(serverName);
-        userIdEditText.setText(playerName);
-        if (getBaseActivity().getSupportActionBar() != null) {
-            getBaseActivity().getSupportActionBar().setTitle("英雄信息");
-        }
     }
 
     @Override

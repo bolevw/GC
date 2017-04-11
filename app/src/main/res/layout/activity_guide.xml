@@ -4,33 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/guideViewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/guideViewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <com.boger.game.gc.widget.VPIndicator
-            android:id="@+id/guideVp"
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_gravity="bottom"/>
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/cut_line" />
 
     <FrameLayout
+        android:id="@+id/guideBtmFl"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:alpha="0.5"
-        android:background="#00bcd4">
+        android:alpha="0.5">
 
         <Button
             android:id="@+id/skipButton"

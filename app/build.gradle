@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
+
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+
     signingConfigs {
         release {
             keyAlias 'Gc'
@@ -21,18 +25,24 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     productFlavors {
-        xiaomi { }
-        qihu360 {  }
-        baidu { }
-    }
-    productFlavors.all {
-        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+
+        wandoujia {}
+        baidu {}
+        c360 {}
+        uc {}
+
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+
     }
 }
 
@@ -52,4 +62,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.0.0-alpha2'
     compile 'com.android.support:design:24.0.0-alpha2'
     compile 'com.android.support:cardview-v7:24.0.0-alpha2'
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

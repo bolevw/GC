@@ -1,8 +1,6 @@
 package com.boger.game.gc.ui.fragment.childfragment;
 
 import android.graphics.Rect;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +24,8 @@ import com.boger.game.gc.widget.SimpleItemTouchHelperCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 /**
  * Created by Administrator on 2016/3/22.
  */
@@ -33,23 +33,21 @@ public class GameCFragment extends BaseFragment {
 
     private static final String TAG = "GameCFragment";
     private GamePresenter presenter;
-    private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.gameRecyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.gameSwipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private List<GameItemModel> recyclerData = new ArrayList<>();
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup v = (ViewGroup) inflater.inflate(R.layout.child_fragment_game, container, false);
-        return v;
+    protected int getLayoutResId() {
+        return R.layout.child_fragment_game;
     }
 
     @Override
-    protected void initView(View v) {
-        recyclerView = (RecyclerView) v.findViewById(R.id.gameRecyclerView);
+    protected void initViewData() {
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.gameSwipeRefreshLayout);
     }
 
     class RecyclerViewItemDirection extends RecyclerView.ItemDecoration {

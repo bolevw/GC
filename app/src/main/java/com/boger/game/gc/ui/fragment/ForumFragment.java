@@ -2,8 +2,6 @@ package com.boger.game.gc.ui.fragment;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,28 +23,29 @@ import com.boger.game.gc.widget.RecyclerViewCutLine;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 /**
  * Created by Administrator on 2016/3/22.
  */
 public class ForumFragment extends BaseFragment {
 
-    private RecyclerView forumRecyclerView;
+    @BindView(R.id.forumRecyclerView)
+    RecyclerView forumRecyclerView;
     private ForumPresenter presenter;
-    private FloatingActionButton quickReturnButton;
+    @BindView(R.id.quickReturnButton)
+    FloatingActionButton quickReturnButton;
     private List<ForumModel> recycleViewData = new ArrayList<>();
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_forum, container, false);
-        return v;
+    protected int getLayoutResId() {
+        return R.layout.fragment_forum;
     }
 
     @Override
-    protected void initView(View v) {
-        forumRecyclerView = (RecyclerView) v.findViewById(R.id.forumRecyclerView);
+    protected void initViewData() {
         forumRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        quickReturnButton = (FloatingActionButton) v.findViewById(R.id.quickReturnButton);
+
     }
 
     @Override

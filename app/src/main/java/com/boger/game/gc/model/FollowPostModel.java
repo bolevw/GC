@@ -1,12 +1,13 @@
 package com.boger.game.gc.model;
 
+import com.boger.game.gc.base.BaseModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by liubo on 5/18/16.
  */
-public class FollowPostModel {
+public class FollowPostModel extends BaseModel{
     @SerializedName("username")
     @Expose
     private String username;

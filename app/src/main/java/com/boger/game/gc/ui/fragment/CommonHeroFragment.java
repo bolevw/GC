@@ -1,7 +1,6 @@
 package com.boger.game.gc.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +22,6 @@ import com.boger.game.gc.widget.LoadingFailView;
 import com.boger.game.gc.widget.LoadingView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -87,6 +85,23 @@ public class CommonHeroFragment extends BaseFragment implements AreaListFragment
 
     }
 
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_common_hero;
+    }
+
+    @Override
+    protected void initViewData() {
+        serverName = cache.readStringValue("lolServerName", DEFAULT_SERVER_NAME);
+        playerName = cache.readStringValue("lolPlayerName", "");
+
+        areaButton.setText(serverName);
+        userIdEditText.setText(playerName);
+        if (getBaseActivity().getSupportActionBar() != null) {
+            getBaseActivity().getSupportActionBar().setTitle("常用英雄");
+        }
+    }
+
     public void loadingFail() {
         loadingView.stopAnim();
         loadingView.setVisibility(View.GONE);
@@ -109,15 +124,6 @@ public class CommonHeroFragment extends BaseFragment implements AreaListFragment
         resultRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_common_hero, container, false);
-        ButterKnife.bind(this, v);
-        serverName = cache.readStringValue("lolServerName", DEFAULT_SERVER_NAME);
-        playerName = cache.readStringValue("lolPlayerName", "");
-        return v;
-    }
 
     public static CommonHeroFragment newInstance() {
 
@@ -126,15 +132,6 @@ public class CommonHeroFragment extends BaseFragment implements AreaListFragment
         CommonHeroFragment fragment = new CommonHeroFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    protected void initView(View v) {
-        areaButton.setText(serverName);
-        userIdEditText.setText(playerName);
-        if (getBaseActivity().getSupportActionBar() != null) {
-            getBaseActivity().getSupportActionBar().setTitle("常用英雄");
-        }
     }
 
     @Override

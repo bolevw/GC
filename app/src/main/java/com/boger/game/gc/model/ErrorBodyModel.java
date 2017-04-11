@@ -1,12 +1,13 @@
 package com.boger.game.gc.model;
 
+import com.boger.game.gc.base.BaseModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by liubo on 2016/5/17.
  */
-public class ErrorBodyModel {
+public class ErrorBodyModel extends BaseModel{
 
     @SerializedName("code")
     @Expose

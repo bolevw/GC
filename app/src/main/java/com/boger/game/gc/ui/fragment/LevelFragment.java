@@ -83,6 +83,23 @@ public class LevelFragment extends BaseFragment implements AreaListFragment.OnIt
 
     }
 
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_search_user_info;
+    }
+
+    @Override
+    protected void initViewData() {
+        playerName = cache.readStringValue("lolPlayerName", "");
+        serverNum = DEFAULT_SERVER_NAME;
+
+        areaButton.setText(DEFAULT_SERVER_NAME);
+        userIdEditText.setText(playerName);
+        if (getBaseActivity().getSupportActionBar() != null) {
+            getBaseActivity().getSupportActionBar().setTitle("玩家段位");
+        }
+    }
+
     public void loadingFail() {
         loadingView.stopAnim();
         loadingView.setVisibility(View.GONE);
@@ -101,15 +118,6 @@ public class LevelFragment extends BaseFragment implements AreaListFragment.OnIt
         resultTextView.setText(model.toString());
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_search_user_info, container, false);
-        ButterKnife.bind(this, v);
-        playerName = cache.readStringValue("lolPlayerName", "");
-        serverNum = DEFAULT_SERVER_NAME;
-        return v;
-    }
 
     public static LevelFragment newInstance() {
 
@@ -118,15 +126,6 @@ public class LevelFragment extends BaseFragment implements AreaListFragment.OnIt
         LevelFragment fragment = new LevelFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    protected void initView(View v) {
-        areaButton.setText(DEFAULT_SERVER_NAME);
-        userIdEditText.setText(playerName);
-        if (getBaseActivity().getSupportActionBar() != null) {
-            getBaseActivity().getSupportActionBar().setTitle("玩家段位");
-        }
     }
 
     @Override

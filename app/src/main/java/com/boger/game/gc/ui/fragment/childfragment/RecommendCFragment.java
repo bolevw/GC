@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,6 +36,8 @@ import com.boger.game.gc.widget.VPIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 /**
  * Created by Administrator on 2016/3/22.
  */
@@ -58,23 +58,20 @@ public class RecommendCFragment extends BaseFragment {
 
     private RecommendPresenter presenter;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.recommendRecyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.recommendSwipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+
     private ClickGetMoreListener getMoreListener;
-
-
     private int[] colors = new int[]{R.mipmap.ic_banner_01, R.mipmap.ic_banner_02, R.mipmap.ic_banner_03, R.mipmap.ic_banner_04, R.mipmap.ic_banner_05};
+
     private int currentPosition = 0;
 
     private String[] lolTitles = new String[]{"玩家信息查询", "战绩查询", "常用英雄", "英雄数据", "玩家段位", "段位预测"};
-
-    private RecyclerView recyclerView;
     private RecyclerViewData data = new RecyclerViewData();
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.child_fragment_recommond, container, false);
-    }
 
     @Override
     public void onResume() {
@@ -111,14 +108,16 @@ public class RecommendCFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(View v) {
-        recyclerView = (RecyclerView) v.findViewById(R.id.recommendRecyclerView);
+    protected int getLayoutResId() {
+        return R.layout.child_fragment_recommond;
+    }
 
+    @Override
+    protected void initViewData() {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(new RecyclerViewAdapter());
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.activity_horizontal_margin);
         recyclerView.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
-        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.recommendSwipeRefreshLayout);
     }
 
     @Override

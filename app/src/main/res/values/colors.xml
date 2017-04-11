@@ -21,4 +21,9 @@
     <color name="percent70WhiteColor">#D9ffffff</color>
 
     <color name="percent50Black">#80000000</color>
+
+
+    <color name="guide1">#FEBF30</color>
+    <color name="guide2">#148DFD</color>
+    <color name="guide3">#A0D253</color>
 </resources>

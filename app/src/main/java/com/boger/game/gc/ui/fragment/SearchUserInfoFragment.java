@@ -3,14 +3,11 @@ package com.boger.game.gc.ui.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,7 +25,6 @@ import com.boger.game.gc.widget.LoadingFailView;
 import com.boger.game.gc.widget.LoadingView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -134,23 +130,6 @@ public class SearchUserInfoFragment extends BaseFragment implements AreaListFrag
         return fragment;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_search_user_info, container, false);
-        ButterKnife.bind(this, v);
-        serverName = cache.readStringValue("lolServerName", DEFAULT_SERVER_NAME);
-        playerName = cache.readStringValue("lolPlayerName", "");
-        getBaseActivity().getSupportActionBar().setTitle("玩家信息");
-        return v;
-    }
-
-    @Override
-    protected void initView(View v) {
-        areaButton.setText(serverName);
-        userIdEditText.setText(playerName);
-    }
-
     public void setResult(PlayerInfoModel model) {
         avatarContainer.setVisibility(View.VISIBLE);
         ImageLoaderUtils.load(model.getPortrait(), avatarImageView);
@@ -167,6 +146,20 @@ public class SearchUserInfoFragment extends BaseFragment implements AreaListFrag
         loadingView.stopAnim();
         loadingView.setVisibility(View.GONE);
 
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_search_user_info;
+    }
+
+    @Override
+    protected void initViewData() {
+        serverName = cache.readStringValue("lolServerName", DEFAULT_SERVER_NAME);
+        playerName = cache.readStringValue("lolPlayerName", "");
+        getBaseActivity().getSupportActionBar().setTitle("玩家信息");
+        areaButton.setText(serverName);
+        userIdEditText.setText(playerName);
     }
 
     public void loadingFail() {

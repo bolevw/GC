@@ -1,18 +1,13 @@
 package com.boger.game.gc.ui.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseFragment;
@@ -22,28 +17,29 @@ import com.boger.game.gc.ui.fragment.childfragment.PictureCFragment;
 import com.boger.game.gc.ui.fragment.childfragment.RecommendCFragment;
 import com.boger.game.gc.utils.ToastUtils;
 
+import butterknife.BindView;
+
 /**
  * Created by Administrator on 2016/3/22.
  */
 public class IndexHomeFragment extends BaseFragment implements RecommendCFragment.ClickGetMoreListener {
-    private ViewPager indexHomeViewPager;
+    @BindView(R.id.indexHomeViewPager)
+    ViewPager indexHomeViewPager;
+    @BindView(R.id.indexHomeTabLayout)
     private TabLayout indexHomeTabLayout;
 
     private int[] viewPagerTitles = new int[]{R.string.recommend, R.string.game, R.string.joke, R.string.picture};
     private BaseFragment[] fragments = new BaseFragment[viewPagerTitles.length];
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_index_home, container, false);
-        setHasOptionsMenu(true);
-        return v;
+    protected int getLayoutResId() {
+        return R.layout.fragment_index_home;
     }
 
     @Override
-    protected void initView(View v) {
-        indexHomeTabLayout = (TabLayout) v.findViewById(R.id.indexHomeTabLayout);
-        indexHomeViewPager = (ViewPager) v.findViewById(R.id.indexHomeViewPager);
+    protected void initViewData() {
+        setHasOptionsMenu(true);
     }
 
     @Override

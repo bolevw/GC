@@ -12,7 +12,7 @@ import rx.Observable;
 public interface JokeService {
     @GET("255-1")
     Observable<JokeResponse> getJoke(@Query("page") int page,
-                                     @Query("showapi_appid") String appid,
+                                     @Query("showapi_sign") String sign,
                                      @Query("type") String type,
-                                     @Query("showapi_sign") String sign);
+                                     @Query("showapi_appid") String appId);
 }

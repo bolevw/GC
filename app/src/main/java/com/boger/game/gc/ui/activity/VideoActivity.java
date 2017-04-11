@@ -6,13 +6,13 @@ import android.media.MediaPlayer;
 import android.widget.VideoView;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseActivity;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.presenter.activity.VideoPresenter;
 
 /**
  * Created by Administrator on 2016/4/27.
  */
-public class VideoActivity extends BaseActivity {
+public class VideoActivity extends BaseSwipeBackActivity {
 
     private MediaPlayer player;
     private VideoPresenter presenter;
@@ -26,8 +26,12 @@ public class VideoActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
-        setContentView(R.layout.activity_video);
+    protected int getLayoutResId() {
+        return R.layout.activity_video;
+    }
+
+    @Override
+    protected void initViewData() {
 
      /*   Intent intent = getIntent();
         if (TextUtils.isEmpty(intent.getStringExtra("url"))) {

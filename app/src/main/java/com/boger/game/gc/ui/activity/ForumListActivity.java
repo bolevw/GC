@@ -11,16 +11,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseActivity;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.model.ForumPostListItemModel;
 import com.boger.game.gc.presenter.activity.ForumPostListPresenter;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/4/7.
  */
-public class ForumListActivity extends BaseActivity {
+public class ForumListActivity extends BaseSwipeBackActivity {
 
     private static final int TYPE_LOADING = 0x0001;
     private static final int TYPE_EMPTY = 0x0002;
@@ -39,9 +40,12 @@ public class ForumListActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
-        setContentView(R.layout.activity_forum_post_list);
+    protected int getLayoutResId() {
+        return R.layout.activity_forum_post_list;
+    }
 
+    @Override
+    protected void initViewData() {
         Intent intent = getIntent();
         urls = intent.getStringExtra("urls");
 
@@ -177,5 +181,19 @@ public class ForumListActivity extends BaseActivity {
 
     public void setLoading(boolean loading) {
         isLoading = loading;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
 }

@@ -7,21 +7,21 @@ import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseActivity;
 import com.boger.game.gc.base.BaseSub;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.model.RegisterModel;
 import com.boger.game.gc.model.UserModel;
 import com.boger.game.gc.restApi.UserApi;
 import com.boger.game.gc.utils.SnackbarUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/4/6.
  */
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends BaseSwipeBackActivity {
 
     @BindView(R.id.usernameEditText)
     TextInputEditText username;
@@ -93,10 +93,12 @@ public class RegisterActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
-        setContentView(R.layout.activity_register);
-        ButterKnife.bind(this);
+    protected int getLayoutResId() {
+        return R.layout.activity_register;
+    }
 
+    @Override
+    protected void initViewData() {
     }
 
     @Override
@@ -112,5 +114,19 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void unBind() {
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
 }

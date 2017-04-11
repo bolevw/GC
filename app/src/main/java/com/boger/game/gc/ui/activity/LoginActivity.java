@@ -10,9 +10,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseActivity;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.presenter.activity.LoginPresenter;
 import com.boger.game.gc.utils.SnackbarUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import butterknife.OnClick;
 /**
  * Created by Administrator on 2016/4/6.
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseSwipeBackActivity {
     private LoginPresenter presenter;
 
     private EditText accountEditText;
@@ -47,8 +48,12 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
-        setContentView(R.layout.activity_login);
+    protected int getLayoutResId() {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    protected void initViewData() {
         ButterKnife.bind(this);
         accountEditText = (EditText) findViewById(R.id.accountEditText);
 
@@ -102,5 +107,19 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void unBind() {
         this.presenter.unBind();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
 }

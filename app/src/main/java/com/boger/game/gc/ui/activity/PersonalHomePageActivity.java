@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseActivity;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.model.PersonalHomePageModel;
 import com.boger.game.gc.presenter.activity.PersonalHomePagePresenter;
 import com.boger.game.gc.utils.ImageLoad;
@@ -19,7 +19,7 @@ import com.boger.game.gc.utils.ImageLoaderUtils;
 /**
  * Created by Administrator on 2016/4/14.
  */
-public class PersonalHomePageActivity extends BaseActivity {
+public class PersonalHomePageActivity extends BaseSwipeBackActivity {
 
     private PersonalHomePagePresenter presenter;
 
@@ -44,8 +44,12 @@ public class PersonalHomePageActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
-        setContentView(R.layout.activity_personal_home_page);
+    protected int getLayoutResId() {
+        return R.layout.activity_personal_home_page;
+    }
+
+    @Override
+    protected void initViewData() {
         url = getIntent().getStringExtra("url");
 
         usernameTextView = (TextView) findViewById(R.id.usernameTextView);

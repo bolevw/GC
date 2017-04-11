@@ -23,14 +23,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseActivity;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.model.CommentModel;
 import com.boger.game.gc.presenter.activity.PictureCommentPresenter;
 import com.boger.game.gc.utils.ImageLoaderUtils;
 import com.boger.game.gc.utils.ToastUtils;
 import com.boger.game.gc.widget.CommentDialog;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,14 +38,13 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by liubo on 16/8/1.
  */
 
-public class PictureCommentActivity extends BaseActivity {
+public class PictureCommentActivity extends BaseSwipeBackActivity {
 
     private static final int TYPE_COMMENT = 0x0001;
     private static final int TYPE_LOADING = 0x0002;
@@ -125,11 +124,12 @@ public class PictureCommentActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected int getLayoutResId() {
+        return R.layout.activity_picture_comment;
+    }
 
-        setContentView(R.layout.activity_picture_comment);
-        ButterKnife.bind(this);
-
+    @Override
+    protected void initViewData() {
         Intent intent = getIntent();
         if (intent == null) {
             finish();

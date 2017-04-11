@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseFragment;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -71,20 +69,18 @@ public class AreaListFragment extends BaseFragment {
         return fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_area_list, container, false);
-        ButterKnife.bind(this, v);
+    protected int getLayoutResId() {
+        return R.layout.fragment_area_list;
+    }
+
+    @Override
+    protected void initViewData() {
         Bundle bundle = getArguments();
         if (bundle != null) {
             nums = bundle.getBoolean("nums", false);
         }
-        return v;
-    }
 
-    @Override
-    protected void initView(View v) {
         panelView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {

@@ -6,33 +6,31 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseActivity;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.base.BaseFragment;
 import com.boger.game.gc.ui.fragment.AttentionFragment;
 import com.boger.game.gc.ui.fragment.ForumFragment;
 import com.boger.game.gc.ui.fragment.IndexHomeFragment;
 import com.boger.game.gc.ui.fragment.MineFragment;
 import com.boger.game.gc.utils.FragmentUtils;
-import com.boger.game.gc.utils.GetIPUtils;
 import com.boger.game.gc.utils.ToastUtils;
 import com.boger.game.gc.widget.BottomNav;
+import com.umeng.analytics.MobclickAgent;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseSwipeBackActivity {
 
     private BottomNav bottomNav;
     private BaseFragment[] fragments = new BaseFragment[4];
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    protected void initView() {
-        if (!cache.readBooleanValue("hasRun", false)) {
+    protected void initViewData() {
+//        if (!cache.readBooleanValue("hasRun", false)) {
             startActivity(new Intent(this, GuideActivity.class));
-        }
+//        }
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.cut_line));
-        setContentView(R.layout.activity_main);
         bottomNav = (BottomNav) findViewById(R.id.mainBottomNav);
         switchFragment(0);
-        String ip = GetIPUtils.getIpAddress(false);
     }
 
     @Override
@@ -80,18 +78,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-//        ViewServer.get(this).setFocusedWindow(this);
-    }
-
-    @Override
     protected void bind() {
     }
 
     @Override
     protected void unBind() {
-//        ViewServer.get(this).removeWindow(this);
     }
 
     private long times;
@@ -109,5 +100,24 @@ public class MainActivity extends BaseActivity {
     @Override
     protected boolean isSupportSwipeBack() {
         return false;
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
 }

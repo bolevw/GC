@@ -1,10 +1,12 @@
 package com.boger.game.gc.model;
 
+import com.boger.game.gc.base.BaseModel;
+
 /**
  * Created by liubo on 2017/2/13.
  */
 
-public class ImageMode {
+public class ImageMode extends BaseModel{
     private String url;
 
     public String getUrl() {

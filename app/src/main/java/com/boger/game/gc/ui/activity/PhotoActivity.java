@@ -15,25 +15,25 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseActivity;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.restApi.DownLoad;
 import com.boger.game.gc.utils.ImageLoad;
 import com.boger.game.gc.utils.ImageLoaderUtils;
 import com.boger.game.gc.utils.ToastUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
 
 /**
  * Created by liubo on 2016/5/20.
  */
-public class PhotoActivity extends BaseActivity {
+public class PhotoActivity extends BaseSwipeBackActivity {
 
     private static final String TAG = "PhotoActivity";
     private static final int MOVE_DISTANCE = 50;
@@ -65,10 +65,7 @@ public class PhotoActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
-        setContentView(R.layout.activity_photo);
-        ButterKnife.bind(this);
-
+    protected void initViewData() {
         velocityTracker = VelocityTracker.obtain();
 
         Intent intent = getIntent();
@@ -212,5 +209,24 @@ public class PhotoActivity extends BaseActivity {
     @Override
     protected boolean isSupportSwipeBack() {
         return finish;
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_photo;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
 }

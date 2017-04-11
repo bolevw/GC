@@ -1,12 +1,9 @@
 package com.boger.game.gc.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,7 +16,6 @@ import com.boger.game.gc.widget.LoadingFailView;
 import com.boger.game.gc.widget.LoadingView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -81,6 +77,23 @@ public class RecordFragment extends BaseFragment implements AreaListFragment.OnI
 
     }
 
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_search_user_info;
+    }
+
+    @Override
+    protected void initViewData() {
+        serverName = cache.readStringValue("lolServerName", DEFAULT_SERVER_NAME);
+        playerName = cache.readStringValue("lolPlayerName", "");
+
+        if (getBaseActivity().getSupportActionBar() != null) {
+            getBaseActivity().getSupportActionBar().setTitle("战绩查询");
+        }
+        areaButton.setText(serverName);
+        userIdEditText.setText(playerName);
+    }
+
     public void loadingFail() {
         loadingView.stopAnim();
         loadingView.setVisibility(View.GONE);
@@ -95,17 +108,6 @@ public class RecordFragment extends BaseFragment implements AreaListFragment.OnI
         resultTextView.setText("");
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_search_user_info, container, false);
-        ButterKnife.bind(this, v);
-
-        serverName = cache.readStringValue("lolServerName", DEFAULT_SERVER_NAME);
-        playerName = cache.readStringValue("lolPlayerName", "");
-        return v;
-    }
-
     public static RecordFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -113,16 +115,6 @@ public class RecordFragment extends BaseFragment implements AreaListFragment.OnI
         RecordFragment fragment = new RecordFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    protected void initView(View v) {
-
-        if (getBaseActivity().getSupportActionBar() != null) {
-            getBaseActivity().getSupportActionBar().setTitle("战绩查询");
-        }
-        areaButton.setText(serverName);
-        userIdEditText.setText(playerName);
     }
 
     public void setResult(RecordModel model) {

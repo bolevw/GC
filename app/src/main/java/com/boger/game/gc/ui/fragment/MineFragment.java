@@ -2,12 +2,8 @@ package com.boger.game.gc.ui.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,7 +18,6 @@ import com.boger.game.gc.utils.ImageLoaderUtils;
 import com.boger.game.gc.widget.MovePath;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -30,8 +25,10 @@ import butterknife.OnClick;
  */
 public class MineFragment extends BaseFragment {
     private MinePresenter presenter;
-    private LinearLayout aboutLinearLayout;
-    private Button loginButton;
+    @BindView(R.id.aboutLinearLayout)
+    LinearLayout aboutLinearLayout;
+    @BindView(R.id.loginButton)
+    Button loginButton;
     private boolean isLogin;
 
     @BindView(R.id.avatarImageView)
@@ -47,21 +44,14 @@ public class MineFragment extends BaseFragment {
         movePath.run();
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_mine, container, false);
-        ButterKnife.bind(this, v);
-        isLogin = cache.readBooleanValue("isLogin", false);
-        return v;
+    protected int getLayoutResId() {
+        return R.layout.fragment_mine;
     }
 
     @Override
-    protected void initView(View v) {
-        aboutLinearLayout = (LinearLayout) v.findViewById(R.id.aboutLinearLayout);
-        loginButton = (Button) v.findViewById(R.id.loginButton);
-        avatarImageView = (ImageView) v.findViewById(R.id.avatarImageView);
-        usernameTextView = (TextView) v.findViewById(R.id.usernameTextView);
+    protected void initViewData() {
+        isLogin = cache.readBooleanValue("isLogin", false);
 
         if (isLogin) {
             loginButton.setText("退出登录");
@@ -72,7 +62,9 @@ public class MineFragment extends BaseFragment {
             usernameTextView.setText("");
         }
 
+
     }
+    
 
     @Override
     protected void bind() {
@@ -90,7 +82,7 @@ public class MineFragment extends BaseFragment {
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int id = v.getId();
+            int id = getId();
             if (id == aboutLinearLayout.getId()) {
                 startActivity(new Intent(getActivity(), AboutActivity.class));
             }

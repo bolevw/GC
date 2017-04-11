@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseActivity;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.base.BaseModel;
 import com.boger.game.gc.base.ItemData;
 import com.boger.game.gc.model.ForumItemDetailModel;
@@ -22,6 +22,7 @@ import com.boger.game.gc.model.ForumPartitionModel;
 import com.boger.game.gc.model.VideoModel;
 import com.boger.game.gc.presenter.activity.ForumDetailListPresenter;
 import com.boger.game.gc.utils.ImageLoaderUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,8 @@ import java.util.ArrayList;
  * 论坛标签
  * Created by Administrator on 2016/4/6.
  */
-public class ForumLabelListActivity extends BaseActivity {
+public class ForumLabelListActivity extends BaseSwipeBackActivity {
+
 
     private static final int TYPE_VIDEO = 0x0001;
     private static final int TYPE_PARTITION = 0x0002;
@@ -51,8 +53,12 @@ public class ForumLabelListActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
-        setContentView(R.layout.activity_forum_detail_list);
+    protected int getLayoutResId() {
+        return R.layout.activity_forum_detail_list;
+    }
+
+    @Override
+    protected void initViewData() {
         Intent intent = getIntent();
         urls = intent.getStringExtra("urls");
 
@@ -196,5 +202,19 @@ public class ForumLabelListActivity extends BaseActivity {
                 imgPic = (ImageView) itemView.findViewById(R.id.videoImageView);
             }
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
     }
 }

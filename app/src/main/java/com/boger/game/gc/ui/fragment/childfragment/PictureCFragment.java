@@ -1,7 +1,5 @@
 package com.boger.game.gc.ui.fragment.childfragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2016/3/22.
@@ -47,17 +44,13 @@ public class PictureCFragment extends BaseFragment {
     @BindView(R.id.pictureRecyclerView)
     RecyclerView recyclerView;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_picture, container, false);
-        ButterKnife.bind(this, v);
-        return v;
-
+    protected int getLayoutResId() {
+        return R.layout.fragment_picture;
     }
 
     @Override
-    protected void initView(View v) {
+    protected void initViewData() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
         recyclerView.setAdapter(new RVAdapter());
     }
