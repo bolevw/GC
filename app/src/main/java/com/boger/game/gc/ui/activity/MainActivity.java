@@ -6,7 +6,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseSwipeBackActivity;
+import com.boger.game.gc.base.BaseActivity;
 import com.boger.game.gc.base.BaseFragment;
 import com.boger.game.gc.ui.fragment.AttentionFragment;
 import com.boger.game.gc.ui.fragment.ForumFragment;
@@ -14,33 +14,64 @@ import com.boger.game.gc.ui.fragment.IndexHomeFragment;
 import com.boger.game.gc.ui.fragment.MineFragment;
 import com.boger.game.gc.utils.FragmentUtils;
 import com.boger.game.gc.utils.ToastUtils;
-import com.boger.game.gc.widget.BottomNav;
+import com.boger.game.gc.widget.bottomnav.BottomNavController;
+import com.boger.game.gc.widget.bottomnav.BottomNavChild;
 import com.umeng.analytics.MobclickAgent;
 
-public class MainActivity extends BaseSwipeBackActivity {
+import butterknife.BindView;
 
-    private BottomNav bottomNav;
+public class MainActivity extends BaseActivity {
+
+    @BindView(R.id.mainBottomNav)
+    BottomNavController bottomNav;
     private BaseFragment[] fragments = new BaseFragment[4];
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_main;
+    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initViewData() {
 //        if (!cache.readBooleanValue("hasRun", false)) {
-            startActivity(new Intent(this, GuideActivity.class));
+        startActivity(new Intent(this, GuideActivity.class));
 //        }
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.cut_line));
-        bottomNav = (BottomNav) findViewById(R.id.mainBottomNav);
-        switchFragment(0);
+
+        bottomNav
+                .addItem(new BottomNavChild
+                        .Builder(mContext)
+                        .setTitle(R.string.attention)
+                        .setImageRes(R.drawable.tab_attention)
+                        .build())
+                .addItem(new BottomNavChild
+                        .Builder(mContext)
+                        .setImageRes(R.drawable.tab_square)
+                        .setTitle(R.string.square)
+                        .build())
+                .addItem(new BottomNavChild
+                        .Builder(mContext)
+                        .setImageRes(R.drawable.tab_message)
+                        .setTitle(R.string.message)
+                        .build())
+                .addItem(new BottomNavChild
+                        .Builder(mContext)
+                        .setImageRes(R.drawable.tab_mine)
+                        .setTitle(R.string.mine)
+                        .build())
+                .setSelectItem(1)
+                .build(onNavItemClickListener);
     }
 
     @Override
     protected void setListener() {
-        bottomNav.setListener(onNavItemClickListener);
+
     }
 
-    private BottomNav.OnNavItemClickListener onNavItemClickListener = new BottomNav.OnNavItemClickListener() {
+    private BottomNavController.OnChildClickListener onNavItemClickListener = new BottomNavController.OnChildClickListener() {
         @Override
-        public void onItemClick(int position) {
+        public void onClick(int position) {
             if (position == 2) {
                 if (!cache.readBooleanValue("isLogin", false)) {
                     position = 3;
@@ -95,16 +126,6 @@ public class MainActivity extends BaseSwipeBackActivity {
         if (Math.abs(secTime - times) < 2000) {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    protected boolean isSupportSwipeBack() {
-        return false;
-    }
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.activity_main;
     }
 
     @Override

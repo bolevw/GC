@@ -1,12 +1,10 @@
-package com.boger.game.gc.widget;
+package com.boger.game.gc.widget.bottomnav;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +13,7 @@ import android.widget.TextView;
 import com.boger.game.gc.R;
 
 /**
- * Created by Administrator on 2016/3/21.
+ * Created by liubo on 2016/3/21.
  */
 public class BottomNavItem extends LinearLayout {
 
@@ -42,11 +40,7 @@ public class BottomNavItem extends LinearLayout {
         iconRes = ta.getResourceId(R.styleable.BottomNavItem_bni_icon, 0);
         ta.recycle();
 
-        View v = LayoutInflater.from(context).inflate(R.layout.item_bottom_nav, this, true);
-        itemNavBottomTextView = (TextView) v.findViewById(R.id.itemNavBottomTextView);
-        itemNavBottomImageView = (ImageView) v.findViewById(R.id.itemNavBottomImageView);
-        itemNavBottomImageView.setImageResource(iconRes);
-        itemNavBottomTextView.setText(text);
+
 
         animatorIn = AnimatorInflater.loadAnimator(context, R.animator.scale_with_alpha);
         animatorIn.setDuration(300);

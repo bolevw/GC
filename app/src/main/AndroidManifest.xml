@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.boger.game.gc">
+    package="com.boger.game.gc"> <!-- uemng -->
+    <uses-sdk android:minSdkVersion="8" />
 
-    <!--外部存储权限-->
+    <!-- 外部存储权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!--uemng-->
-    <uses-sdk android:minSdkVersion="8"></uses-sdk>
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -26,87 +23,80 @@
         android:value="${UMENG_CHANNEL_VALUE}" />
 
     <application
-        android:name="com.boger.game.gc.base.BaseApplication"
+        android:name=".base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
 
         <activity
-            android:name="com.boger.game.gc.ui.activity.MainActivity"
-            android:label="@string/app_name"
+            android:name=".ui.activity.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="com.boger.game.gc.ui.activity.GuideActivity"
-            android:screenOrientation="portrait" />
+            android:name=".ui.activity.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
 
+        </activity>
         <activity
-            android:name="com.boger.game.gc.ui.activity.AboutActivity"
+            android:name=".ui.activity.GuideActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AboutActivity"
             android:label="@string/title_about"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.boger.game.gc.ui.activity.ForumLabelListActivity"
+            android:name=".ui.activity.ForumLabelListActivity"
             android:label="@string/title_forum"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.boger.game.gc.ui.activity.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:label="@string/title_login"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
         <activity
-            android:name="com.boger.game.gc.ui.activity.RegisterActivity"
+            android:name=".ui.activity.RegisterActivity"
             android:label="@string/title_register"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.boger.game.gc.ui.activity.ForumListActivity"
+            android:name=".ui.activity.ForumListActivity"
             android:label="@string/title_post"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.boger.game.gc.ui.activity.PostDetailActivity"
+            android:name=".ui.activity.PostDetailActivity"
             android:label="@string/title_post_detail"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
-            android:name="com.boger.game.gc.ui.activity.PersonalHomePageActivity"
+            android:name=".ui.activity.PersonalHomePageActivity"
             android:label="@string/title_personal_home_page"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.boger.game.gc.ui.activity.VideoActivity"
+            android:name=".ui.activity.VideoActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.boger.game.gc.ui.activity.PhotoActivity"
+            android:name=".ui.activity.PhotoActivity"
             android:process=":picture"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.boger.game.gc.ui.activity.LoLActivity"
+            android:name=".ui.activity.LoLActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.boger.game.gc.ui.activity.PictureCommentActivity"
+            android:name=".ui.activity.PictureCommentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-    </application>
 
+    </application>
 
 </manifest>

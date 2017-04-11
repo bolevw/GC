@@ -1,4 +1,4 @@
-package com.boger.game.gc.widget;
+package com.boger.game.gc.widget.bottomnav;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/3/21.
+ * Created by liubo on 2016/3/21.
  */
 public class BottomNav extends LinearLayout implements View.OnClickListener {
 

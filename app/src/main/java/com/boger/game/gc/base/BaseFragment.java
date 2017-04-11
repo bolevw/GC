@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ public abstract class BaseFragment extends Fragment {
     public static String TAG = null;
 
     private LoadingView loadingView;
-    private BaseSwipeBackActivity activity;
+    private AppCompatActivity activity;
     protected Cache cache = Cache.getInstance(BaseApplication.getContext());
     private Unbinder unbinder;
 
@@ -57,7 +58,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.activity = (BaseSwipeBackActivity) context;
+        this.activity = (AppCompatActivity) context;
     }
 
     @Override
@@ -77,7 +78,7 @@ public abstract class BaseFragment extends Fragment {
         Log.e("error", e.toString());
     }
 
-    protected BaseSwipeBackActivity getBaseActivity() {
+    protected AppCompatActivity getBaseActivity() {
         return activity;
     }
 

@@ -17,27 +17,27 @@
         android:layout_height="1px"
         android:background="@color/cut_line" />
 
-    <com.boger.game.gc.widget.BottomNav
+    <!--<com.boger.game.gc.widget.bottomnav.BottomNav
         android:id="@+id/mainBottomNav"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal">
 
-        <com.boger.game.gc.widget.BottomNavItem
+        <com.boger.game.gc.widget.bottomnav.BottomNavItem
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:bni_icon="@mipmap/ic_index_home"
             app:bni_text="@string/index_page" />
 
-        <com.boger.game.gc.widget.BottomNavItem
+        <com.boger.game.gc.widget.bottomnav.BottomNavItem
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:bni_icon="@mipmap/ic_forum"
             app:bni_text="@string/forum" />
 
-        <com.boger.game.gc.widget.BottomNavItem
+        <com.boger.game.gc.widget.bottomnav.BottomNavItem
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -45,13 +45,18 @@
             app:bni_text="@string/attention" />
 
 
-        <com.boger.game.gc.widget.BottomNavItem
+        <com.boger.game.gc.widget.bottomnav.BottomNavItem
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:bni_icon="@mipmap/ic_mine"
             app:bni_text="@string/mine" />
-    </com.boger.game.gc.widget.BottomNav>
+    </com.boger.game.gc.widget.bottomnav.BottomNav>-->
+
+    <com.boger.game.gc.widget.bottomnav.BottomNavController
+        android:id="@+id/mainBottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.boger.game.gc.widget.bottomnav.BottomNavController>
 
 
 </LinearLayout>

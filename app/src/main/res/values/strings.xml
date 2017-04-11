@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">GC</string>
+    <string name="app_name">游戏杂坛</string>
 
 
     <!--bottom bar text-->
-    <string name="index_page">首页</string>
-    <string name="forum">论坛</string>
+    <string name="message">消息</string>
+    <string name="square">广场</string>
     <string name="attention">关注</string>
     <string name="mine">我的</string>
 
