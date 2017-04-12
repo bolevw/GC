@@ -9,7 +9,7 @@ import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseActivity;
 import com.boger.game.gc.base.BaseFragment;
 import com.boger.game.gc.ui.fragment.AttentionFragment;
-import com.boger.game.gc.ui.fragment.ForumFragment;
+import com.boger.game.gc.ui.fragment.SquareFragment;
 import com.boger.game.gc.ui.fragment.IndexHomeFragment;
 import com.boger.game.gc.ui.fragment.MineFragment;
 import com.boger.game.gc.utils.FragmentUtils;
@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity {
                     fragments[0] = fragment;
                     break;
                 case 1:
-                    fragment = new ForumFragment();
+                    fragment = new SquareFragment();
                     fragments[1] = fragment;
                     break;
                 case 2:

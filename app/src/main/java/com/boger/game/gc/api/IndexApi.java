@@ -144,7 +144,7 @@ public class IndexApi {
                     public List<ForumModel> call(Document document) {
                         ArrayList<ForumModel> list = new ArrayList<ForumModel>();
                         Element bodyEl = document.body();
-
+                        Log.d(TAG, "call() called with: document = [" + bodyEl.toString() + "]");
                         Elements divEs = bodyEl.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.AllGame.TAG);
                         for (Element el : divEs) {
                             ForumModel item = new ForumModel();
@@ -160,6 +160,7 @@ public class IndexApi {
                             list.add(item);
                         }
 
+                        Log.d(TAG, "list detail" + list.toString());
                         return list;
                     }
                 }).subscribeOn(Schedulers.io())

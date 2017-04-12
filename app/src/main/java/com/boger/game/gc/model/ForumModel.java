@@ -16,6 +16,17 @@ public class ForumModel extends BaseModel {
     private List<ForumItemModel> forumItems;
 
 
+    @Override
+    public String toString() {
+        return "ForumModel{" +
+                "imageSrc='" + imageSrc + '\'' +
+                ", forumName='" + forumName + '\'' +
+                ", forumCount='" + forumCount + '\'' +
+                ", urls='" + urls + '\'' +
+                ", forumItems=" + forumItems +
+                '}';
+    }
+
     public String getUrls() {
         return urls;
     }

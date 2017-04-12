@@ -9,6 +9,14 @@ class ForumItemModel extends BaseModel {
     private String name;
     private String urls;
 
+    @Override
+    public String toString() {
+        return "ForumItemModel{" +
+                "name='" + name + '\'' +
+                ", urls='" + urls + '\'' +
+                '}';
+    }
+
     public String getName() {
         return name;
     }

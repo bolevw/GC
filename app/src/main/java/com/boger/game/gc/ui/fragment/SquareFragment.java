@@ -15,48 +15,71 @@ import android.widget.TextView;
 import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseFragment;
 import com.boger.game.gc.model.ForumModel;
-import com.boger.game.gc.presenter.fragment.ForumPresenter;
+import com.boger.game.gc.presenter.fragment.SquarePresenter;
 import com.boger.game.gc.ui.activity.ForumLabelListActivity;
 import com.boger.game.gc.utils.ImageLoaderUtils;
 import com.boger.game.gc.widget.RecyclerViewCutLine;
+import com.boger.game.gc.widget.pullToRefreshLayout.PullToRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
+
 /**
- * Created by Administrator on 2016/3/22.
+ * Created by liubo on 2016/3/22.
  */
-public class ForumFragment extends BaseFragment {
+public class SquareFragment extends BaseFragment {
+
+    private SquarePresenter presenter;
+
+    private List<ForumModel> viewData = new ArrayList<>();
 
     @BindView(R.id.forumRecyclerView)
     RecyclerView forumRecyclerView;
-    private ForumPresenter presenter;
     @BindView(R.id.quickReturnButton)
     FloatingActionButton quickReturnButton;
-    private List<ForumModel> recycleViewData = new ArrayList<>();
+    @BindView(R.id.ptr)
+    PullToRefreshLayout ptr;
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_forum;
+        return R.layout.fragment_square;
     }
 
     @Override
     protected void initViewData() {
         forumRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        ptr.autoRefresh();
+
+        // 刷新状态的回调
+        ptr.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // 延迟3秒后刷新成功
+                ptr.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (ptr != null)
+                            ptr.refreshComplete();
+                    }
+                }, 3000);
+            }
+        });
+
     }
 
     @Override
     protected void bind() {
-        this.presenter = new ForumPresenter();
+        this.presenter = new SquarePresenter();
         this.presenter.bind(this);
     }
 
     public void notifyChange(List<ForumModel> list) {
-        recycleViewData.clear();
-        recycleViewData.addAll(list);
+        viewData.clear();
+        viewData.addAll(list);
         forumRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
@@ -110,7 +133,7 @@ public class ForumFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            final ForumModel model = recycleViewData.get(position);
+            final ForumModel model = viewData.get(position);
             VH vh = (VH) holder;
             vh.name.setText(model.getForumName());
             ImageLoaderUtils.load(model.getImageSrc(), vh.forumImageView);
@@ -132,7 +155,7 @@ public class ForumFragment extends BaseFragment {
 
         @Override
         public int getItemCount() {
-            return recycleViewData.size();
+            return viewData.size();
         }
 
         private class VH extends RecyclerView.ViewHolder {

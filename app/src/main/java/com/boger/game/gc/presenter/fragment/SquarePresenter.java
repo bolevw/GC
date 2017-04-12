@@ -3,7 +3,7 @@ package com.boger.game.gc.presenter.fragment;
 import com.boger.game.gc.api.IndexApi;
 import com.boger.game.gc.base.BasePresenter;
 import com.boger.game.gc.model.ForumModel;
-import com.boger.game.gc.ui.fragment.ForumFragment;
+import com.boger.game.gc.ui.fragment.SquareFragment;
 
 import java.util.List;
 
@@ -12,11 +12,12 @@ import rx.Subscriber;
 /**
  * Created by Administrator on 2016/4/5.
  */
-public class ForumPresenter implements BasePresenter<ForumFragment> {
-    private ForumFragment view;
+public class SquarePresenter implements BasePresenter<SquareFragment> {
+
+    private SquareFragment view;
 
     @Override
-    public void bind(ForumFragment view) {
+    public void bind(SquareFragment view) {
         this.view = view;
     }
 
