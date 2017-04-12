@@ -5,25 +5,10 @@
     android:layout_height="match_parent"
     android:background="@color/common_background_white">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/forumRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.boger.game.gc.widget.LoadingView
-            android:id="@+id/loadingView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/forumRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
-        <include layout="@layout/layout_quick_return" />
-
-    </RelativeLayout>
-
+        android:layout_height="match_parent" />
 
 </com.boger.game.gc.widget.pullToRefreshLayout.PullToRefreshLayout>

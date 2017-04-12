@@ -6,15 +6,12 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.Scroller;
 
-import com.boger.game.gc.R;
 import com.boger.game.gc.utils.ToastUtils;
 
 import static android.support.v4.widget.ViewDragHelper.INVALID_POINTER;
@@ -27,10 +24,7 @@ public class PullToRefreshLayout extends ViewGroup {
     private static final float DRAG_RATE = .5f;
     private static final String TAG = "PullToRefreshLayout";
 
-
-    private Scroller mScroller;
     private int mTouchSlop;
-    private VelocityTracker mTracker;
     private PtrState state = PtrState.RESET;
 
     private View headerView;
@@ -39,7 +33,6 @@ public class PullToRefreshLayout extends ViewGroup {
     private boolean hasMeasureHeader;
     private int headerHeight;
     private int totalDragDistance;
-    private int maxDragDistance;
 
     public PullToRefreshLayout(Context context) {
         this(context, null);
@@ -55,15 +48,11 @@ public class PullToRefreshLayout extends ViewGroup {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        mScroller = new Scroller(context);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
-        ImageView imageView = new ImageView(context);
-        imageView.setImageResource(R.mipmap.ic_load_fail);
-        setHeader(imageView);
+        setHeader(new PtrHeaderLoadingView(context));
 
         autoScroll = new AutoScroll();
-
     }
 
     public void setHeader(View view) {
@@ -99,9 +88,7 @@ public class PullToRefreshLayout extends ViewGroup {
             hasMeasureHeader = true;
             headerHeight = headerView.getMeasuredHeight();
             totalDragDistance = headerHeight;
-            maxDragDistance = totalDragDistance * 2;
         }
-
     }
 
 
@@ -143,11 +130,11 @@ public class PullToRefreshLayout extends ViewGroup {
         }
     }
 
-    int activePointerId, lastTargetOffsetTop;
-    boolean isTouch, hasSendCancelEvent, mIsBeginDragged;
+    private int activePointerId, lastTargetOffsetTop;
+    private boolean isTouch, hasSendCancelEvent, mIsBeginDragged;
+    private int lastDownX, lastDownY;
 
-    int initDownX, initDownY, lastDownX, lastDownY;
-    MotionEvent lastEv;
+    private MotionEvent lastEv;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -165,8 +152,8 @@ public class PullToRefreshLayout extends ViewGroup {
                 mIsBeginDragged = false;
                 lastTargetOffsetTop = currentTargetOffsetTop;
                 currentTargetOffsetTop = targetView.getTop();
-                initDownX = lastDownX = (int) ev.getX(0);
-                initDownY = lastDownY = (int) ev.getY(0);
+                lastDownX = (int) ev.getX(0);
+                lastDownY = (int) ev.getY(0);
                 super.dispatchTouchEvent(ev);
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -295,8 +282,8 @@ public class PullToRefreshLayout extends ViewGroup {
         setTargetOffsetTopAndBottom(offset);
 
         // 别忘了回调header的位置改变方法。
-        if (header instanceof PtrHeader) {
-            ((PtrHeader) header)
+        if (headerView instanceof PtrHeader) {
+            ((PtrHeader) headerView)
                     .onPulling(currentTargetOffsetTop, lastTargetOffsetTop, totalDragDistance, isTouch, state);
         }
     }
@@ -393,14 +380,20 @@ public class PullToRefreshLayout extends ViewGroup {
     }
 
     private void onScrollFinish(boolean isForceFinish) {
-
+        if (isAutoRefresh && !isForceFinish) {
+            isAutoRefresh = false;
+            changeState(PtrState.LOADING);
+            if (onRefreshListener != null) {
+                onRefreshListener.onRefresh();
+            }
+            finishSpinner();
+        }
     }
 
-    private PtrHeader header;
 
     private void changeState(PtrState state) {
         this.state = state;
-        PtrHeader header = this.header instanceof PtrHeader ? this.header : null;
+        PtrHeader header = headerView instanceof PtrHeader ? (PtrHeader) headerView : null;
         if (header != null) {
             switch (state) {
                 case RESET:
@@ -466,7 +459,7 @@ public class PullToRefreshLayout extends ViewGroup {
             // 在actionDown事件中重新标记为false
             isAutoRefresh = true;
             changeState(PtrState.PULL);
-            autoScroll.scrollTo(totalDragDistance, 500);
+            autoScroll.scrollTo(totalDragDistance, 2000);
         }
     };
 

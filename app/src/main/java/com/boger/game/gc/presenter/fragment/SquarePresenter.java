@@ -22,7 +22,6 @@ public class SquarePresenter implements BasePresenter<SquareFragment> {
     }
 
     public void getData() {
-        view.startLoading();
         IndexApi.getIndexDetail(new Subscriber<List<ForumModel>>() {
             @Override
             public void onCompleted() {
@@ -32,7 +31,6 @@ public class SquarePresenter implements BasePresenter<SquareFragment> {
             @Override
             public void onError(Throwable e) {
                 if (view != null) {
-                    view.stopLoading();
                     view.logError(e);
                 }
             }
@@ -40,7 +38,6 @@ public class SquarePresenter implements BasePresenter<SquareFragment> {
             @Override
             public void onNext(List<ForumModel> forumModels) {
                 if (null != view) {
-                    view.stopLoading();
                     view.notifyChange(forumModels);
                 }
             }

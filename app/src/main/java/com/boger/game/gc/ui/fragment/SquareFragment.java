@@ -2,7 +2,6 @@ package com.boger.game.gc.ui.fragment;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,8 +37,6 @@ public class SquareFragment extends BaseFragment {
 
     @BindView(R.id.forumRecyclerView)
     RecyclerView forumRecyclerView;
-    @BindView(R.id.quickReturnButton)
-    FloatingActionButton quickReturnButton;
     @BindView(R.id.ptr)
     PullToRefreshLayout ptr;
 
@@ -52,7 +49,8 @@ public class SquareFragment extends BaseFragment {
     protected void initViewData() {
         forumRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        ptr.autoRefresh();
+//        ptr.setHeader(new PtrHeaderLoadingView(getBaseActivity()));
+
 
         // 刷新状态的回调
         ptr.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
@@ -62,12 +60,13 @@ public class SquareFragment extends BaseFragment {
                 ptr.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (ptr != null)
-                            ptr.refreshComplete();
+                        ptr.refreshComplete();
                     }
                 }, 3000);
             }
         });
+
+        ptr.autoRefresh();
 
     }
 
@@ -94,28 +93,7 @@ public class SquareFragment extends BaseFragment {
     protected void setListener() {
         forumRecyclerView.setAdapter(new RVAdapter());
         forumRecyclerView.addItemDecoration(new RecyclerViewCutLine(getResources().getDimensionPixelSize(R.dimen.cut_line), 0));
-        forumRecyclerView.addOnScrollListener(onScrollListener);
-        quickReturnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                forumRecyclerView.smoothScrollToPosition(0);
-            }
-        });
     }
-
-    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            if (dy > 0) {
-                // appear
-                quickReturnButton.show();
-            } else {
-                quickReturnButton.hide();
-                //disappear
-            }
-        }
-    };
 
     @Override
     protected void unbind() {

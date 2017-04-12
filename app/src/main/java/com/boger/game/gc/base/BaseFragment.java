@@ -102,11 +102,11 @@ public abstract class BaseFragment extends Fragment {
     protected abstract void unbind();
 
     @Override
-    public void onDestroyView() {
+    public void onDestroy() {
         unbind();
         hideSoftKeyboard();
         unbinder.unbind();
-        super.onDestroyView();
+        super.onDestroy();
     }
 
     @Override
