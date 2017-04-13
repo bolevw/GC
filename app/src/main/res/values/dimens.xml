@@ -11,4 +11,5 @@
     <dimen name="text_title">18sp</dimen>
 
     <dimen name="cut_line">1px</dimen>
+    <dimen name="section_height">40dp</dimen>
 </resources>

@@ -1,9 +1,11 @@
 package com.boger.game.gc.ui.fragment;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
+import android.content.res.Resources;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +15,11 @@ import android.widget.TextView;
 
 import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseFragment;
-import com.boger.game.gc.model.ForumModel;
+import com.boger.game.gc.model.SquareItemModel;
+import com.boger.game.gc.model.SquareListModel;
 import com.boger.game.gc.presenter.fragment.SquarePresenter;
 import com.boger.game.gc.ui.activity.ForumLabelListActivity;
-import com.boger.game.gc.utils.ImageLoaderUtils;
+import com.boger.game.gc.utils.ImageLoad;
 import com.boger.game.gc.widget.RecyclerViewCutLine;
 import com.boger.game.gc.widget.pullToRefreshLayout.PullToRefreshLayout;
 
@@ -33,12 +36,18 @@ public class SquareFragment extends BaseFragment {
 
     private SquarePresenter presenter;
 
-    private List<ForumModel> viewData = new ArrayList<>();
+    private List<SquareListModel> viewData = new ArrayList<>();
 
     @BindView(R.id.forumRecyclerView)
     RecyclerView forumRecyclerView;
     @BindView(R.id.ptr)
     PullToRefreshLayout ptr;
+    @BindView(R.id.sectionTv)
+    TextView sectionTv;
+
+    private int sectionHeight;
+    private LinearLayoutManager manager;
+    private int mCurrentPosition = 0;
 
     @Override
     protected int getLayoutResId() {
@@ -47,27 +56,65 @@ public class SquareFragment extends BaseFragment {
 
     @Override
     protected void initViewData() {
-        forumRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        forumRecyclerView.setLayoutManager(manager = new LinearLayoutManager(getActivity()));
+    }
 
-//        ptr.setHeader(new PtrHeaderLoadingView(getBaseActivity()));
-
-
-        // 刷新状态的回调
-        ptr.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
+    @Override
+    protected void setListener() {
+        forumRecyclerView.setAdapter(new RVAdapter());
+        forumRecyclerView.addItemDecoration(new RecyclerViewCutLine(getResources().getDimensionPixelSize(R.dimen.cut_line), 0));
+        forumRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onRefresh() {
-                // 延迟3秒后刷新成功
-                ptr.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ptr.refreshComplete();
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                sectionHeight = sectionTv.getMeasuredHeight();
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                View view = manager.findViewByPosition(mCurrentPosition + 1);
+                if (view != null) {
+                    if (view.getTop() <= sectionHeight) {
+                        sectionTv.setY(-(sectionHeight - view.getTop()));
+                    } else {
+                        sectionTv.setY(0);
                     }
-                }, 3000);
+                }
+
+                if (mCurrentPosition != manager.findFirstVisibleItemPosition()) {
+                    mCurrentPosition = manager.findFirstVisibleItemPosition();
+                    sectionTv.setY(0);
+
+                    updateSuspensionBar();
+                }
             }
         });
 
-        ptr.autoRefresh();
+        ptr.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
+            @Override
+            public void reset() {
+                sectionTv.setVisibility(View.VISIBLE);
+            }
 
+            @Override
+            public void onPull() {
+                sectionTv.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onRefresh() {
+                presenter.getData();
+            }
+        });
+    }
+
+    public void stopRefresh() {
+        ptr.refreshComplete();
+    }
+
+    private void updateSuspensionBar() {
+        sectionTv.setText(viewData.get(mCurrentPosition).getTitle());
     }
 
     @Override
@@ -76,9 +123,10 @@ public class SquareFragment extends BaseFragment {
         this.presenter.bind(this);
     }
 
-    public void notifyChange(List<ForumModel> list) {
+    public void notifyChange(List<SquareListModel> model) {
         viewData.clear();
-        viewData.addAll(list);
+        viewData.addAll(model);
+        updateSuspensionBar();
         forumRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
@@ -86,13 +134,6 @@ public class SquareFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         this.presenter.getData();
-
-    }
-
-    @Override
-    protected void setListener() {
-        forumRecyclerView.setAdapter(new RVAdapter());
-        forumRecyclerView.addItemDecoration(new RecyclerViewCutLine(getResources().getDimensionPixelSize(R.dimen.cut_line), 0));
     }
 
     @Override
@@ -101,35 +142,33 @@ public class SquareFragment extends BaseFragment {
     }
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private int currentP;
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(getActivity()).inflate(R.layout.item_forum_recyclerview, parent, false);
-            return new VH(v);
+            View v = LayoutInflater.from(getActivity()).inflate(R.layout.item_square_container, parent, false);
+            VH vh = new VH(v);
+            return vh;
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            final ForumModel model = viewData.get(position);
-            VH vh = (VH) holder;
-            vh.name.setText(model.getForumName());
-            ImageLoaderUtils.load(model.getImageSrc(), vh.forumImageView);
-            vh.count.setText(String.format(getString(R.string.forum_count), model.getForumCount()));
-            vh.content.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ForumLabelListActivity.newInstance(getActivity(), model.getUrls());
-                }
-            });
+            SquareListModel data = viewData.get(position);
 
-            if (position > currentP) {
-                vh.set.start();
-            }
-            currentP = position;
+            VH vh = (VH) holder;
+            vh.sectionTv.setText(data.getTitle());
+
+            vh.setList(viewData, position);
+
         }
 
-        int height = 0;
+        @Override
+        public void onViewRecycled(RecyclerView.ViewHolder holder) {
+            super.onViewRecycled(holder);
+            if (holder instanceof VH) {
+                VH vh = (VH) holder;
+                vh.list.clear();
+            }
+        }
 
         @Override
         public int getItemCount() {
@@ -138,33 +177,93 @@ public class SquareFragment extends BaseFragment {
 
         private class VH extends RecyclerView.ViewHolder {
 
-            private ImageView forumImageView;
-            private TextView name;
-            private TextView count;
-            private LinearLayout content;
+            private TextView sectionTv;
+            private ViewPager viewPager;
+            private List<SquareItemModel> list = new ArrayList<>();
 
-            private AnimatorSet set;
+            public void setList(List<SquareListModel> data, int position) {
+
+                this.list.clear();
+                this.list.addAll(data.get(position).getList());
+                viewPager.setAdapter(new ItemAdapter(list));
+            }
 
             public VH(View itemView) {
                 super(itemView);
-                content = (LinearLayout) itemView.findViewById(R.id.content);
-                forumImageView = (ImageView) itemView.findViewById(R.id.itemForumImageView);
-
-                name = (TextView) itemView.findViewById(R.id.itemForumNameTextView);
-                count = (TextView) itemView.findViewById(R.id.itemForumCountTextView);
-
-                content.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        height = content.getMeasuredHeight();
-                    }
-                });
-                set = new AnimatorSet();
-                set.playTogether(ObjectAnimator.ofFloat(content, View.TRANSLATION_Y, height, 0),
-                        ObjectAnimator.ofFloat(content, View.ALPHA, 0f, 1f));
-                set.setDuration(300);
+                sectionTv = (TextView) itemView.findViewById(R.id.sectionTv);
+                viewPager = (ViewPager) itemView.findViewById(R.id.squareVp);
 
             }
         }
+    }
+
+    private class ItemAdapter extends PagerAdapter {
+
+        private TextView[] tvs = new TextView[9];
+        private ImageView[] imageViews = new ImageView[9];
+        private LinearLayout[] linearLayouts = new LinearLayout[9];
+
+        List<SquareItemModel> data = new ArrayList<>();
+
+        public ItemAdapter(List<SquareItemModel> data) {
+            this.data.clear();
+            this.data.addAll(data);
+        }
+
+        @Override
+        public int getCount() {
+            return data.size() / 9 + 1;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return object.equals(view);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ViewGroup v = (ViewGroup) LayoutInflater.from(getBaseActivity()).inflate(R.layout.item_square_grid_layout, container, false);
+
+            Resources res = getBaseActivity().getResources();
+            String pack = getBaseActivity().getPackageName();
+            for (int i = 0; i < tvs.length; i++) {
+                int id = i + 1;
+                int titleid = res.getIdentifier("tv" + id,//需要转换的资源名称
+                        "id",        //资源类型
+                        pack);//R类所在的包名
+                Log.e(TAG, "instantiateItem: " + titleid);
+                int imageId = res.getIdentifier("iv" + id,//需要转换的资源名称
+                        "id",        //资源类型
+                        pack);//R类所在的包名
+                int lid = res.getIdentifier("l" + id,//需要转换的资源名称
+                        "id",        //资源类型
+                        pack);//R类所在的包名
+                tvs[i] = (TextView) v.findViewById(titleid);
+                imageViews[i] = (ImageView) v.findViewById(imageId);
+                linearLayouts[i] = (LinearLayout) v.findViewById(lid);
+            }
+
+            for (int i = 0; i < Math.min(9, Math.max(0, data.size() - 9 * position)); i++) {
+                final SquareItemModel model = data.get(i + 9 * position);
+                tvs[i].setText(model.getTitle());
+
+                ImageLoad.load(model.getImgSrc()).placeholder(R.color.percent50Black).into(imageViews[i]);
+                linearLayouts[i].setVisibility(View.VISIBLE);
+                linearLayouts[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ForumLabelListActivity.newInstance(getBaseActivity(), model.getHrefUrl());
+                    }
+                });
+            }
+            container.addView(v);
+            return v;
+        }
+
     }
 }

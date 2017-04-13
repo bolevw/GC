@@ -1,14 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.boger.game.gc.widget.pullToRefreshLayout.PullToRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ptr"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_background_white">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/forumRecyclerView"
+    <TextView
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/charade"
+        android:gravity="center"
+        android:text="@string/square"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_large" />
 
-</com.boger.game.gc.widget.pullToRefreshLayout.PullToRefreshLayout>
+    <com.boger.game.gc.widget.pullToRefreshLayout.PullToRefreshLayout
+        android:id="@+id/ptr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:background="@color/common_background_white">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/forumRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.boger.game.gc.widget.pullToRefreshLayout.PullToRefreshLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+
+        <TextView
+            android:id="@+id/sectionTv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/section_height"
+            android:background="@color/white"
+            android:gravity="center"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_large"
+            tools:text="test" />
+    </FrameLayout>
+</RelativeLayout>

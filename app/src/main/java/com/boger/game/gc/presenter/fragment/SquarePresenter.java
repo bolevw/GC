@@ -1,8 +1,10 @@
 package com.boger.game.gc.presenter.fragment;
 
-import com.boger.game.gc.api.IndexApi;
+import android.util.Log;
+
+import com.boger.game.gc.api.SquareApi;
 import com.boger.game.gc.base.BasePresenter;
-import com.boger.game.gc.model.ForumModel;
+import com.boger.game.gc.model.SquareListModel;
 import com.boger.game.gc.ui.fragment.SquareFragment;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import rx.Subscriber;
  */
 public class SquarePresenter implements BasePresenter<SquareFragment> {
 
+    private static final String TAG = "SquarePresenter";
     private SquareFragment view;
 
     @Override
@@ -22,7 +25,7 @@ public class SquarePresenter implements BasePresenter<SquareFragment> {
     }
 
     public void getData() {
-        IndexApi.getIndexDetail(new Subscriber<List<ForumModel>>() {
+        SquareApi.getIndex(new Subscriber<List<SquareListModel>>() {
             @Override
             public void onCompleted() {
 
@@ -30,16 +33,14 @@ public class SquarePresenter implements BasePresenter<SquareFragment> {
 
             @Override
             public void onError(Throwable e) {
-                if (view != null) {
-                    view.logError(e);
-                }
+                view.stopRefresh();
+                Log.e(TAG, "onError: " + e.toString());
             }
 
             @Override
-            public void onNext(List<ForumModel> forumModels) {
-                if (null != view) {
-                    view.notifyChange(forumModels);
-                }
+            public void onNext(List<SquareListModel> list) {
+                view.stopRefresh();
+                view.notifyChange(list);
             }
         });
     }

@@ -168,7 +168,7 @@ public class PullToRefreshLayout extends ViewGroup {
                 float xDiff = x - lastDownX;
                 float yDiff = y - lastDownY;
                 float offsetY = yDiff * DRAG_RATE;
-                if (!mIsBeginDragged && Math.abs(yDiff) > mTouchSlop) {
+                if (!mIsBeginDragged && Math.abs(yDiff) > mTouchSlop && Math.abs(yDiff) > Math.abs(xDiff)) {
                     mIsBeginDragged = true;
                 }
 
@@ -234,19 +234,31 @@ public class PullToRefreshLayout extends ViewGroup {
             return;
         }
 
-
         if (!hasSendCancelEvent && isTouch && currentTargetOffsetTop > 0) {
             sendCancelEvent();
             hasSendCancelEvent = true;
         }
 
-
         int targetY = Math.max(0, currentTargetOffsetTop + offset); // target不能移动到小于0的位置……
         offset = targetY - currentTargetOffsetTop;
+        // y = x - (x/2)^2
+        float extraOS = targetY - totalDragDistance;
+        float slingshotDist = totalDragDistance;
+        float tensionSlingshotPercent = Math.max(0, Math.min(extraOS, slingshotDist * 2) / slingshotDist);
+        float tensionPercent = (float) (tensionSlingshotPercent - Math.pow(tensionSlingshotPercent / 2, 2));
+
+        if (offset > 0) { // 下拉的时候才添加阻力
+            offset = (int) (offset * (1f - tensionPercent));
+            targetY = Math.max(0, currentTargetOffsetTop + offset);
+        }
+
 
         // 1. 在RESET状态时，第一次下拉出现header的时候，设置状态变成PULL
         if (state == PtrState.RESET && currentTargetOffsetTop == 0 && targetY > 0) {
             changeState(PtrState.PULL);
+            if (onRefreshListener != null) {
+                onRefreshListener.onPull();
+            }
         }
 
         // 2. 在PULL或者COMPLETE状态时，header回到顶部的时候，状态变回RESET
@@ -266,17 +278,6 @@ public class PullToRefreshLayout extends ViewGroup {
             // 因为判断条件targetY <= totalDragDistance，会导致不能回到正确的刷新高度（有那么一丁点偏差），调整change
             int adjustOffset = totalDragDistance - targetY;
             offset += adjustOffset;
-        }
-
-        // y = x - (x/2)^2
-        float extraOS = targetY - totalDragDistance;
-        float slingshotDist = totalDragDistance;
-        float tensionSlingshotPercent = Math.max(0, Math.min(extraOS, slingshotDist * 2) / slingshotDist);
-        float tensionPercent = (float) (tensionSlingshotPercent - Math.pow(tensionSlingshotPercent / 2, 2));
-
-        if (offset > 0) { // 下拉的时候才添加阻力
-            offset = (int) (offset * (1f - tensionPercent));
-            targetY = Math.max(0, currentTargetOffsetTop + offset);
         }
 
         setTargetOffsetTopAndBottom(offset);
@@ -305,6 +306,7 @@ public class PullToRefreshLayout extends ViewGroup {
         headerView.offsetTopAndBottom(offset);
         lastTargetOffsetTop = currentTargetOffsetTop;
         currentTargetOffsetTop = targetView.getTop();
+
         invalidate();
     }
 
@@ -398,6 +400,9 @@ public class PullToRefreshLayout extends ViewGroup {
             switch (state) {
                 case RESET:
                     header.reset();
+                    if (onRefreshListener != null) {
+                        onRefreshListener.reset();
+                    }
                     break;
                 case PULL:
                     header.pull();
@@ -464,6 +469,11 @@ public class PullToRefreshLayout extends ViewGroup {
     };
 
     public interface OnRefreshListener {
+        void reset();
+
+        void onPull();
+
         void onRefresh();
+
     }
 }
