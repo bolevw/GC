@@ -91,7 +91,6 @@ public class PullToRefreshLayout extends ViewGroup {
         }
     }
 
-
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         if (getChildCount() == 0) {
@@ -180,6 +179,7 @@ public class PullToRefreshLayout extends ViewGroup {
 
                     if ((moveDwon && !canMovwDown) || (moveUp && canMoveUp)) {
                         moveSpinner(offsetY);
+                        lastDownY = (int) y;
                         return true;
                     }
                 }
