@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseSwipeBackActivity;
-import com.boger.game.gc.model.ForumPostListItemModel;
+import com.boger.game.gc.model.ArticleCoverModel;
 import com.boger.game.gc.presenter.activity.ForumPostListPresenter;
 import com.umeng.analytics.MobclickAgent;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2016/4/7.
  */
-public class ForumListActivity extends BaseSwipeBackActivity {
+public class ChildrenModuleIndexActivity extends BaseSwipeBackActivity {
 
     private static final int TYPE_LOADING = 0x0001;
     private static final int TYPE_EMPTY = 0x0002;
@@ -31,17 +31,17 @@ public class ForumListActivity extends BaseSwipeBackActivity {
     private String urls = null;
     private boolean isLoading = false;
     private RecyclerView recyclerView;
-    private ArrayList<ForumPostListItemModel> viewData = new ArrayList<>();
+    private ArrayList<ArticleCoverModel> viewData = new ArrayList<>();
 
     public static void newInstance(Activity activity, String urls) {
-        Intent intent = new Intent(activity, ForumListActivity.class);
+        Intent intent = new Intent(activity, ChildrenModuleIndexActivity.class);
         intent.putExtra("urls", urls);
         activity.startActivity(intent);
     }
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_forum_post_list;
+        return R.layout.activity_children_module_index;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ForumListActivity extends BaseSwipeBackActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void notifyChange(ArrayList<ForumPostListItemModel> list) {
+    public void notifyChange(ArrayList<ArticleCoverModel> list) {
         viewData.addAll(list);
         recyclerView.getAdapter().notifyDataSetChanged();
     }
@@ -90,7 +90,7 @@ public class ForumListActivity extends BaseSwipeBackActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (viewData.size() != 0 && position < viewData.size()) {
-                final ForumPostListItemModel model = viewData.get(position);
+                final ArticleCoverModel model = viewData.get(position);
 
                 VH vh = (VH) holder;
                 vh.title.setText(model.getName());
@@ -100,7 +100,7 @@ public class ForumListActivity extends BaseSwipeBackActivity {
                 vh.content.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        PostDetailActivity.newInstance(ForumListActivity.this, model.getUrls());
+                        PostDetailActivity.newInstance(ChildrenModuleIndexActivity.this, model.getUrls());
                     }
                 });
             }
@@ -159,7 +159,7 @@ public class ForumListActivity extends BaseSwipeBackActivity {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
-            RecyclerView.LayoutManager manager = ForumListActivity.this.recyclerView.getLayoutManager();
+            RecyclerView.LayoutManager manager = ChildrenModuleIndexActivity.this.recyclerView.getLayoutManager();
             int position;
             if (manager instanceof LinearLayoutManager) {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) manager;

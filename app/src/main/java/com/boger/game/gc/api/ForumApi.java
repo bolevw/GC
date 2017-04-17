@@ -6,10 +6,11 @@ import android.util.Log;
 import com.boger.game.gc.api.http.Fields;
 import com.boger.game.gc.api.web.GetWebObservable;
 import com.boger.game.gc.base.BaseSub;
-import com.boger.game.gc.model.ForumItemDetailModel;
-import com.boger.game.gc.model.ForumPartitionModel;
-import com.boger.game.gc.model.ForumPostListItemModel;
-import com.boger.game.gc.model.ForumPostPageListItemModel;
+import com.boger.game.gc.model.ChildrenModuleCoverModel;
+import com.boger.game.gc.model.ForumIndexHeaderModel;
+import com.boger.game.gc.model.ForumIndexModel;
+import com.boger.game.gc.model.ArticleCoverModel;
+import com.boger.game.gc.model.ArticleCoverListModel;
 import com.boger.game.gc.model.PostBodyModel;
 import com.boger.game.gc.model.PostDetailHeaderModel;
 import com.boger.game.gc.model.PostDetailModel;
@@ -42,25 +43,79 @@ public class ForumApi {
      * @param url
      * @param subscriber
      */
-    public static void getForum(String url, Subscriber<ForumPartitionModel> subscriber) {
-        GetWebObservable.getInstance(Urls.BASE_URL + "/" + url)
-                .map(new Func1<Document, ForumPartitionModel>() {
+    public static void getForumDetail(String url, Subscriber<ForumIndexModel> subscriber) {
+        GetWebObservable.getInstance(Urls.BASE_URL + url)
+                .map(new Func1<Document, ForumIndexModel>() {
                     @Override
-                    public ForumPartitionModel call(Document document) {
+                    public ForumIndexModel call(Document document) {
                         Element el = document.body();
+                        Log.d(TAG, "call() called with: document = [" + el.toString() + "]");
                         String title = "";
                         title = getTitle(el, title);
 
                         String imgSrc = null;
                         imgSrc = getImgSrc(el, imgSrc);
 
+                        String themeCount = getThemeCount(el);
+                        String todayCount = getTodayCount(el);
+                        ForumIndexHeaderModel headerModel = new ForumIndexHeaderModel(title, imgSrc, themeCount, todayCount);
                         final ArrayList<VideoModel> videoList = new ArrayList<VideoModel>();
                         getVideoList(el, videoList);
 
-                        final ArrayList<ForumItemDetailModel> res = new ArrayList<ForumItemDetailModel>();
-                        getPartitionList(el, res);
+                        final ArrayList<ChildrenModuleCoverModel> res = new ArrayList<ChildrenModuleCoverModel>();
+                        getChildrenModule(el, res);
 
-                        return new ForumPartitionModel(title, imgSrc, videoList, res);
+                        final ArticleCoverListModel articleCoverListModel = new ArticleCoverListModel();
+                        getArticleCoverList(el, articleCoverListModel);
+                        return new ForumIndexModel(headerModel, videoList, res, articleCoverListModel);
+                    }
+
+                    private String getTodayCount(Element el) {
+                        Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, "m-infoBBS__detail").get(0).getElementsByTag(Fields.WebField.EM);
+                        if (els.size() > 3) {
+                            return els.get(3).text();
+                        }
+                        return "0";
+                    }
+
+                    private String getThemeCount(Element el) {
+                        Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, "m-infoBBS__detail").get(0).getElementsByTag(Fields.WebField.EM);
+                        if (els.size() > 2) {
+                            return els.get(2).text();
+                        }
+                        return "0";
+                    }
+
+                    private void getArticleCoverList(Element el, ArticleCoverListModel articleCoverListModel) {
+                        ArrayList<ArticleCoverModel> list = new ArrayList<ArticleCoverModel>();
+                        Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.WebField.M_FORUMLIST_ITEM);
+                        if (els.size() <= 0) {
+                            return;
+                        }
+                        for (Element ele : els) {
+                            ArticleCoverModel model = new ArticleCoverModel();
+                            Elements tagAEls = ele.getElementsByTag(Fields.WebField.A);
+                            Elements tagPEls = ele.getElementsByTag(Fields.WebField.P);
+
+                            Element element = tagPEls.get(1);
+                            Elements spanEls = element.getElementsByTag(Fields.WebField.SPAN);
+                            String authName = spanEls.get(0).getElementsByTag(Fields.WebField.EM).get(0).text();
+                            String date = spanEls.get(0).getElementsByTag(Fields.WebField.EM).get(1).text();
+
+                            String commentCount = spanEls.get(1).getElementsByTag(Fields.WebField.EM).get(1).text();
+
+                            model.setName(tagPEls.get(0).text());
+                            model.setUrls(tagAEls.attr(Fields.WebField.HREF));
+                            model.setAuthName(authName);
+                            model.setDate(date);
+                            model.setCommentCount(commentCount);
+                            list.add(model);
+                        }
+
+                        Elements nextPage = el.getElementsByAttributeValue(Fields.WebField.CLASS, "m-forumList__page");
+
+                        articleCoverListModel.setList(list);
+                        articleCoverListModel.setNextPageUrls(nextPage.get(0).getElementsByTag(Fields.WebField.LI).get(2).getElementsByTag(Fields.WebField.A).attr(Fields.WebField.HREF));
                     }
 
                     private String getImgSrc(Element el, String imgSrc) {
@@ -74,6 +129,9 @@ public class ForumApi {
 
                     private void getVideoList(Element el, ArrayList<VideoModel> videoList) {
                         Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, "m-video__item");
+                        if (els.size() <= 0) {
+                            return;
+                        }
                         for (Element item : els) {
                             String url = item.getElementsByTag("a").attr(Fields.WebField.HREF);
                             String imgSrc = item.getElementsByTag("img").get(0).attr("src");
@@ -86,11 +144,14 @@ public class ForumApi {
                         }
                     }
 
-                    private void getPartitionList(Element el, ArrayList<ForumItemDetailModel> res) {
+                    private void getChildrenModule(Element el, ArrayList<ChildrenModuleCoverModel> res) {
                         if (el.toString().contains(Fields.GroupCategory.H_5)) {
                             Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.WebField.M_CHANNEL_LIST_ITEM);
+                            if (els.size() <= 0) {
+                                return;
+                            }
                             for (Element ele : els) {
-                                ForumItemDetailModel detailModel = new ForumItemDetailModel();
+                                ChildrenModuleCoverModel detailModel = new ChildrenModuleCoverModel();
 
                                 Elements tagAs = ele.getElementsByTag(Fields.WebField.A);
                                 Elements tagImgs = ele.getElementsByTag(Fields.WebField.IMG);
@@ -120,17 +181,17 @@ public class ForumApi {
     }
 
 
-    public static void getPostList(String urls, Subscriber<ForumPostPageListItemModel> subscriber) {
-        GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls)
-                .map(new Func1<Document, ForumPostPageListItemModel>() {
+    public static void getPostList(String urls, Subscriber<ArticleCoverListModel> subscriber) {
+        GetWebObservable.getInstance(Urls.BASE_URL + urls)
+                .map(new Func1<Document, ArticleCoverListModel>() {
                     @Override
-                    public ForumPostPageListItemModel call(Document document) {
-                        ForumPostPageListItemModel itemModel = new ForumPostPageListItemModel();
-                        ArrayList<ForumPostListItemModel> list = new ArrayList<ForumPostListItemModel>();
+                    public ArticleCoverListModel call(Document document) {
+                        ArticleCoverListModel itemModel = new ArticleCoverListModel();
+                        ArrayList<ArticleCoverModel> list = new ArrayList<ArticleCoverModel>();
                         Element el = document.body();
                         Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.WebField.M_FORUMLIST_ITEM);
                         for (Element ele : els) {
-                            ForumPostListItemModel model = new ForumPostListItemModel();
+                            ArticleCoverModel model = new ArticleCoverModel();
                             Elements tagAEls = ele.getElementsByTag(Fields.WebField.A);
                             Elements tagPEls = ele.getElementsByTag(Fields.WebField.P);
 
@@ -164,7 +225,7 @@ public class ForumApi {
 
 
     public static void getPostDetail(String urls, final boolean getNextPage, BaseSub<PostBodyModel, PostDetailActivity> subscriber) {
-        GetWebObservable.getInstance(Urls.BASE_URL + "/" + urls).map(new Func1<Document, PostBodyModel>() {
+        GetWebObservable.getInstance(Urls.BASE_URL + urls).map(new Func1<Document, PostBodyModel>() {
             @Override
             public PostBodyModel call(Document document) {
 

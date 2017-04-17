@@ -5,5 +5,5 @@ package com.boger.game.gc.api;
  */
 public class Urls {
     public static final String INDEX_URL = "http://bbs.duowan.com/index.html";
-    public static final String BASE_URL = "http://bbs.duowan.com";
+    public static final String BASE_URL = "http://bbs.duowan.com/";
 }

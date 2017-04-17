@@ -2,20 +2,20 @@ package com.boger.game.gc.presenter.activity;
 
 import com.boger.game.gc.api.ForumApi;
 import com.boger.game.gc.base.BasePresenter;
-import com.boger.game.gc.model.ForumPartitionModel;
-import com.boger.game.gc.ui.activity.ForumLabelListActivity;
+import com.boger.game.gc.model.ForumIndexModel;
+import com.boger.game.gc.ui.activity.ForumIndexActivity;
 
 import rx.Subscriber;
 
 /**
- * Created by Administrator on 2016/4/7.
+ * Created by liubo on 2016/4/7.
  */
-public class ForumDetailListPresenter implements BasePresenter<ForumLabelListActivity> {
+public class ForumDetailListPresenter implements BasePresenter<ForumIndexActivity> {
 
-    private ForumLabelListActivity view;
+    private ForumIndexActivity view;
 
     @Override
-    public void bind(ForumLabelListActivity view) {
+    public void bind(ForumIndexActivity view) {
         this.view = view;
     }
 
@@ -23,7 +23,7 @@ public class ForumDetailListPresenter implements BasePresenter<ForumLabelListAct
         if (null != view) {
             view.startLoading();
         }
-        ForumApi.getForum(urls, new Subscriber<ForumPartitionModel>() {
+        ForumApi.getForumDetail(urls, new Subscriber<ForumIndexModel>() {
             @Override
             public void onCompleted() {
 
@@ -38,7 +38,7 @@ public class ForumDetailListPresenter implements BasePresenter<ForumLabelListAct
             }
 
             @Override
-            public void onNext(ForumPartitionModel model) {
+            public void onNext(ForumIndexModel model) {
                 if (null != view) {
                     view.stopLoading();
                     view.notifyChange(model);

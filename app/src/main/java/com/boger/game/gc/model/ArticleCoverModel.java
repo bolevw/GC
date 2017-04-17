@@ -3,9 +3,9 @@ package com.boger.game.gc.model;
 import com.boger.game.gc.base.BaseModel;
 
 /**
- * Created by Administrator on 2016/4/7.
+ * Created by liubo on 2016/4/7.
  */
-public class ForumPostListItemModel extends BaseModel {
+public class ArticleCoverModel extends BaseModel {
 
     private String name;
     private String authName;
@@ -26,6 +26,19 @@ public class ForumPostListItemModel extends BaseModel {
                 ", commentCount='" + commentCount + '\'' +
                 '}';
     }
+
+    public ArticleCoverModel() {
+    }
+
+    public ArticleCoverModel(String name, String authName, String date, String imageSrc, String urls, String commentCount) {
+        this.name = name;
+        this.authName = authName;
+        this.date = date;
+        this.imageSrc = imageSrc;
+        this.urls = urls;
+        this.commentCount = commentCount;
+    }
+
 
     public String getName() {
         return name;

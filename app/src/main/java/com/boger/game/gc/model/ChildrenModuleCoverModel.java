@@ -3,9 +3,9 @@ package com.boger.game.gc.model;
 import com.boger.game.gc.base.BaseModel;
 
 /**
- * Created by Administrator on 2016/4/7.
+ * Created by liubo on 2016/4/7.
  */
-public class ForumItemDetailModel extends BaseModel {
+public class ChildrenModuleCoverModel extends BaseModel {
     private String name;
     private String newCount;
     private String themeCount;

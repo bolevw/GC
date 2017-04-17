@@ -239,7 +239,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_share) {
             Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, Urls.BASE_URL + "/" + urls);
+            intent.putExtra(Intent.EXTRA_TEXT, Urls.BASE_URL + urls);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setType("text/plain"); // 纯文本
             intent.putExtra(Intent.EXTRA_SUBJECT, "ss");

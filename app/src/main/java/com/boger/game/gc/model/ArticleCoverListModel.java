@@ -7,8 +7,8 @@ import java.util.ArrayList;
 /**
  * Created by Administrator on 2016/4/7.
  */
-public class ForumPostPageListItemModel extends BaseModel {
-    private ArrayList<ForumPostListItemModel> list;
+public class ArticleCoverListModel extends BaseModel {
+    private ArrayList<ArticleCoverModel> list;
 
     private String nextPageUrls;
 
@@ -20,11 +20,11 @@ public class ForumPostPageListItemModel extends BaseModel {
                 '}';
     }
 
-    public ArrayList<ForumPostListItemModel> getList() {
+    public ArrayList<ArticleCoverModel> getList() {
         return list;
     }
 
-    public void setList(ArrayList<ForumPostListItemModel> list) {
+    public void setList(ArrayList<ArticleCoverModel> list) {
         this.list = list;
     }
 

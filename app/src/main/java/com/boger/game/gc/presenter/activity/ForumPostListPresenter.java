@@ -2,20 +2,20 @@ package com.boger.game.gc.presenter.activity;
 
 import com.boger.game.gc.api.ForumApi;
 import com.boger.game.gc.base.BasePresenter;
-import com.boger.game.gc.model.ForumPostPageListItemModel;
-import com.boger.game.gc.ui.activity.ForumListActivity;
+import com.boger.game.gc.model.ArticleCoverListModel;
+import com.boger.game.gc.ui.activity.ChildrenModuleIndexActivity;
 
 import rx.Subscriber;
 
 /**
  * Created by Administrator on 2016/4/7.
  */
-public class ForumPostListPresenter implements BasePresenter<ForumListActivity> {
-    private ForumListActivity view;
+public class ForumPostListPresenter implements BasePresenter<ChildrenModuleIndexActivity> {
+    private ChildrenModuleIndexActivity view;
     private String nextPageUrl = null;
 
     @Override
-    public void bind(ForumListActivity view) {
+    public void bind(ChildrenModuleIndexActivity view) {
         this.view = view;
     }
 
@@ -23,7 +23,7 @@ public class ForumPostListPresenter implements BasePresenter<ForumListActivity> 
         if (null != view) {
             view.startLoading();
         }
-        ForumApi.getPostList(urls, new Subscriber<ForumPostPageListItemModel>() {
+        ForumApi.getPostList(urls, new Subscriber<ArticleCoverListModel>() {
             @Override
             public void onCompleted() {
 
@@ -39,7 +39,7 @@ public class ForumPostListPresenter implements BasePresenter<ForumListActivity> 
             }
 
             @Override
-            public void onNext(ForumPostPageListItemModel model) {
+            public void onNext(ArticleCoverListModel model) {
                 if (null != view) {
                     view.stopLoading();
                     view.setLoading(false);

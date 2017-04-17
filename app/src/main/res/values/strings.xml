@@ -19,6 +19,7 @@
     <string name="forum_count">(%1$s)</string>
     <string name="theme_count">主题：%1$s</string>
     <string name="post_count">贴数：%1$s</string>
+    <string name="today_count">今日：%1$s</string>
 
 
     <!--title-->

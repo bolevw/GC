@@ -28,7 +28,7 @@ import com.boger.game.gc.model.HotRankingModel;
 import com.boger.game.gc.model.IndexModel;
 import com.boger.game.gc.model.PreviewGroup;
 import com.boger.game.gc.presenter.fragment.RecommendPresenter;
-import com.boger.game.gc.ui.activity.ForumLabelListActivity;
+import com.boger.game.gc.ui.activity.ForumIndexActivity;
 import com.boger.game.gc.ui.activity.LoLActivity;
 import com.boger.game.gc.utils.ImageLoaderUtils;
 import com.boger.game.gc.widget.VPIndicator;
@@ -201,7 +201,7 @@ public class RecommendCFragment extends BaseFragment {
                         layout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ForumLabelListActivity.newInstance(context, itemList.get(finalI).getUrl());
+                                ForumIndexActivity.newInstance(context, itemList.get(finalI).getUrl());
                             }
                         });
                     }
@@ -317,7 +317,7 @@ public class RecommendCFragment extends BaseFragment {
                         vh.content.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ForumLabelListActivity.newInstance(context, model.getUrls());
+                                ForumIndexActivity.newInstance(context, model.getUrls());
                             }
                         });
                     } else if (position == hotList.size()) {

@@ -18,7 +18,7 @@ import com.boger.game.gc.base.BaseFragment;
 import com.boger.game.gc.model.SquareItemModel;
 import com.boger.game.gc.model.SquareListModel;
 import com.boger.game.gc.presenter.fragment.SquarePresenter;
-import com.boger.game.gc.ui.activity.ForumLabelListActivity;
+import com.boger.game.gc.ui.activity.ForumIndexActivity;
 import com.boger.game.gc.utils.ImageLoad;
 import com.boger.game.gc.widget.RecyclerViewCutLine;
 import com.boger.game.gc.widget.pullToRefreshLayout.PullToRefreshLayout;
@@ -257,13 +257,12 @@ public class SquareFragment extends BaseFragment {
                 linearLayouts[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ForumLabelListActivity.newInstance(getBaseActivity(), model.getHrefUrl());
+                        ForumIndexActivity.newInstance(getBaseActivity(), model.getHrefUrl());
                     }
                 });
             }
             container.addView(v);
             return v;
         }
-
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/orange_500</color>
+    <color name="colorPrimary">@color/charade</color>
     <color name="colorPrimaryDark">@color/orange_800</color>
     <color name="colorAccent">@color/orange_800</color>
 
@@ -23,7 +23,8 @@
 
     <color name="percent50Black">#80000000</color>
 
-
+    <color name="tall_poppy">#BC262F</color>
+    <color name="jasper">#D8363E</color>
     <color name="guide1">#FEBF30</color>
     <color name="guide2">#148DFD</color>
     <color name="guide3">#A0D253</color>

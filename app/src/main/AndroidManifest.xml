@@ -57,7 +57,7 @@
             android:label="@string/title_about"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.ForumLabelListActivity"
+            android:name=".ui.activity.ForumIndexActivity"
             android:label="@string/title_forum"
             android:screenOrientation="portrait" />
         <activity
@@ -70,7 +70,7 @@
             android:label="@string/title_register"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.ForumListActivity"
+            android:name=".ui.activity.ChildrenModuleIndexActivity"
             android:label="@string/title_post"
             android:screenOrientation="portrait" />
         <activity

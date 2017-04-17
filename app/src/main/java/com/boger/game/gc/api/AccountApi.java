@@ -22,7 +22,7 @@ public class AccountApi {
     private static final String TAG = "AccountApi";
 
     public static void getHomePage(String url, BaseSub<PersonalHomePageModel, PersonalHomePageActivity> subscriber) {
-        GetWebObservable.getInstance(Urls.BASE_URL + "/" + url)
+        GetWebObservable.getInstance(Urls.BASE_URL + url)
                 .map(new Func1<Document, PersonalHomePageModel>() {
                     @Override
                     public PersonalHomePageModel call(Document document) {

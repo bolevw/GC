@@ -9,16 +9,19 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.base.BaseModel;
+import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.base.ItemData;
-import com.boger.game.gc.model.ForumItemDetailModel;
-import com.boger.game.gc.model.ForumPartitionModel;
+import com.boger.game.gc.model.ChildrenModuleCoverModel;
+import com.boger.game.gc.model.ForumIndexHeaderModel;
+import com.boger.game.gc.model.ForumIndexModel;
 import com.boger.game.gc.model.VideoModel;
 import com.boger.game.gc.presenter.activity.ForumDetailListPresenter;
 import com.boger.game.gc.utils.ImageLoaderUtils;
@@ -26,11 +29,14 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 论坛标签
- * Created by Administrator on 2016/4/6.
+ * Created by liubo on 2016/4/6.
  */
-public class ForumLabelListActivity extends BaseSwipeBackActivity {
+public class ForumIndexActivity extends BaseSwipeBackActivity {
 
 
     private static final int TYPE_VIDEO = 0x0001;
@@ -40,62 +46,91 @@ public class ForumLabelListActivity extends BaseSwipeBackActivity {
 
     private String urls = "";
 
-    private RecyclerView forumDetailRecyclerView;
-    private TextView toolbarTitle;
-    private ImageView bgImageView;
+    @BindView(R.id.forumIndexRv)
+    RecyclerView forumIndexRv;
+    @BindView(R.id.titleTv)
+    TextView titleTv;
+    @BindView(R.id.gameNameTv)
+    TextView gameNameTv;
+    @BindView(R.id.themeCountTv)
+    TextView themeCountTv;
+    @BindView(R.id.todayCountTv)
+    TextView todayCountTv;
+    @BindView(R.id.gameIconIv)
+    ImageView gameIconIv;
+
+    @OnClick(R.id.finishBtn)
+    void finishBtn() {
+        onBackPressed();
+    }
+
+    @OnClick(R.id.searchBtn)
+    void searchBtn() {
+
+    }
+
+    @OnClick(R.id.attentionBtn)
+    void attention() {
+
+    }
+
+    @OnClick(R.id.signInBtn)
+    void signIn() {
+
+    }
+
+    ImageButton finishBtn, searchBtn;
+    Button attentionBtn, signInBtn;
+
 
     private ArrayList<ItemData<Integer, BaseModel>> recyclerViewData = new ArrayList<>();
 
     public static void newInstance(Activity activity, String urls) {
-        Intent intent = new Intent(activity, ForumLabelListActivity.class);
+        Intent intent = new Intent(activity, ForumIndexActivity.class);
         intent.putExtra("urls", urls);
         activity.startActivity(intent);
     }
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_forum_detail_list;
+        return R.layout.activity_forum_index;
     }
 
     @Override
     protected void initViewData() {
         Intent intent = getIntent();
         urls = intent.getStringExtra("urls");
-
-        bgImageView = (ImageView) findViewById(R.id.forumPicImageView);
-        toolbarTitle = (TextView) findViewById(R.id.toolbarTitle);
-
-        forumDetailRecyclerView = (RecyclerView) findViewById(R.id.forumDetailRecyclerView);
-        forumDetailRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        forumIndexRv = (RecyclerView) findViewById(R.id.forumIndexRv);
+        forumIndexRv.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
     @Override
     protected void setListener() {
-        forumDetailRecyclerView.setAdapter(new RVAdapter());
+        forumIndexRv.setAdapter(new RVAdapter());
     }
 
-    public void notifyChange(ForumPartitionModel model) {
-        toolbarTitle.setText(model.getTitle());
-
-        String imgSrc = model.getImgSrc();
-        if (model.getVideoList().size() > 0) {
-            imgSrc = model.getVideoList().get(0).getImgSrc();
-        }
-        ImageLoaderUtils.load(imgSrc, bgImageView);
+    public void notifyChange(ForumIndexModel model) {
+        ForumIndexHeaderModel headerModel = model.getHeaderModel();
+        String title = headerModel.getTitle();
+        ImageLoaderUtils.load(headerModel.getIconUrls(), gameIconIv);
+        gameNameTv.setText(title);
+        titleTv.setText(title);
+        themeCountTv.setText(String.format(getString(R.string.theme_count), headerModel.getThemeCounts()));
+        todayCountTv.setText(String.format(getString(R.string.today_count), headerModel.getTodayCounts()));
 
         if (model.getList().size() == 0 && model.getVideoList().size() == 0) {
-            ForumListActivity.newInstance(ForumLabelListActivity.this, urls);
+            ChildrenModuleIndexActivity.newInstance(ForumIndexActivity.this, urls);
             finish();
         } else {
             recyclerViewData.clear();
             for (VideoModel videoModel : model.getVideoList()) {
                 recyclerViewData.add(new ItemData<Integer, BaseModel>(TYPE_VIDEO, videoModel));
             }
-            for (ForumItemDetailModel forumItemDetailModel : model.getList()) {
-                recyclerViewData.add(new ItemData<Integer, BaseModel>(TYPE_PARTITION, forumItemDetailModel));
+            for (ChildrenModuleCoverModel childrenModuleCoverModel : model.getList()) {
+                recyclerViewData.add(new ItemData<Integer, BaseModel>(TYPE_PARTITION, childrenModuleCoverModel));
             }
-            forumDetailRecyclerView.getAdapter().notifyDataSetChanged();
+            forumIndexRv.getAdapter().notifyDataSetChanged();
         }
     }
 
@@ -141,12 +176,12 @@ public class ForumLabelListActivity extends BaseSwipeBackActivity {
                 vh.container.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        VideoActivity.newInstance(ForumLabelListActivity.this, model.getUrl());
+                        VideoActivity.newInstance(ForumIndexActivity.this, model.getUrl());
                     }
                 });
             }
             if (getItemViewType(position) == TYPE_PARTITION) {
-                final ForumItemDetailModel model = (ForumItemDetailModel) recyclerViewData.get(position).getValue();
+                final ChildrenModuleCoverModel model = (ChildrenModuleCoverModel) recyclerViewData.get(position).getValue();
                 VH vh = (VH) holder;
                 vh.name.setText(model.getName());
                 vh.theme.setText(String.format(getString(R.string.theme_count), model.getThemeCount()));
@@ -154,7 +189,7 @@ public class ForumLabelListActivity extends BaseSwipeBackActivity {
                 vh.content.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ForumListActivity.newInstance(ForumLabelListActivity.this, model.getUrls());
+                        ChildrenModuleIndexActivity.newInstance(ForumIndexActivity.this, model.getUrls());
                     }
                 });
             }

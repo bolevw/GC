@@ -16,7 +16,7 @@ import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseFragment;
 import com.boger.game.gc.model.GameItemModel;
 import com.boger.game.gc.presenter.fragment.GamePresenter;
-import com.boger.game.gc.ui.activity.ForumLabelListActivity;
+import com.boger.game.gc.ui.activity.ForumIndexActivity;
 import com.boger.game.gc.utils.ImageLoaderUtils;
 import com.boger.game.gc.widget.ItemTouchHelperAdapter;
 import com.boger.game.gc.widget.SimpleItemTouchHelperCallback;
@@ -123,7 +123,7 @@ public class GameCFragment extends BaseFragment {
             vh.item1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ForumLabelListActivity.newInstance(getActivity(), model.getUrls());
+                    ForumIndexActivity.newInstance(getActivity(), model.getUrls());
                 }
             });
 
