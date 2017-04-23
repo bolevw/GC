@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action1;
 
 /**
@@ -14,6 +15,9 @@ import rx.functions.Action1;
  */
 
 public class AutoViewPager extends ViewPager {
+    private int defaultPosition = 0;
+    private Subscription subscription;
+    private boolean start;
 
     public AutoViewPager(Context context) {
         super(context);
@@ -23,16 +27,43 @@ public class AutoViewPager extends ViewPager {
         super(context, attrs);
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        start = false;
+
+    }
 
     public void start() {
-        final int[] i = {this.getCurrentItem()};
-        Observable.interval(4, TimeUnit.SECONDS)
+        if (!start) {
+            startSubscription();
+            start = true;
+        }
+    }
+
+    private void startSubscription() {
+        setCurrentItem(getCurrentItem());
+        subscription = Observable.interval(4, TimeUnit.SECONDS)
                 .subscribe(new Action1<Long>() {
                     @Override
                     public void call(Long aLong) {
-                        i[0]++;
-                        AutoViewPager.this.setCurrentItem(i[0]);
+                        int index = getCurrentItem();
+                        index++;
+                        if (index >= getAdapter().getCount()) {
+                            index = defaultPosition;
+                        }
+                        setCurrentItem(index);
                     }
                 });
+    }
+
+
+    @Override
+    protected void onDetachedFromWindow() {
+        start = false;
+        if (subscription != null && subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+        super.onDetachedFromWindow();
     }
 }

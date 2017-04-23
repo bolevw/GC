@@ -321,18 +321,8 @@ public class PullToRefreshLayout extends ViewGroup {
                 return ViewCompat.canScrollVertically(targetView, -1) || targetView.getScrollY() > 0;
             }
         } else {
-            return ViewCompat.canScrollVertically(targetView, -1);
+            return  ViewCompat.canScrollVertically(targetView, -1);
         }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    public void computeScroll() {
-        super.computeScroll();
     }
 
     private AutoScroll autoScroll;
