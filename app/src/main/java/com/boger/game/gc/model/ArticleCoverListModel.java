@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Created by Administrator on 2016/4/7.
  */
 public class ArticleCoverListModel extends BaseModel {
-    private ArrayList<ArticleCoverModel> list;
+    private ArrayList<ArticleCoverModel> list = new ArrayList<>();
 
     private String nextPageUrls;
 

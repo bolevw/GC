@@ -10,7 +10,7 @@ import rx.Subscriber;
 /**
  * Created by Administrator on 2016/4/7.
  */
-public class ForumPostListPresenter implements BasePresenter<ChildrenModuleIndexActivity> {
+public class ChildrenModuleIndexPresenter implements BasePresenter<ChildrenModuleIndexActivity> {
     private ChildrenModuleIndexActivity view;
     private String nextPageUrl = null;
 

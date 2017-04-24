@@ -6,16 +6,15 @@ import android.util.Log;
 import com.boger.game.gc.api.http.Fields;
 import com.boger.game.gc.api.web.GetWebObservable;
 import com.boger.game.gc.base.BaseSub;
+import com.boger.game.gc.model.ArticleCoverListModel;
+import com.boger.game.gc.model.ArticleCoverModel;
 import com.boger.game.gc.model.ChildrenModuleCoverModel;
 import com.boger.game.gc.model.ForumIndexHeaderModel;
 import com.boger.game.gc.model.ForumIndexModel;
-import com.boger.game.gc.model.ArticleCoverModel;
-import com.boger.game.gc.model.ArticleCoverListModel;
 import com.boger.game.gc.model.PostBodyModel;
 import com.boger.game.gc.model.PostDetailHeaderModel;
 import com.boger.game.gc.model.PostDetailModel;
 import com.boger.game.gc.model.UserMessageModel;
-import com.boger.game.gc.model.VideoModel;
 import com.boger.game.gc.ui.activity.PostDetailActivity;
 
 import org.jsoup.nodes.Document;
@@ -59,15 +58,16 @@ public class ForumApi {
                         String themeCount = getThemeCount(el);
                         String todayCount = getTodayCount(el);
                         ForumIndexHeaderModel headerModel = new ForumIndexHeaderModel(title, imgSrc, themeCount, todayCount);
-                        final ArrayList<VideoModel> videoList = new ArrayList<VideoModel>();
-                        getVideoList(el, videoList);
+                        String videoUrl = getVideoUrl(el);
+                        Log.d(TAG, "call() called with: document = [" + videoUrl + "]");
+
 
                         final ArrayList<ChildrenModuleCoverModel> res = new ArrayList<ChildrenModuleCoverModel>();
                         getChildrenModule(el, res);
 
                         final ArticleCoverListModel articleCoverListModel = new ArticleCoverListModel();
                         getArticleCoverList(el, articleCoverListModel);
-                        return new ForumIndexModel(headerModel, videoList, res, articleCoverListModel);
+                        return new ForumIndexModel(headerModel, videoUrl, res, articleCoverListModel);
                     }
 
                     private String getTodayCount(Element el) {
@@ -127,27 +127,28 @@ public class ForumApi {
                         return els.text();
                     }
 
-                    private void getVideoList(Element el, ArrayList<VideoModel> videoList) {
-                        Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, "m-video__item");
-                        if (els.size() <= 0) {
-                            return;
-                        }
-                        for (Element item : els) {
-                            String url = item.getElementsByTag("a").attr(Fields.WebField.HREF);
-                            String imgSrc = item.getElementsByTag("img").get(0).attr("src");
-                            String time = item.getElementsByAttributeValue(Fields.WebField.CLASS, "m-video__time").text();
-                            String nums = item.getElementsByAttributeValue(Fields.WebField.CLASS, "m-video__nums").text();
-                            String title = item.getElementsByTag("p").text();
-
-                            VideoModel model = new VideoModel(imgSrc, time, nums, url, title);
-                            videoList.add(model);
+                    private String getVideoUrl(Element element) {
+                        if (element.toString().contains("m-video__more")) {
+                            Elements elements = element.getElementsByAttributeValue(Fields.WebField.CLASS, "m-video__more");
+                            Log.d(TAG, "getVideoUrl() called with: el = [" + elements.size() + elements.toString() + "]");
+                            if (elements == null || elements.size() == 0) {
+                                return null;
+                            } else {
+                                if (elements.get(0) != null) {
+                                    return elements.get(0).attr(Fields.WebField.HREF);
+                                } else {
+                                    return null;
+                                }
+                            }
+                        } else {
+                            return null;
                         }
                     }
 
                     private void getChildrenModule(Element el, ArrayList<ChildrenModuleCoverModel> res) {
                         if (el.toString().contains(Fields.GroupCategory.H_5)) {
                             Elements els = el.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.WebField.M_CHANNEL_LIST_ITEM);
-                            if (els.size() <= 0) {
+                            if (els == null || els.size() <= 0) {
                                 return;
                             }
                             for (Element ele : els) {

@@ -1,108 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/forumDetailListContainer"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/common_background_white"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-
-    <android.support.design.widget.AppBarLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/forumDetailListContainer"
         android:layout_width="match_parent"
-        android:layout_height="192dp"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent"
+        android:background="@color/common_background_white">
 
-
-        <android.support.design.widget.CollapsingToolbarLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/barLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:title=" ">
+            android:layout_height="wrap_content"
+            android:paddingBottom="1dp">
 
-            <LinearLayout
+
+            <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                app:contentScrim="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:statusBarScrim="@android:color/transparent"
+                app:titleEnabled="false">
 
-                <include layout="@layout/common_toolbar" />
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/activity_vertical_margin">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/gameIconIv"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:scaleType="fitXY"
-                        tools:src="@mipmap/ic_launcher" />
+                    <include layout="@layout/common_toolbar" />
 
-                    <TextView
-                        android:id="@+id/gameNameTv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/activity_vertical_margin"
-                        android:layout_toRightOf="@id/gameIconIv"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_large"
-                        tools:text="title" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/activity_vertical_margin"
+                        android:paddingRight="@dimen/activity_vertical_margin"
+                        android:paddingTop="@dimen/activity_vertical_margin">
 
-                    <TextView
-                        android:id="@+id/themeCountTv"
-                        style="@style/white_normal_2wrap"
-                        android:layout_alignLeft="@+id/gameNameTv"
-                        android:layout_below="@+id/gameNameTv"
-                        tools:text="zhutishu" />
+                        <ImageView
+                            android:id="@+id/gameIconIv"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:scaleType="fitXY"
+                            tools:src="@mipmap/ic_launcher" />
 
-                    <TextView
-                        android:id="@+id/todayCountTv"
-                        style="@style/white_normal_2wrap"
-                        android:layout_alignTop="@+id/themeCountTv"
-                        android:layout_marginLeft="4dp"
-                        android:layout_toRightOf="@id/themeCountTv"
-                        tools:text="sfjdsfl" />
+                        <TextView
+                            android:id="@+id/gameNameTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_vertical_margin"
+                            android:layout_toRightOf="@id/gameIconIv"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_large"
+                            tools:text="title" />
 
-                    <Button
-                        android:id="@+id/attentionBtn"
-                        style="@style/text_small_white_fill_red_bg_60_20"
-                        android:layout_alignLeft="@+id/themeCountTv"
-                        android:layout_below="@+id/themeCountTv"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:text="@string/attention" />
+                        <TextView
+                            android:id="@+id/themeCountTv"
+                            style="@style/white_normal_2wrap"
+                            android:layout_alignLeft="@+id/gameNameTv"
+                            android:layout_below="@+id/gameNameTv"
+                            tools:text="zhutishu" />
 
-                    <Button
-                        android:id="@+id/signInBtn"
-                        style="@style/text_small_white_fill_red_bg_60_20"
-                        android:layout_alignTop="@+id/attentionBtn"
-                        android:layout_marginLeft="4dp"
-                        android:layout_toRightOf="@+id/attentionBtn"
-                        android:text="签到" />
-                </RelativeLayout>
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/todayCountTv"
+                            style="@style/white_normal_2wrap"
+                            android:layout_alignTop="@+id/themeCountTv"
+                            android:layout_marginLeft="4dp"
+                            android:layout_toRightOf="@id/themeCountTv"
+                            tools:text="sfjdsfl" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
+                        <Button
+                            android:id="@+id/attentionBtn"
+                            style="@style/text_small_white_fill_red_bg_60_20"
+                            android:layout_alignLeft="@+id/themeCountTv"
+                            android:layout_below="@+id/themeCountTv"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:text="@string/attention" />
 
-    <com.boger.game.gc.widget.LoadingView
-        android:id="@+id/loadingView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible" />
+                        <Button
+                            android:id="@+id/signInBtn"
+                            style="@style/text_small_white_fill_red_bg_60_20"
+                            android:layout_alignTop="@+id/attentionBtn"
+                            android:layout_marginLeft="4dp"
+                            android:layout_toRightOf="@+id/attentionBtn"
+                            android:text="签到" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/forumIndexRv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-</android.support.design.widget.CoordinatorLayout>
+                        <Button
+                            android:id="@+id/allForumBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInBtn"
+                            android:background="@drawable/bg_bottom_line"
+                            android:enabled="false"
+                            android:text="全部帖子"
+                            android:textColor="@color/with_draw_control_button_text_color" />
+
+                        <Button
+                            android:id="@+id/childModuleBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/allForumBtn"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="4dp"
+                            android:layout_toRightOf="@+id/allForumBtn"
+                            android:background="@drawable/bg_bottom_line"
+                            android:text="子模块"
+                            android:textColor="@color/with_draw_control_button_text_color"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/videoBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/childModuleBtn"
+                            android:layout_toRightOf="@id/childModuleBtn"
+                            android:background="@drawable/bg_bottom_line"
+                            android:text="视频"
+                            android:textColor="@color/with_draw_control_button_text_color"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <com.boger.game.gc.widget.LoadingView
+            android:id="@+id/loadingView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/forumIndexRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </android.support.design.widget.CoordinatorLayout>
+</FrameLayout>

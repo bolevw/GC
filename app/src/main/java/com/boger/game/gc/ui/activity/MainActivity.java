@@ -37,7 +37,9 @@ public class MainActivity extends BaseActivity {
 //        if (!cache.readBooleanValue("hasRun", false)) {
         startActivity(new Intent(this, GuideActivity.class));
 //        }
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.black));
+        }
 
         bottomNav
                 .addItem(new BottomNavChild

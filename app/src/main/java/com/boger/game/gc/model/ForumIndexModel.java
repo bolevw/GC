@@ -10,23 +10,23 @@ import java.util.List;
  */
 public class ForumIndexModel extends BaseModel {
     private ForumIndexHeaderModel headerModel;
-    private List<VideoModel> videoList; //视频
+    private String videoUrl;
     private List<ChildrenModuleCoverModel> list; //论坛分区分类
     private ArticleCoverListModel articleCoverListModel;
 
-    public ForumIndexModel(ForumIndexHeaderModel headerModel, List<VideoModel> videoList, List<ChildrenModuleCoverModel> list, ArticleCoverListModel articleCoverListModel) {
+    public ForumIndexModel(ForumIndexHeaderModel headerModel, String videoList, List<ChildrenModuleCoverModel> list, ArticleCoverListModel articleCoverListModel) {
         this.headerModel = headerModel;
-        this.videoList = videoList;
+        this.videoUrl = videoList;
         this.list = list;
         this.articleCoverListModel = articleCoverListModel;
     }
 
-    public List<VideoModel> getVideoList() {
-        return videoList;
+    public String getVideoUrl() {
+        return videoUrl;
     }
 
-    public void setVideoList(List<VideoModel> videoList) {
-        this.videoList = videoList;
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public ForumIndexHeaderModel getHeaderModel() {

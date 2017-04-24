@@ -13,13 +13,13 @@ import android.widget.TextView;
 import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.model.ArticleCoverModel;
-import com.boger.game.gc.presenter.activity.ForumPostListPresenter;
+import com.boger.game.gc.presenter.activity.ChildrenModuleIndexPresenter;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/4/7.
+ * Created by liubo on 2016/4/7.
  */
 public class ChildrenModuleIndexActivity extends BaseSwipeBackActivity {
 
@@ -27,15 +27,16 @@ public class ChildrenModuleIndexActivity extends BaseSwipeBackActivity {
     private static final int TYPE_EMPTY = 0x0002;
     private static final int TYPE_NORMAL = 0x0003;
 
-    private ForumPostListPresenter presenter;
+    private ChildrenModuleIndexPresenter presenter;
     private String urls = null;
     private boolean isLoading = false;
     private RecyclerView recyclerView;
     private ArrayList<ArticleCoverModel> viewData = new ArrayList<>();
 
-    public static void newInstance(Activity activity, String urls) {
+    public static void newInstance(Activity activity, String name, String urls) {
         Intent intent = new Intent(activity, ChildrenModuleIndexActivity.class);
         intent.putExtra("urls", urls);
+        intent.putExtra("title", name);
         activity.startActivity(intent);
     }
 
@@ -51,6 +52,7 @@ public class ChildrenModuleIndexActivity extends BaseSwipeBackActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.forumPostRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        getSupportActionBar().setTitle(intent.getStringExtra("title"));
     }
 
     public void notifyChange(ArrayList<ArticleCoverModel> list) {
@@ -66,7 +68,7 @@ public class ChildrenModuleIndexActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-        this.presenter = new ForumPostListPresenter();
+        this.presenter = new ChildrenModuleIndexPresenter();
         this.presenter.bind(this);
         this.presenter.getData(urls);
     }

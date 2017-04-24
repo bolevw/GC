@@ -28,4 +28,7 @@
     <color name="guide1">#FEBF30</color>
     <color name="guide2">#148DFD</color>
     <color name="guide3">#A0D253</color>
+
+    <color name="cutoff">#efeef4</color>
+    <color name="carnation">#F95765</color>
 </resources>
