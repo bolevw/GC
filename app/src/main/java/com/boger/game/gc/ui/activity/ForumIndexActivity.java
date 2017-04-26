@@ -21,6 +21,7 @@ import com.boger.game.gc.model.ForumIndexHeaderModel;
 import com.boger.game.gc.model.ForumIndexModel;
 import com.boger.game.gc.presenter.activity.ForumDetailListPresenter;
 import com.boger.game.gc.ui.fragment.ChildModuleFragment;
+import com.boger.game.gc.ui.fragment.VideoListFragment;
 import com.boger.game.gc.utils.ImageLoaderUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -48,6 +49,7 @@ public class ForumIndexActivity extends BaseSwipeBackActivity {
     private String urls = "";
     Button attentionBtn, signInBtn;
 
+    private String videoUrl;
     private ArrayList<ArticleCoverModel> viewData = new ArrayList<>();
     private ArrayList<ChildrenModuleCoverModel> viewData2 = new ArrayList<>();
 
@@ -80,6 +82,12 @@ public class ForumIndexActivity extends BaseSwipeBackActivity {
                 ChildrenModuleIndexActivity.newInstance(ForumIndexActivity.this, moduleCoverModel.getName(), moduleCoverModel.getUrls());
             }
         });
+    }
+
+    @OnClick(R.id.videoBtn)
+    void video() {
+        hideSoftKeyboard();
+        getSupportFragmentManager().beginTransaction().addToBackStack("video").replace(R.id.container, VideoListFragment.newInstance(videoUrl), "video").commit();
     }
 
 
@@ -142,6 +150,7 @@ public class ForumIndexActivity extends BaseSwipeBackActivity {
 
         if (!TextUtils.isEmpty(model.getVideoUrl())) {
             videoBtn.setVisibility(View.VISIBLE);
+            videoUrl = model.getVideoUrl();
         }
 
         if (model.getArticleCoverListModel().getList().size() == 0) {

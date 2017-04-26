@@ -3,7 +3,7 @@ package com.boger.game.gc.model;
 import com.boger.game.gc.base.BaseModel;
 
 /**
- * Created by Administrator on 2016/3/24.
+ * Created by liubo on 2016/3/24.
  */
 public class BannerModel extends BaseModel {
     private String bannerImageSrc;

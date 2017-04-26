@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.boger.game.gc.R;
 /**
  * Created by Administrator on 2016/3/22.
  */
-public class VPIndicator extends LinearLayout {
+public class VPIndicator extends LinearLayout implements ViewPager.OnPageChangeListener {
 
 
     private Context context;
@@ -124,6 +125,33 @@ public class VPIndicator extends LinearLayout {
             value = 5;
         }
         return (int) (getResources().getDisplayMetrics().density * value + 0.5f);
+    }
+
+    public void setViewPager(ViewPager viewPager) {
+        setViewPager(viewPager, null);
+    }
+
+    public void setViewPager(ViewPager viewPager, String[] titles) {
+        viewPager.addOnPageChangeListener(this);
+        setCount(viewPager.getAdapter().getCount());
+        if (titles != null) {
+            setTitles(titles);
+        }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        selection(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     private class RetrieveInterpolator implements Interpolator {

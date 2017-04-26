@@ -21,7 +21,8 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:scaleType="fitXY"
-        android:src="@mipmap/ic_empty_favorite" />
+        android:src="@mipmap/ic_empty_favorite"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"

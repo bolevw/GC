@@ -8,7 +8,9 @@ import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by liubo on 2017/2/16.
@@ -43,7 +45,10 @@ public class AutoViewPager extends ViewPager {
 
     private void startSubscription() {
         setCurrentItem(getCurrentItem());
-        subscription = Observable.interval(4, TimeUnit.SECONDS)
+        subscription = Observable
+                .interval(4, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
                     @Override
                     public void call(Long aLong) {

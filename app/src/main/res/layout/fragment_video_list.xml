@@ -4,4 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.boger.game.gc.widget.loadmoreRecyclerview.LoadingMoreRv
+        android:id="@+id/videoRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>

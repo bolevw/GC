@@ -1,8 +1,6 @@
 package com.boger.game.gc.presenter.activity;
 
-import com.boger.game.gc.api.VideoApi;
 import com.boger.game.gc.base.BasePresenter;
-import com.boger.game.gc.base.BaseSub;
 import com.boger.game.gc.ui.activity.VideoActivity;
 
 /**
@@ -18,17 +16,7 @@ public class VideoPresenter implements BasePresenter<VideoActivity> {
     }
 
     public void getData(String url) {
-        VideoApi.getVideo(url, new BaseSub<String, VideoActivity>(view) {
-            @Override
-            protected void error(String e) {
 
-            }
-
-            @Override
-            protected void next(String s) {
-                view.show(s);
-            }
-        });
     }
 
     @Override
