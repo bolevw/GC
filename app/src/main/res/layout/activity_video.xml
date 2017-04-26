@@ -20,7 +20,7 @@
         android:id="@+id/stop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="stop" />
+        android:text="@string/stop" />
 
 
 </LinearLayout>

@@ -22,7 +22,8 @@
             android:id="@+id/itemUserNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_normal" />
 
@@ -32,7 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/itemUserNameTextView"
             android:layout_marginTop="7dp"
-            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/text_hint_color"
             android:textSize="@dimen/text_small" />
 

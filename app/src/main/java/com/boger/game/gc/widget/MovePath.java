@@ -8,6 +8,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
+import android.support.annotation.Keep;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -76,6 +77,7 @@ public class MovePath extends View {
         return percentage;
     }
 
+    @Keep
     public void setPercentage(float percentage) {
         this.percentage = percentage;
         this.invalidate();

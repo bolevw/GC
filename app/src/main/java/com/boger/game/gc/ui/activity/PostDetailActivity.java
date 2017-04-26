@@ -589,7 +589,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity {
                 Glide.with(PostDetailActivity.this).load(source).into(new SimpleTarget<GlideDrawable>() {
                     @Override
                     public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        Drawable dr = (Drawable) resource;
+                        Drawable dr = resource;
                         if (dr instanceof BitmapDrawable) {
                             BitmapDrawable bd = (BitmapDrawable) dr;
                             drawable.bitmap = bd.getBitmap();

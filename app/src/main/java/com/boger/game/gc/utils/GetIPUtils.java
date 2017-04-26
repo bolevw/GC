@@ -17,7 +17,7 @@ public class GetIPUtils {
             Enumeration<NetworkInterface> enmNetI = NetworkInterface.getNetworkInterfaces();
             while (enmNetI.hasMoreElements()) {
                 NetworkInterface networkInterface = enmNetI.nextElement();
-                boolean b = alwaysGetWifi ? networkInterface.getDisplayName().equals("wlan0") || networkInterface.getDisplayName().equals("eth0") : true;
+                boolean b = !alwaysGetWifi || (networkInterface.getDisplayName().equals("wlan0") || networkInterface.getDisplayName().equals("eth0"));
                 if (b) {
                     Enumeration<InetAddress> inetAddressEnumeration = networkInterface.getInetAddresses();
                     while (inetAddressEnumeration.hasMoreElements()) {

@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="选择大区" />
+            android:text="@string/choose_area" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/userIdEditText"
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center_vertical"
-            android:hint="召唤师名称"
+            android:hint="@string/user_name"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:textColor="@color/text_color"
@@ -41,7 +41,7 @@
         android:layout_below="@id/headView"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:text="search" />
+        android:text="@string/search" />
 
     <RelativeLayout
         android:id="@+id/avatarContainer"
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/avatarImageView"
-            android:text="是否设置为头像"
+            android:text="@string/set_avatar"
             android:textSize="13sp" />
 
         <Button
@@ -72,7 +72,7 @@
             android:layout_below="@+id/text"
             android:layout_toRightOf="@+id/avatarImageView"
             android:minHeight="10dp"
-            android:text="设置"
+            android:text="@string/set"
             android:textSize="12sp" />
 
         <android.support.v4.widget.ContentLoadingProgressBar
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/text"
-            android:text="设置成功"
+            android:text="@string/set_suc"
             android:visibility="invisible" />
     </RelativeLayout>
 

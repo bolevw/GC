@@ -26,7 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/activity_horizontal_margin"
-                    android:text="输入注册的账号密码，以进行登录（注意:这里与你的yy密码不通用）"
+                    android:text="@string/login_warning"
                     android:textColor="@android:color/holo_red_dark" />
 
                 <LinearLayout
@@ -40,7 +40,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:gravity="center_vertical"
-                        android:hint="账号"
+                        android:hint="@string/account"
                         android:paddingEnd="@dimen/activity_horizontal_margin"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingRight="@dimen/activity_vertical_margin"
@@ -54,7 +54,7 @@
                         android:layout_height="40dp"
                         android:layout_marginTop="@dimen/activity_horizontal_margin"
                         android:gravity="center_vertical"
-                        android:hint="密码"
+                        android:hint="@string/password"
                         android:inputType="textPassword"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:paddingRight="@dimen/activity_vertical_margin"
@@ -73,7 +73,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="输入验证码"
+                            android:hint="@string/verify_code"
                             android:paddingLeft="@dimen/activity_horizontal_margin"
                             android:paddingRight="@dimen/activity_vertical_margin"
                             android:textSize="@dimen/text_normal" />
@@ -87,7 +87,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="换一张" />
+                            android:text="@string/change" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -95,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/activity_horizontal_margin"
-                    android:text="1周内自动登录"
+                    android:text="@string/login_self"
                     android:visibility="gone" />
 
 
@@ -105,7 +105,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="@dimen/activity_horizontal_margin"
                     android:background="@drawable/bg_click_orange"
-                    android:text="登录"
+                    android:text="@string/login"
                     android:textColor="@color/white" />
 
                 <View
@@ -129,7 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:gravity="center_vertical"
-                        android:text="找回密码"
+                        android:text="@string/find_password"
                         android:textColor="@android:color/holo_red_light" />
 
                     <View
@@ -144,7 +144,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:gravity="center_vertical"
-                        android:text="注册账号" />
+                        android:text="@string/sigin_in_account" />
 
                 </LinearLayout>
             </LinearLayout>

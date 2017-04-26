@@ -15,7 +15,7 @@
         android:layout_weight="1"
         android:background="@drawable/bg_comment_white_round"
         android:gravity="top|left"
-        android:hint="好的评论会被人赞哦!!"
+        android:hint="@string/comment_hint"
         android:paddingLeft="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_vertical_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
@@ -31,7 +31,7 @@
         android:layout_gravity="right"
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:background="@drawable/bg_click_orange"
-        android:text="发表"
+        android:text="@string/publish"
         android:textColor="@color/white"
         android:textSize="@dimen/text_normal" />
 </LinearLayout>

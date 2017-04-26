@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:windowAnimationStyle">@style/base_activity_animation</item>
-        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

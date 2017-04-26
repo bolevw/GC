@@ -88,11 +88,7 @@ public class StickyHeaderViewGroup extends ViewGroup {
                 mDownY = ev.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (shouldIntercept(ev)) {
-                    result = true;
-                } else {
-                    result = false;
-                }
+                result = shouldIntercept(ev);
                 break;
             case MotionEvent.ACTION_UP:
                 result = false;

@@ -108,15 +108,17 @@ public class PictureCFragment extends BaseFragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            position = holder.getAdapterPosition();
             if (position < viewData.size()) {
                 final VH vh = (VH) holder;
                 ImageLoaderUtils.load(viewData.get(position).url, vh.picture);
 
+                final int finalPosition = position;
                 vh.picture.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        PictureCommentActivity.enter(getBaseActivity(), viewData.get(position).url, vh.picture);
+                        PictureCommentActivity.enter(getBaseActivity(), viewData.get(finalPosition).url, vh.picture);
                     }
                 });
 

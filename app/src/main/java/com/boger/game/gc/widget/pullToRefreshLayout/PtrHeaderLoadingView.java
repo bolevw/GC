@@ -119,7 +119,7 @@ public class PtrHeaderLoadingView extends View implements PtrHeader {
 
         canvas.rotate(degree);
         maxDistance = mMinRadius;
-        float v = (float) ((200f / 44f) * fraction * fraction - (200f / 44f));
+        float v = (200f / 44f) * fraction * fraction - (200f / 44f);
         canvas.drawCircle((v) * maxDistance, 0, mMinRadius, mPaint);
         canvas.drawCircle(-(v) * maxDistance, 0, mMinRadius, mPaint);
         canvas.drawCircle(0, (v) * maxDistance, mMinRadius, mPaint);

@@ -7,4 +7,14 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:background">@null</item>
     </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowAnimationStyle">@style/base_activity_animation</item>
+        <item name="android:windowActivityTransitions">true</item>
+    </style>
 </resources>

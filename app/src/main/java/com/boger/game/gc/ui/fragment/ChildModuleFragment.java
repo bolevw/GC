@@ -132,15 +132,17 @@ public class ChildModuleFragment extends BaseFragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            position = holder.getAdapterPosition();
 
             ((ItemVh) holder).areaTextView.setText(childrenModuleCoverModels.get(position).getName());
 
+            final int finalPosition = position;
             ((ItemVh) holder).rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(childrenModuleCoverModels.get(position));
+                        onItemClickListener.onItemClick(childrenModuleCoverModels.get(finalPosition));
                         close();
                     }
                 }

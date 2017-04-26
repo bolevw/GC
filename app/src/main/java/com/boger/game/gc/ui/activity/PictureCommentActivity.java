@@ -88,10 +88,7 @@ public class PictureCommentActivity extends BaseSwipeBackActivity {
 
     private boolean isStorgeWrite() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 
     private void saveImage() {

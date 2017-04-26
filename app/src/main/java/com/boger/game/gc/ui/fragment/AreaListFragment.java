@@ -143,20 +143,22 @@ public class AreaListFragment extends BaseFragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            position = holder.getAdapterPosition();
             if (nums) {
                 ((ItemVh) holder).areaTextView.setText(areas[position] + " " + numAreas[position]);
             } else {
                 ((ItemVh) holder).areaTextView.setText(areas[position]);
             }
+            final int finalPosition = position;
             ((ItemVh) holder).rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onItemClickListener != null) {
                         if (nums) {
-                            onItemClickListener.onItemClick(areas[position] + " " + numAreas[position]);
+                            onItemClickListener.onItemClick(areas[finalPosition] + " " + numAreas[finalPosition]);
                         } else {
-                            onItemClickListener.onItemClick(areas[position]);
+                            onItemClickListener.onItemClick(areas[finalPosition]);
                         }
                         close();
                     }

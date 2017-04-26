@@ -21,7 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:singleLine="true"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="hot"
         android:textColor="@color/text_color"
         android:textSize="@dimen/text_normal" />

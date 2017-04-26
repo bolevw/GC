@@ -89,15 +89,17 @@ public class AttentionPostFragment extends BaseFragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            position = holder.getAdapterPosition();
             if (position < viewData.size()) {
                 VH vh = (VH) holder;
                 vh.titleTextView.setText(viewData.get(position).getPostTitle());
                 vh.authorTextView.setText(viewData.get(position).getLzName());
+                final int finalPosition = position;
                 vh.rootView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        PostDetailActivity.newInstance(getBaseActivity(), viewData.get(position).getPostUrl());
+                        PostDetailActivity.newInstance(getBaseActivity(), viewData.get(finalPosition).getPostUrl());
                     }
                 });
             }

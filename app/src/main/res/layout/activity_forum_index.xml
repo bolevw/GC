@@ -46,7 +46,8 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:scaleType="fitXY"
-                            tools:src="@mipmap/ic_launcher" />
+                            tools:src="@mipmap/ic_launcher"
+                            />
 
                         <TextView
                             android:id="@+id/gameNameTv"
@@ -89,7 +90,7 @@
                             android:layout_alignTop="@+id/attentionBtn"
                             android:layout_marginLeft="4dp"
                             android:layout_toRightOf="@+id/attentionBtn"
-                            android:text="签到" />
+                            android:text="@string/sign_in" />
 
                         <Button
                             android:id="@+id/allForumBtn"
@@ -98,7 +99,7 @@
                             android:layout_below="@id/signInBtn"
                             android:background="@drawable/bg_bottom_line"
                             android:enabled="false"
-                            android:text="全部帖子"
+                            android:text="@string/the_all_forum"
                             android:textColor="@color/with_draw_control_button_text_color" />
 
                         <Button
@@ -110,7 +111,7 @@
                             android:layout_marginRight="4dp"
                             android:layout_toRightOf="@+id/allForumBtn"
                             android:background="@drawable/bg_bottom_line"
-                            android:text="子模块"
+                            android:text="@string/child_module"
                             android:textColor="@color/with_draw_control_button_text_color"
                             android:visibility="gone" />
 
@@ -121,7 +122,7 @@
                             android:layout_alignTop="@+id/childModuleBtn"
                             android:layout_toRightOf="@id/childModuleBtn"
                             android:background="@drawable/bg_bottom_line"
-                            android:text="视频"
+                            android:text="@string/video"
                             android:textColor="@color/with_draw_control_button_text_color"
                             android:visibility="gone" />
                     </RelativeLayout>

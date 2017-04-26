@@ -75,11 +75,7 @@ public class CircleProgress extends View implements View.OnClickListener {
                     progress++;
                     if (progress == 360) {
                         progress = 0;
-                        if (!isNext) {
-                            isNext = true;
-                        } else {
-                            isNext = false;
-                        }
+                        isNext = !isNext;
                     }
                     postInvalidate();
                     try {

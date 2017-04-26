@@ -24,7 +24,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:text="选择大区" />
+            android:text="@string/choose_area" />
 
         <View
             android:layout_width="match_parent"

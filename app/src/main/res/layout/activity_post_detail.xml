@@ -35,15 +35,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="评论"
+                android:hint="@string/comment"
                 android:inputType="text"
                 android:paddingLeft="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_vertical_margin"
                 android:textColorHint="@color/text_hint_color" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发布" />
+                android:text="@string/publish" />
         </LinearLayout>
 
     </RelativeLayout>

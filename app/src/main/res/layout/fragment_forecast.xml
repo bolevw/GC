@@ -10,5 +10,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center_vertical"
-        android:text="维护中。。。" />
+        android:text="@string/un_open" />
 </LinearLayout>

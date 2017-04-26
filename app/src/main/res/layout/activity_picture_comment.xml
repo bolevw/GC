@@ -37,7 +37,7 @@
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:background="?attr/selectableItemBackground"
-                android:text="保存"
+                android:text="@string/save"
                 android:textColor="@color/orange_800"
                 android:textSize="@dimen/text_normal" />
         </FrameLayout>
@@ -67,8 +67,9 @@
             android:layout_weight="1"
             android:background="@drawable/bg_edit_white_round"
             android:gravity="center_vertical"
-            android:hint="写评论..."
+            android:hint="@string/write_comment"
             android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:textColor="@color/text_color"
             android:textColorHint="@color/text_hint_color"
             android:textSize="@dimen/text_small" />
@@ -87,10 +88,10 @@
             android:id="@+id/likeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginRight="@dimen/activity_vertical_margin"
             android:background="?attr/selectableItemBackground"
             android:scaleType="fitCenter"
-            android:layout_gravity="center_vertical"
             android:src="@mipmap/ic_like" />
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

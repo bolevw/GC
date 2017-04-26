@@ -26,9 +26,10 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="4dp"
             android:layout_weight="1"
+            android:ellipsize="end"
             android:gravity="center_vertical"
+            android:maxLines="1"
             android:paddingLeft="@dimen/activity_vertical_margin"
-            android:singleLine="true"
             android:textColor="@color/orange_500"
             android:textSize="@dimen/text_normal"
             tools:text="username" />
@@ -40,9 +41,9 @@
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_vertical_margin"
             android:drawableLeft="@mipmap/ic_admire"
+            android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:text="sss"
-            android:drawablePadding="4dp"
             android:textColor="@color/text_hint_color"
             android:textSize="@dimen/text_small" />
 

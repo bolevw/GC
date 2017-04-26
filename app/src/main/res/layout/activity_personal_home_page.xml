@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="金钱"
+                android:text="@string/money"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_normal" />
         </LinearLayout>
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="威望"
+                android:text="@string/prestige"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_normal" />
         </LinearLayout>
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="多玩草"
+                android:text="@string/duowan_glass"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_normal" />
         </LinearLayout>
@@ -154,7 +154,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Ta的主题"
+            android:text="@string/it_theme"
             android:textSize="@dimen/text_large" />
 
         <ImageView
@@ -188,7 +188,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Ta的好友"
+            android:text="@string/it_friends"
             android:textSize="@dimen/text_large" />
 
         <ImageView
