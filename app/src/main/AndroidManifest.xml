@@ -82,7 +82,7 @@
             android:label="@string/title_personal_home_page"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.VideoActivity"
+            android:name=".ui.activity.VideoPlayerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.PhotoActivity"

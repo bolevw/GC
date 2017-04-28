@@ -3,9 +3,9 @@
 
 
     <!--bottom bar text-->
-    <string name="message">消息</string>
+    <string name="message">图场</string>
     <string name="square">广场</string>
-    <string name="attention">关注</string>
+    <string name="attention">视频</string>
     <string name="mine">我的</string>
 
 

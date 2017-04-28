@@ -3,24 +3,27 @@ package com.boger.game.gc.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.VideoView;
 
 import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseSwipeBackActivity;
-import com.boger.game.gc.presenter.activity.VideoPresenter;
+import com.boger.game.gc.presenter.activity.VideoPlayerPresenter;
+import com.boger.game.gc.utils.ToastUtils;
 
 /**
  * Created by Administrator on 2016/4/27.
  */
-public class VideoActivity extends BaseSwipeBackActivity {
+public class VideoPlayerActivity extends BaseSwipeBackActivity {
 
     private MediaPlayer player;
-    private VideoPresenter presenter;
+    private VideoPlayerPresenter presenter;
     private String url;
     private VideoView videoView;
 
     public static void newInstance(Activity activity, String url) {
-        Intent intent = new Intent(activity, VideoActivity.class);
+        Intent intent = new Intent(activity, VideoPlayerActivity.class);
         intent.putExtra("url", url);
         activity.startActivity(intent);
     }
@@ -33,7 +36,7 @@ public class VideoActivity extends BaseSwipeBackActivity {
     @Override
     protected void initViewData() {
 
-     /*   Intent intent = getIntent();
+        Intent intent = getIntent();
         if (TextUtils.isEmpty(intent.getStringExtra("url"))) {
             ToastUtils.showNormalToast("视频地址错误！");
             finish();
@@ -45,7 +48,7 @@ public class VideoActivity extends BaseSwipeBackActivity {
             public void onClick(View v) {
                 videoView.stopPlayback();
             }
-        });*/
+        });
     }
 
     @Override
@@ -65,13 +68,13 @@ public class VideoActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-  /*      this.presenter = new VideoPresenter();
+        this.presenter = new VideoPlayerPresenter();
         this.presenter.bind(this);
         this.presenter.getData(url);
-  */  }
+    }
 
     @Override
     protected void unBind() {
-//        this.presenter.unBind();
+        this.presenter.unBind();
     }
 }

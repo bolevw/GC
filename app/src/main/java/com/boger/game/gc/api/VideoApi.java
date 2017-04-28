@@ -9,6 +9,7 @@ import com.boger.game.gc.model.VideoChannelModel;
 import com.boger.game.gc.model.VideoChannelTitleModel;
 import com.boger.game.gc.model.VideoIndexItemModel;
 import com.boger.game.gc.model.VideoIndexModel;
+import com.boger.game.gc.model.VideoPlayerCoverModel;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,7 +29,7 @@ import rx.schedulers.Schedulers;
 public class VideoApi {
     private static final String TAG = "VideoApi";
 
-    public static void getVideo(String url, Subscriber<VideoIndexModel> sub) {
+    public static void getVideoList(String url, Subscriber<VideoIndexModel> sub) {
         GetWebObservable.getInstance(url)
                 .map(new Func1<Document, VideoIndexModel>() {
                     @Override
@@ -101,6 +102,29 @@ public class VideoApi {
                 .subscribe(sub);
     }
 
+
+    public static void getVideo(String url, Subscriber<VideoPlayerCoverModel> subscriber) {
+        GetWebObservable
+                .getInstance(url)
+                .map(new Func1<Document, VideoPlayerCoverModel>() {
+                    @Override
+                    public VideoPlayerCoverModel call(Document document) {
+                        VideoPlayerCoverModel model = new VideoPlayerCoverModel();
+                        Element el = document.body();
+                        Log.d(TAG, "call() called with: document = [" + el.toString() + "]");
+                        String src = el.getElementsByTag("video").get(0).attr("src");
+                        String poster = el.getElementsByTag("video").get(0).attr("poster");
+                        model.setPoster(poster);
+                        model.setSrc(src);
+                        return model;
+                    }
+
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+
+    }
    /* public static void requestVideo(String url, Subscriber<String> subscriber) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
@@ -109,7 +133,7 @@ public class VideoApi {
                 .addConverterFactory(new StringConverter())
                 .build();
 
-        rx.Observable observable = retrofit.create(VideoService.class).getVideo();
+        rx.Observable observable = retrofit.create(VideoService.class).getVideoList();
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

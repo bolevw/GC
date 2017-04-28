@@ -20,7 +20,7 @@ public class VideoListPresenter implements BasePresenter<VideoListFragment> {
     }
 
     public void getData(String url) {
-        VideoApi.getVideo(url, new Subscriber<VideoIndexModel>() {
+        VideoApi.getVideoList(url, new Subscriber<VideoIndexModel>() {
             @Override
             public void onCompleted() {
 

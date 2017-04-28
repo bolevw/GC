@@ -19,6 +19,7 @@ import com.boger.game.gc.model.VideoChannelModel;
 import com.boger.game.gc.model.VideoChannelTitleModel;
 import com.boger.game.gc.model.VideoIndexModel;
 import com.boger.game.gc.presenter.fragment.VideoListPresenter;
+import com.boger.game.gc.ui.activity.VideoPlayerActivity;
 import com.boger.game.gc.utils.ImageLoaderUtils;
 import com.boger.game.gc.widget.AutoViewPager;
 import com.boger.game.gc.widget.VPIndicator;
@@ -91,12 +92,13 @@ public class VideoListFragment extends BaseFragment {
                 if (TYPE_ITEM == getItemType(position)) {
                     VideoVH vh = (VideoVH) holder;
                     int fixPosition = position - 1 - (position % 5 == 0 ? position / 5 : position / 5 + 1);
-                    VideoChannelModel model = viewData.get(fixPosition);
+                    final VideoChannelModel model = viewData.get(fixPosition);
                     Log.d(TAG, "onBindItemVh() fix[" + fixPosition + "], position = [" + position + "]" + model.getName());
                     vh.container.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             //href;model.getHref();
+                            VideoPlayerActivity.newInstance(getActivity(), model.getHref());
                         }
                     });
                     ImageLoaderUtils.load(model.getCover(), vh.imgPic);

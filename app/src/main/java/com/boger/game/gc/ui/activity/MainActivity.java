@@ -34,9 +34,9 @@ public class MainActivity extends BaseActivity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initViewData() {
-//        if (!cache.readBooleanValue("hasRun", false)) {
-        startActivity(new Intent(this, GuideActivity.class));
-//        }
+        if (!cache.readBooleanValue("hasRun", false)) {
+            startActivity(new Intent(this, GuideActivity.class));
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.black));
         }
@@ -74,13 +74,6 @@ public class MainActivity extends BaseActivity {
     private BottomNavController.OnChildClickListener onNavItemClickListener = new BottomNavController.OnChildClickListener() {
         @Override
         public void onClick(int position) {
-            if (position == 2) {
-                if (!cache.readBooleanValue("isLogin", false)) {
-                    position = 3;
-                    ToastUtils.showNormalToast("请先登录！");
-                    bottomNav.selectItem(position);
-                }
-            }
             switchFragment(position);
         }
     };
