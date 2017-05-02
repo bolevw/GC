@@ -40,26 +40,23 @@ public class VideoListFragment extends BaseFragment {
     private static final int TYPE_HEADER = 0x0002;
     private static final int TYPE_TITLE = 0x0003;
 
-    VideoListPresenter presenter;
+    @BindView(R.id.videoRv)
+    LoadingMoreRv videoRv;
+
+    private VideoListPresenter presenter;
+    private String url;
 
     private AutoViewPager autoViewPager;
     private VPIndicator indicator;
-    @BindView(R.id.videoRv)
-    LoadingMoreRv videoRv;
-    String url;
-
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
     private List<VideoChannelTitleModel> titleData = new ArrayList<>();
-
     private List<VideoChannelModel> viewData = new ArrayList<>();
-
     private List<VideoBannerModel> bannerData = new ArrayList<>();
 
     public static VideoListFragment newInstance(String url) {
         Bundle args = new Bundle();
         args.putString("url", url);
-
         VideoListFragment fragment = new VideoListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -87,6 +84,16 @@ public class VideoListFragment extends BaseFragment {
             }
         });
         videoRv.setAdapter(new BaseAdapter() {
+            @Override
+            protected boolean loadWrong(boolean wrong) {
+                return false;
+            }
+
+            @Override
+            protected boolean hasMore(boolean more) {
+                return false;
+            }
+
             @Override
             protected void onBindItemVh(RecyclerView.ViewHolder holder, int position) {
                 if (TYPE_ITEM == getItemType(position)) {
@@ -214,7 +221,7 @@ public class VideoListFragment extends BaseFragment {
             titleData.add(videoIndexModel.getItems().get(i).getTitle());
         }
 
-        if (autoViewPager != null) {
+        if (bannerData.size() > 0 && autoViewPager != null) {
             autoViewPager.getAdapter().notifyDataSetChanged();
             autoViewPager.start();
 
@@ -223,6 +230,9 @@ public class VideoListFragment extends BaseFragment {
                 title[i] = bannerData.get(i).getTitle();
             }
             indicator.setViewPager(autoViewPager, title);
+        } else {
+            autoViewPager.setVisibility(View.GONE);
+            indicator.setVisibility(View.GONE);
         }
         videoRv.getAdapter().notifyDataSetChanged();
     }
@@ -240,10 +250,16 @@ public class VideoListFragment extends BaseFragment {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             ImageView view = new ImageView(getActivity());
             view.setScaleType(ImageView.ScaleType.FIT_XY);
             ImageLoaderUtils.load(bannerData.get(position).getCoverUrl(), view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    VideoPlayerActivity.newInstance(getActivity(), bannerData.get(position).getHref());
+                }
+            });
             container.addView(view);
             return view;
         }

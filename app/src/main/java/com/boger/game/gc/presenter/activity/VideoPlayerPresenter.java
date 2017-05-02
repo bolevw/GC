@@ -4,8 +4,11 @@ import android.util.Log;
 
 import com.boger.game.gc.api.VideoApi;
 import com.boger.game.gc.base.BasePresenter;
+import com.boger.game.gc.model.VideoChannelModel;
 import com.boger.game.gc.model.VideoPlayerCoverModel;
 import com.boger.game.gc.ui.activity.VideoPlayerActivity;
+
+import java.util.List;
 
 import rx.Subscriber;
 
@@ -35,10 +38,27 @@ public class VideoPlayerPresenter implements BasePresenter<VideoPlayerActivity> 
 
             @Override
             public void onNext(VideoPlayerCoverModel model) {
-                Log.d("VideoPlayerCoverModel", model.getSrc());
+                view.getVideoStart(model);
             }
         });
 
+
+        VideoApi.getRecVideoList(url, new Subscriber<List<VideoChannelModel>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("TAG", "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(List<VideoChannelModel> videoChannelModels) {
+                view.getList(videoChannelModels);
+            }
+        });
     }
 
     @Override

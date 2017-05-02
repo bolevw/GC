@@ -11,7 +11,6 @@ import android.view.MenuItem;
 
 import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseFragment;
-import com.boger.game.gc.ui.fragment.childfragment.GameCFragment;
 import com.boger.game.gc.ui.fragment.childfragment.JokeCFragment;
 import com.boger.game.gc.ui.fragment.childfragment.PictureCFragment;
 import com.boger.game.gc.ui.fragment.childfragment.RecommendCFragment;
@@ -28,7 +27,7 @@ public class IndexHomeFragment extends BaseFragment implements RecommendCFragmen
     @BindView(R.id.indexHomeTabLayout)
     TabLayout indexHomeTabLayout;
 
-    private int[] viewPagerTitles = new int[]{R.string.recommend, R.string.game, R.string.joke, R.string.picture};
+    private int[] viewPagerTitles = new int[]{R.string.recommend, R.string.joke, R.string.picture};
     private BaseFragment[] fragments = new BaseFragment[viewPagerTitles.length];
 
 
@@ -81,16 +80,12 @@ public class IndexHomeFragment extends BaseFragment implements RecommendCFragmen
                         ((RecommendCFragment) fragment).setGetMoreListener(IndexHomeFragment.this);
                         break;
                     case 1:
-                        fragment = new GameCFragment();
+                        fragment = new JokeCFragment();
                         fragments[1] = fragment;
                         break;
                     case 2:
-                        fragment = new JokeCFragment();
-                        fragments[2] = fragment;
-                        break;
-                    case 3:
                         fragment = new PictureCFragment();
-                        fragments[3] = fragment;
+                        fragments[2] = fragment;
                         break;
                 }
             }

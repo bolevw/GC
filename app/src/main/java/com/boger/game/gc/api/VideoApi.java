@@ -125,6 +125,40 @@ public class VideoApi {
                 .subscribe(subscriber);
 
     }
+
+    public static void getRecVideoList(String url, Subscriber<List<VideoChannelModel>> subscriber) {
+        GetWebObservable
+                .getInstance(url)
+                .map(new Func1<Document, List<VideoChannelModel>>() {
+                    @Override
+                    public List<VideoChannelModel> call(Document document) {
+                        Element element = document.body();
+                        return getResult(element);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    private static List<VideoChannelModel> getResult(Element element) {
+        List<VideoChannelModel> result = new ArrayList<>();
+        Elements elements = element.getElementsByAttributeValue(Fields.WebField.CLASS, "tab-cont tab-cont-show");
+        if (elements.size() > 0) {
+            Elements itemNode = elements.get(0).getElementsByTag("li");
+            for (Element el : itemNode) {
+                String href = el.getElementsByTag("a").get(0).attr("href");
+                String cover = el.getElementsByTag("img").get(0).attr("data-echo");
+                String title = el.getElementsByTag("p").get(0).text();
+                String user = el.getElementsByAttributeValue(Fields.WebField.CLASS, "video-user").get(0).text();
+                String num = el.getElementsByAttributeValue(Fields.WebField.CLASS, "video-num").get(0).text();
+                VideoChannelModel mo = new VideoChannelModel(href, user, num, cover, "", title);
+                result.add(mo);
+            }
+        }
+
+        return result;
+    }
    /* public static void requestVideo(String url, Subscriber<String> subscriber) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)

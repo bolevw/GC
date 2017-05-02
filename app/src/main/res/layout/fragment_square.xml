@@ -33,8 +33,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:visibility="gone">
+        android:layout_below="@id/toolbar">
 
         <TextView
             android:id="@+id/sectionTv"
@@ -43,7 +42,6 @@
             android:background="@color/white"
             android:gravity="center"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/text_large"
-            tools:text="test" />
+            android:textSize="@dimen/text_large" />
     </FrameLayout>
 </RelativeLayout>

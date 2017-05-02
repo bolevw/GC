@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.boger.game.gc.R;
+import com.boger.game.gc.utils.ImageLoaderUtils;
 
 
 /**
@@ -74,18 +76,18 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private void initLoading(LoadingVh holder) {
         LoadingVh vh = holder;
-        if (callback != null && callback.hasMoreData()) {
+        if (hasMore(false)) {
             vh.progressBar.setVisibility(View.VISIBLE);
             vh.tv.setText("loading...");
         } else {
             vh.progressBar.setVisibility(View.GONE);
-            vh.tv.setText("end...");
+            vh.tv.setText("-- end --");
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (callback != null && callback.loadWrong()) {
+        if (loadWrong(false)) {
             return TYPE_WRONG;
         } else {
             if (dataSize() == 0) {
@@ -103,6 +105,10 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemCount() {
         return dataSize() + 1;
     }
+
+    protected abstract boolean loadWrong(boolean wrong);
+
+    protected abstract boolean hasMore(boolean more);
 
     protected abstract void onBindItemVh(RecyclerView.ViewHolder holder, int position);
 
@@ -148,10 +154,6 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public interface Callback {
-        boolean loadWrong();
-
-        boolean hasMoreData();
-
         void retry();
     }
 
@@ -180,6 +182,16 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void setText(@IdRes int id, String value) {
             TextView tv = getView(id);
             tv.setText(value);
+        }
+
+        public void setImage(@IdRes int id, String href) {
+            ImageView iv = getView(id);
+            ImageLoaderUtils.load(href, iv);
+        }
+
+        public void onClick(@IdRes int id, View.OnClickListener listener) {
+            View v = getView(id);
+            v.setOnClickListener(listener);
         }
     }
 }

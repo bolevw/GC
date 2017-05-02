@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/activity_vertical_margin">
+
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_toRightOf="@+id/cover"
+        android:text="test"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_normal" />
+
+
+    <TextView
+        android:id="@+id/userTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/titleTv"
+        android:layout_below="@+id/titleTv"
+        android:text="test"
+        android:textColor="@color/text_hint_color"
+        android:textSize="@dimen/text_small" />
+
+    <TextView
+        android:id="@+id/numTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/userTv"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/userTv"
+        android:drawableLeft="@mipmap/ic_player"
+        android:gravity="center"
+        android:textSize="@dimen/text_small" />
+
+</RelativeLayout>
