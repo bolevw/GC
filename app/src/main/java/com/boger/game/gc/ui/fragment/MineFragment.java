@@ -3,7 +3,6 @@ package com.boger.game.gc.ui.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,6 +16,7 @@ import com.boger.game.gc.ui.activity.LoginActivity;
 import com.boger.game.gc.utils.ImageLoaderUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/3/22.
@@ -33,6 +33,20 @@ public class MineFragment extends BaseFragment {
     ImageView avatarImageView;
     @BindView(R.id.usernameTextView)
     TextView usernameTextView;
+
+    @OnClick(R.id.loginButton)
+    void login() {
+        if (isLogin) {
+            logOut();
+        } else {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
+    }
+
+    @OnClick(R.id.aboutLinearLayout)
+    void about() {
+        startActivity(new Intent(getActivity(), AboutActivity.class));
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -51,8 +65,6 @@ public class MineFragment extends BaseFragment {
             loginButton.setText("登录");
             usernameTextView.setText("");
         }
-
-
     }
 
 
@@ -65,26 +77,8 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
-        aboutLinearLayout.setOnClickListener(listener);
-        loginButton.setOnClickListener(listener);
-    }
 
-    private View.OnClickListener listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int id = getId();
-            if (id == aboutLinearLayout.getId()) {
-                startActivity(new Intent(getActivity(), AboutActivity.class));
-            }
-            if (id == loginButton.getId()) {
-                if (isLogin) {
-                    logOut();
-                } else {
-                    startActivity(new Intent(getActivity(), LoginActivity.class));
-                }
-            }
-        }
-    };
+    }
 
     private void logOut() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getBaseActivity())

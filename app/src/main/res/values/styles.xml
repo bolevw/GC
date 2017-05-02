@@ -103,6 +103,11 @@
         <item name="android:textSize">@dimen/text_small</item>
     </style>
 
+    <style name="error_hint">
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
     <declare-styleable name="BorderTextView">
         <attr name="text" format="string" />
         <attr name="textSize" format="dimension" />

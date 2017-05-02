@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.boger.game.gc"> <!-- uemng -->
 
+
     <!-- 外部存储权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -20,6 +21,11 @@
     <meta-data
         android:name="UMENG_CHANNEL"
         android:value="${UMENG_CHANNEL_VALUE}" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:name=".base.BaseApplication"
@@ -41,13 +47,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activity.GuideActivity"
             android:screenOrientation="portrait" />
@@ -95,7 +98,9 @@
             android:name=".ui.activity.PictureCommentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
+        <activity
+            android:name=".LoginActivity2"
+            android:label="@string/title_activity_login2"></activity>
     </application>
 
 </manifest>

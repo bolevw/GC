@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -54,7 +53,6 @@ public class LoginActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void initViewData() {
-        ButterKnife.bind(this);
         accountEditText = (EditText) findViewById(R.id.accountEditText);
 
         loginButton = (Button) findViewById(R.id.loginButton);
