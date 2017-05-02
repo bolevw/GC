@@ -15,10 +15,8 @@ import com.boger.game.gc.presenter.fragment.MinePresenter;
 import com.boger.game.gc.ui.activity.AboutActivity;
 import com.boger.game.gc.ui.activity.LoginActivity;
 import com.boger.game.gc.utils.ImageLoaderUtils;
-import com.boger.game.gc.widget.MovePath;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/3/22.
@@ -35,14 +33,6 @@ public class MineFragment extends BaseFragment {
     ImageView avatarImageView;
     @BindView(R.id.usernameTextView)
     TextView usernameTextView;
-
-    @BindView(R.id.movePath)
-    MovePath movePath;
-
-    @OnClick(R.id.movePath)
-    void move() {
-        movePath.run();
-    }
 
     @Override
     protected int getLayoutResId() {
@@ -64,7 +54,7 @@ public class MineFragment extends BaseFragment {
 
 
     }
-    
+
 
     @Override
     protected void bind() {

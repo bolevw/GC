@@ -66,4 +66,7 @@
     <string name="set">设置</string>
     <string name="set_suc">设置成功</string>
     <string name="un_open">维护中。。。</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -8,14 +8,14 @@ import android.support.v4.content.ContextCompat;
 import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseActivity;
 import com.boger.game.gc.base.BaseFragment;
-import com.boger.game.gc.ui.fragment.AttentionFragment;
-import com.boger.game.gc.ui.fragment.SquareFragment;
+import com.boger.game.gc.ui.fragment.ImageFragment;
 import com.boger.game.gc.ui.fragment.IndexHomeFragment;
 import com.boger.game.gc.ui.fragment.MineFragment;
+import com.boger.game.gc.ui.fragment.SquareFragment;
 import com.boger.game.gc.utils.FragmentUtils;
 import com.boger.game.gc.utils.ToastUtils;
-import com.boger.game.gc.widget.bottomnav.BottomNavController;
 import com.boger.game.gc.widget.bottomnav.BottomNavChild;
+import com.boger.game.gc.widget.bottomnav.BottomNavController;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity {
                     fragments[1] = fragment;
                     break;
                 case 2:
-                    fragment = new AttentionFragment();
+                    fragment = new ImageFragment();
                     fragments[2] = fragment;
                     break;
                 case 3:
