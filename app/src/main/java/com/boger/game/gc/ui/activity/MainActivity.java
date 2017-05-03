@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat;
 import com.boger.game.gc.R;
 import com.boger.game.gc.base.BaseActivity;
 import com.boger.game.gc.base.BaseFragment;
-import com.boger.game.gc.ui.fragment.ImageFragment;
+import com.boger.game.gc.ui.fragment.WebFragment;
 import com.boger.game.gc.ui.fragment.IndexHomeFragment;
 import com.boger.game.gc.ui.fragment.MineFragment;
 import com.boger.game.gc.ui.fragment.SquareFragment;
@@ -54,13 +54,13 @@ public class MainActivity extends BaseActivity {
                         .build())
                 .addItem(new BottomNavChild
                         .Builder(mContext)
-                        .setImageRes(R.drawable.tab_message)
-                        .setTitle(R.string.message)
+                        .setImageRes(R.drawable.tab_mine)
+                        .setTitle(R.string.mine)
                         .build())
                 .addItem(new BottomNavChild
                         .Builder(mContext)
-                        .setImageRes(R.drawable.tab_mine)
-                        .setTitle(R.string.mine)
+                        .setImageRes(R.drawable.tab_message)
+                        .setTitle(R.string.message)
                         .build())
                 .setSelectItem(1)
                 .build(onNavItemClickListener);
@@ -91,11 +91,11 @@ public class MainActivity extends BaseActivity {
                     fragments[1] = fragment;
                     break;
                 case 2:
-                    fragment = new ImageFragment();
+                    fragment = new MineFragment();
                     fragments[2] = fragment;
                     break;
                 case 3:
-                    fragment = new MineFragment();
+                    fragment = new WebFragment();
                     fragments[3] = fragment;
                     break;
             }
@@ -115,12 +115,19 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        long secTime = times;
-        times = System.currentTimeMillis();
-        ToastUtils.showNormalToast("再一次退出程序");
-        if (Math.abs(secTime - times) < 2000) {
-            super.onBackPressed();
+        boolean result = true;
+        if (onBackPressListener != null) {
+            result = onBackPressListener.onBack();
         }
+        if (result) {
+            long secTime = times;
+            times = System.currentTimeMillis();
+            ToastUtils.showNormalToast("再一次退出程序");
+            if (Math.abs(secTime - times) < 2000) {
+                super.onBackPressed();
+            }
+        }
+
     }
 
     @Override
@@ -135,5 +142,15 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
+    }
+
+    OnBackPressListener onBackPressListener;
+
+    public void setOnBackPressListener(OnBackPressListener onBackPressListener) {
+        this.onBackPressListener = onBackPressListener;
+    }
+
+    public interface OnBackPressListener {
+        boolean onBack();
     }
 }

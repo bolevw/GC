@@ -170,6 +170,16 @@
                         android:text="@string/sigin_in_account" />
 
                 </LinearLayout>
+
+                <android.support.design.widget.CheckableImageButton
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/text_input_password_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end|right"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

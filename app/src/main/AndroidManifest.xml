@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.boger.game.gc"> <!-- uemng -->
+    package="com.boger.game.gc">
 
 
     <!-- 外部存储权限 -->
