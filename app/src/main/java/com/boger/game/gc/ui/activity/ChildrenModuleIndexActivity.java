@@ -68,14 +68,8 @@ public class ChildrenModuleIndexActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-        this.presenter = new ChildrenModuleIndexPresenter();
-        this.presenter.bind(this);
+        this.presenter = new ChildrenModuleIndexPresenter(this);
         this.presenter.getData(urls);
-    }
-
-    @Override
-    protected void unBind() {
-        this.presenter.unBind();
     }
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

@@ -2,9 +2,9 @@ package com.boger.game.gc.restApi.service;
 
 import com.boger.game.gc.model.JokeResponse;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by liubo on 2016/6/6.

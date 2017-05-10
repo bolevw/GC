@@ -165,13 +165,7 @@ public class VideoPlayerActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-        this.presenter = new VideoPlayerPresenter();
-        this.presenter.bind(this);
+        this.presenter = new VideoPlayerPresenter(this);
         this.presenter.getData(url);
-    }
-
-    @Override
-    protected void unBind() {
-        this.presenter.unBind();
     }
 }

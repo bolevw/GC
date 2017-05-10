@@ -2,53 +2,43 @@ package com.boger.game.gc.presenter.fragment;
 
 import com.boger.game.gc.api.IndexApi;
 import com.boger.game.gc.api.Urls;
-import com.boger.game.gc.base.BasePresenter;
+import com.boger.game.gc.base.ApiCallBack;
+import com.boger.game.gc.base.FragmentPresenter;
 import com.boger.game.gc.model.IndexModel;
 import com.boger.game.gc.ui.fragment.childfragment.RecommendCFragment;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/3/22.
  */
-public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
-    private RecommendCFragment view;
+public class RecommendPresenter extends FragmentPresenter<RecommendCFragment> {
 
-    @Override
-    public void bind(RecommendCFragment view) {
-        this.view = view;
+    public RecommendPresenter(RecommendCFragment view) {
+        super(view);
     }
 
     public void getData(final boolean swipe) {
         if (swipe)
             view.startLoading();
-        IndexApi.getIndex(Urls.INDEX_URL, new Subscriber<IndexModel>() {
+        IndexApi.getIndex(Urls.INDEX_URL, new ApiCallBack<IndexModel>(composite) {
             @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                if (null != view) {
-                    view.logError(e);
+            protected void onSuccess(IndexModel data) {
+                if (swipe) {
                     view.stopRefresh();
                 }
+                view.stopLoading();
+                view.notifyHotDataChange(data);
             }
 
             @Override
-            public void onNext(IndexModel indexModel) {
-                if (null != view) {
-                    if (swipe) {
-                        view.stopRefresh();
-                    }
-                    view.stopLoading();
-                    view.notifyHotDataChange(indexModel);
-                }
+            protected void onFail(Throwable e) {
+                view.logError(e);
+                view.stopRefresh();
             }
         });
     }
@@ -57,26 +47,16 @@ public class RecommendPresenter implements BasePresenter<RecommendCFragment> {
         Observable.interval(2, 4, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Long>() {
+                .subscribe(new ApiCallBack<Long>(composite) {
                     @Override
-                    public void onCompleted() {
+                    protected void onSuccess(Long data) {
 
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Long aLong) {
+                    protected void onFail(Throwable e) {
 
                     }
                 });
-    }
-
-    @Override
-    public void unBind() {
-        this.view = null;
     }
 }

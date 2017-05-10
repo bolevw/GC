@@ -3,6 +3,7 @@ package com.boger.game.gc.widget;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -14,7 +15,7 @@ import android.widget.ImageView;
  * Created by liubo on 16/7/25.
  */
 
-public class ZoomImageView extends ImageView implements ViewTreeObserver.OnGlobalLayoutListener,
+public class ZoomImageView extends AppCompatImageView implements ViewTreeObserver.OnGlobalLayoutListener,
         ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener {
     private boolean get = false;
     private float mInitScale;

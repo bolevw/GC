@@ -29,8 +29,4 @@ public class RecreationCFragment extends BaseFragment {
 
     }
 
-    @Override
-    protected void unbind() {
-
-    }
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.boger.game.gc.api.http.Fields;
 import com.boger.game.gc.api.web.GetWebObservable;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.model.VideoBannerModel;
 import com.boger.game.gc.model.VideoChannelModel;
 import com.boger.game.gc.model.VideoChannelTitleModel;
@@ -18,10 +19,11 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by Administrator on 2016/4/27.
@@ -29,11 +31,12 @@ import rx.schedulers.Schedulers;
 public class VideoApi {
     private static final String TAG = "VideoApi";
 
-    public static void getVideoList(String url, Subscriber<VideoIndexModel> sub) {
-        GetWebObservable.getInstance(url)
-                .map(new Func1<Document, VideoIndexModel>() {
+    public static void getVideoList(String url, ApiCallBack<VideoIndexModel> sub) {
+        GetWebObservable
+                .getInstance(url)
+                .map(new Function<Document, VideoIndexModel>() {
                     @Override
-                    public VideoIndexModel call(Document document) {
+                    public VideoIndexModel apply(@NonNull Document document) throws Exception {
                         VideoIndexModel result = new VideoIndexModel();
                         Log.d(TAG, "call() called with: document = [" + document.body().toString() + "]");
                         Element el = document.body();
@@ -103,12 +106,12 @@ public class VideoApi {
     }
 
 
-    public static void getVideo(String url, Subscriber<VideoPlayerCoverModel> subscriber) {
+    public static void getVideo(String url, ApiCallBack<VideoPlayerCoverModel> subscriber) {
         GetWebObservable
                 .getInstance(url)
-                .map(new Func1<Document, VideoPlayerCoverModel>() {
+                .map(new Function<Document, VideoPlayerCoverModel>() {
                     @Override
-                    public VideoPlayerCoverModel call(Document document) {
+                    public VideoPlayerCoverModel apply(@NonNull Document document) throws Exception {
                         VideoPlayerCoverModel model = new VideoPlayerCoverModel();
                         Element el = document.body();
                         Log.d(TAG, "call() called with: document = [" + el.toString() + "]");
@@ -118,7 +121,6 @@ public class VideoApi {
                         model.setSrc(src);
                         return model;
                     }
-
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -126,12 +128,12 @@ public class VideoApi {
 
     }
 
-    public static void getRecVideoList(String url, Subscriber<List<VideoChannelModel>> subscriber) {
+    public static void getRecVideoList(String url, ApiCallBack<List<VideoChannelModel>> subscriber) {
         GetWebObservable
                 .getInstance(url)
-                .map(new Func1<Document, List<VideoChannelModel>>() {
+                .map(new Function<Document, List<VideoChannelModel>>() {
                     @Override
-                    public List<VideoChannelModel> call(Document document) {
+                    public List<VideoChannelModel> apply(@NonNull Document document) throws Exception {
                         Element element = document.body();
                         return getResult(element);
                     }

@@ -8,6 +8,7 @@ import android.os.StatFs;
 import android.text.format.Formatter;
 import android.util.Log;
 
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.base.BaseApplication;
 import com.boger.game.gc.restApi.Converter.ScalarsConverterFactory;
 import com.boger.game.gc.restApi.service.DownLoadService;
@@ -19,58 +20,27 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 
 /**
  * Created by liubo on 2016/5/20.
  */
 public class DownLoad {
-    public static void downLoadImage(final Context context, final String url, final Subscriber<String> sub) {
+    public static void downLoadImage(final Context context, final String url, final ApiCallBack<String> sub) {
 
-      /*
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(url)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
- Observable<ResponseBody> response = retrofit.create(DownLoadService.class).downLoadPic();
 
-        response.map(new Func1<ResponseBody, String>() {
+        Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public String call(ResponseBody responseBody) {
-                try {
-                    File file = new File(Environment.getExternalStorageDirectory().getPath() + System.currentTimeMillis() + ".jpeg");
-                    Log.d("filePath", file.getPath());
-                    InputStream inputStream = null;
-                    FileOutputStream fileOutputStream = new FileOutputStream(file);
-
-                    byte[] bytes = new byte[1024];
-                    while (inputStream.read(bytes) != -1) {
-                        fileOutputStream.write(bytes, 0, inputStream.read(bytes));
-                    }
-
-                    inputStream.close();
-                    fileOutputStream.flush();
-                    sub.onNext(file.getPath());
-
-                } catch (Exception e) {
-                    sub.onError(e);
-                }
-                return null;
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(sub);*/
-
-        Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
+            public void subscribe(@NonNull ObservableEmitter<String> emitter) throws Exception {
                 try {
                     URL mUrl = new URL(url);
                     HttpURLConnection connection = (HttpURLConnection) mUrl.openConnection();
@@ -89,58 +59,19 @@ public class DownLoad {
                         fosm.flush();
                         fosm.close();
                     }
-                    subscriber.onNext(newFile.getPath());
-                    subscriber.onCompleted();
-
-                    /*File filePath = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
-                    Log.d("filePath", filePath.getPath());
-                    if (!filePath.exists()) {
-                        filePath.mkdir();
-                    }
-//                    filePath.createNewFile();
-
-                    String fileName = System.currentTimeMillis() + ".jpg";
-                    File picFile = null;
-
-                    String state = Environment.getExternalStorageState();
-                    if (Environment.MEDIA_MOUNTED.equals(state)) {
-                        picFile = new File(filePath + fileName);
-                    } else {
-                        picFile = new File(BaseApplication.getContext().getFilesDir().getPath(), fileName);
-                        Log.d("filePath", "getFilesDir: " + BaseApplication.getContext().getFilesDir() + "  getExternalFilesDir" + BaseApplication.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-                    }
-
-                    if (!picFile.exists()) {
-                        picFile.createNewFile();
-                    }
-
-                    OutputStream fos = new FileOutputStream(picFile);
-                    byte[] bytes = new byte[4];
-                    logFileSize(picFile);
-
-                    int read = inputStream.read(bytes);
-                    while (read != -1) {
-                        fos.write(bytes, 0, read);
-                    }
-
-                    Bitmap bm = BitmapFactory.decodeFile(picFile.getPath());
-                    bm.compress(Bitmap.CompressFormat.JPEG, 80, new BufferedOutputStream(fos));
-
-                    subscriber.onNext(filePath.getPath());
-                    inputStream.close();
-                    fos.flush();
-                    fos.close();
-                    bm.recycle();*/
+                    emitter.onNext(newFile.getPath());
+                    emitter.onComplete();
                 } catch (MalformedURLException e) {
-                    subscriber.onError(e);
+                    emitter.onError(e);
                     e.printStackTrace();
                 } catch (Exception e) {
-                    subscriber.onError(e);
+                    emitter.onError(e);
                     e.printStackTrace();
                 }
 
             }
-        }).subscribeOn(Schedulers.io())
+        })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(sub);
 
@@ -165,14 +96,14 @@ public class DownLoad {
         return Environment.MEDIA_MOUNTED.equals(state);
     }
 
-    public static void downLoad(final String url, Subscriber<ResponseBody> subscriber) {
+    public static void downLoad(final String url, ApiCallBack<ResponseBody> subscriber) {
         InputStream stream = null;
         String baseUrl = url.substring(0, url.lastIndexOf("/"));
         String imageUrl = url.substring(url.lastIndexOf("/") + 1);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 

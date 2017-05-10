@@ -98,13 +98,7 @@ public class LoginActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-        this.presenter = new LoginPresenter();
-        this.presenter.bind(this);
-    }
-
-    @Override
-    protected void unBind() {
-        this.presenter.unBind();
+        this.presenter = new LoginPresenter(this);
     }
 
     @Override

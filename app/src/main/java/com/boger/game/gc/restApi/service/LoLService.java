@@ -7,9 +7,10 @@ import com.boger.game.gc.model.LevelModel;
 import com.boger.game.gc.model.PlayerInfoModel;
 import com.boger.game.gc.model.RecordModel;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
+
 
 /**
  * Created by liubo on 2016/5/27.

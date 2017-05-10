@@ -1,8 +1,8 @@
 package com.boger.game.gc.presenter.activity;
 
 import com.boger.game.gc.api.ForumApi;
-import com.boger.game.gc.base.BasePresenter;
-import com.boger.game.gc.base.BaseSub;
+import com.boger.game.gc.base.ActivityPresenter;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.model.FollowPostModel;
 import com.boger.game.gc.model.FollowResponse;
 import com.boger.game.gc.model.IsFollowModel;
@@ -14,14 +14,12 @@ import com.boger.game.gc.ui.activity.PostDetailActivity;
 /**
  * Created by Administrator on 2016/4/8.
  */
-public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
-    private PostDetailActivity view;
+public class PostDetailPresenter extends ActivityPresenter<PostDetailActivity> {
     private String nextPage;
     private boolean hasData = true;
 
-    @Override
-    public void bind(PostDetailActivity view) {
-        this.view = view;
+    public PostDetailPresenter(PostDetailActivity view) {
+        super(view);
     }
 
     public void getData(String urls, final boolean getNextPage) {
@@ -30,20 +28,21 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
             view.startLoading();
         }
 
-        ForumApi.getPostDetail(urls, getNextPage, new BaseSub<PostBodyModel, PostDetailActivity>(view) {
+        ForumApi.getPostDetail(urls, getNextPage, new ApiCallBack<PostBodyModel>(composite) {
             @Override
-            protected void error(String e) {
-                view.stopLoading();
-                view.setLoading(false);
-            }
-
-            @Override
-            protected void next(PostBodyModel s) {
+            protected void onSuccess(PostBodyModel s) {
                 view.stopLoading();
                 view.setLoading(false);
                 view.notifyChange(s, getNextPage);
                 nextPage = s.getNextPageUrl();
             }
+
+            @Override
+            protected void onFail(Throwable e) {
+                view.stopLoading();
+                view.setLoading(false);
+            }
+
         });
     }
 
@@ -58,16 +57,17 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
     }
 
     public void followPost(FollowPostModel model) {
-        ForumAndPostApi.followPost(model, new BaseSub<FollowResponse, PostDetailActivity>(view) {
+        ForumAndPostApi.followPost(model, new ApiCallBack<FollowResponse>(composite) {
             @Override
-            protected void error(String e) {
-                view.showWarning("关注失败！");
+            protected void onSuccess(FollowResponse response) {
+                view.followSuccess();
+                view.setObjectId(response.getObjectId());
             }
 
             @Override
-            protected void next(FollowResponse response) {
-                view.followSuccess();
-                view.setObjectId(response.getObjectId());
+            protected void onFail(Throwable e) {
+                view.showWarning("关注失败！");
+
             }
         });
     }
@@ -77,17 +77,17 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
         if (!view.isLogin()) {
         } else {
 
-            ForumAndPostApi.isFollow(model, new BaseSub<IsFollowResponse, PostDetailActivity>(view) {
+            ForumAndPostApi.isFollow(model, new ApiCallBack<IsFollowResponse>(composite) {
                 @Override
-                protected void error(String e) {
-                }
-
-                @Override
-                protected void next(IsFollowResponse list) {
+                protected void onSuccess(IsFollowResponse list) {
                     if (list.getResults().size() > 0) {
                         view.setObjectId(list.getResults().get(0).getObjectId());
                         view.setFollow(true);
                     }
+                }
+
+                @Override
+                protected void onFail(Throwable e) {
 
                 }
             });
@@ -95,16 +95,17 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
     }
 
     public void cancelFollow(String objectId) {
-        ForumAndPostApi.cancelFollow(objectId, new BaseSub<Void, PostDetailActivity>(view) {
+        ForumAndPostApi.cancelFollow(objectId, new ApiCallBack<Void>(composite) {
             @Override
-            protected void error(String e) {
-
-            }
-
-            @Override
-            protected void next(Void aVoid) {
+            protected void onSuccess(Void data) {
                 view.setFollow(false);
             }
+
+            @Override
+            protected void onFail(Throwable e) {
+
+            }
+
         });
     }
 
@@ -115,10 +116,4 @@ public class PostDetailPresenter implements BasePresenter<PostDetailActivity> {
     public void setHasData(boolean hasData) {
         this.hasData = hasData;
     }
-
-    @Override
-    public void unBind() {
-        this.view = null;
-    }
-
 }

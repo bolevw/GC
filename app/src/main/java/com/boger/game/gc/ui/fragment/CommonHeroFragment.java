@@ -136,8 +136,7 @@ public class CommonHeroFragment extends BaseFragment implements AreaListFragment
 
     @Override
     protected void bind() {
-        presenter = new CommonHeroPresenter();
-        presenter.bind(this);
+        presenter = new CommonHeroPresenter(this);
     }
 
     @Override
@@ -147,11 +146,6 @@ public class CommonHeroFragment extends BaseFragment implements AreaListFragment
         resultRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
         resultRecyclerView.setAdapter(new RVAdapter());
 
-    }
-
-    @Override
-    protected void unbind() {
-        presenter.unBind();
     }
 
     @Override

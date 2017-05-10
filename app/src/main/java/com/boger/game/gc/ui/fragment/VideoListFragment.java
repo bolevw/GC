@@ -197,19 +197,13 @@ public class VideoListFragment extends BaseFragment {
 
     @Override
     protected void bind() {
-        this.presenter = new VideoListPresenter();
-        this.presenter.bind(this);
+        this.presenter = new VideoListPresenter(this);
         this.presenter.getData(url);
     }
 
     @Override
     protected void setListener() {
 
-    }
-
-    @Override
-    protected void unbind() {
-        this.presenter.unBind();
     }
 
     public void getDataSuccess(VideoIndexModel videoIndexModel) {

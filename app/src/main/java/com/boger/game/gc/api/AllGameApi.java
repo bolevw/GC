@@ -2,6 +2,7 @@ package com.boger.game.gc.api;
 
 import com.boger.game.gc.api.http.Fields;
 import com.boger.game.gc.api.web.GetWebObservable;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.model.GameItemModel;
 
 import org.jsoup.nodes.Document;
@@ -11,10 +12,11 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by Administrator on 2016/3/29.
@@ -22,30 +24,39 @@ import rx.schedulers.Schedulers;
 public class AllGameApi {
     private static final String TAG = "AllGameApi";
 
-    public static void getAllGame(String urls, Subscriber<List<GameItemModel>> subscriber) {
-        GetWebObservable.getInstance(urls).map(new Func1<Document, List<GameItemModel>>() {
-            @Override
-            public List<GameItemModel> call(Document document) {
-                ArrayList<GameItemModel> list = new ArrayList<GameItemModel>();
-                Element bodyEl = document.body();
-                Elements divEs = bodyEl.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.AllGame.TAG);
-                for (Element el : divEs) {
-                    GameItemModel item = new GameItemModel();
-                    Elements tagAEl = el.getElementsByTag(Fields.WebField.A);
-                    Elements tagImg = el.getElementsByTag(Fields.WebField.IMG);
-                    Elements tagP = el.getElementsByTag(Fields.WebField.P);
+    public static void getAllGame(String urls, ApiCallBack<List<GameItemModel>> callBack) {
+        GetWebObservable
+                .getInstance(urls)
+                .map(new Function<Document, List<GameItemModel>>() {
+                    @Override
+                    public List<GameItemModel> apply(@NonNull Document document) throws Exception {
+                        ArrayList<GameItemModel> list = getGameItemModels(document);
+                        return list;
+                    }
 
-                    item.setName(tagP.text().toString());
-                    item.setImageSrc(tagImg.attr(Fields.WebField.SRC));
-                    item.setUrls(tagAEl.attr(Fields.WebField.HREF));
-                    list.add(item);
-                }
-
-                return list;
-            }
-        }).subscribeOn(Schedulers.io())
+                })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(callBack);
+    }
+
+    @android.support.annotation.NonNull
+    private static ArrayList<GameItemModel> getGameItemModels(@NonNull Document document) {
+        ArrayList<GameItemModel> list = new ArrayList<GameItemModel>();
+        Element bodyEl = document.body();
+        Elements divEs = bodyEl.getElementsByAttributeValue(Fields.WebField.CLASS, Fields.AllGame.TAG);
+        for (Element el : divEs) {
+            GameItemModel item = new GameItemModel();
+            Elements tagAEl = el.getElementsByTag(Fields.WebField.A);
+            Elements tagImg = el.getElementsByTag(Fields.WebField.IMG);
+            Elements tagP = el.getElementsByTag(Fields.WebField.P);
+
+            item.setName(tagP.text().toString());
+            item.setImageSrc(tagImg.attr(Fields.WebField.SRC));
+            item.setUrls(tagAEl.attr(Fields.WebField.HREF));
+            list.add(item);
+        }
+        return list;
     }
 
 }

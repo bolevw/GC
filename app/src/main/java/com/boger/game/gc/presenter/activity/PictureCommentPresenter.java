@@ -1,88 +1,67 @@
 package com.boger.game.gc.presenter.activity;
 
-import com.boger.game.gc.base.BasePresenter;
+import com.boger.game.gc.base.ActivityPresenter;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.model.CommentModel;
 import com.boger.game.gc.model.GetCommentModel;
 import com.boger.game.gc.restApi.CommentApi;
 import com.boger.game.gc.ui.activity.PictureCommentActivity;
 
-import rx.Subscriber;
-
 /**
  * Created by liubo on 16/8/2.
  */
 
-public class PictureCommentPresenter implements BasePresenter<PictureCommentActivity> {
+public class PictureCommentPresenter extends ActivityPresenter<PictureCommentActivity> {
 
-    private PictureCommentActivity view;
 
-    @Override
-    public void bind(PictureCommentActivity view) {
-        this.view = view;
+    public PictureCommentPresenter(PictureCommentActivity view) {
+        super(view);
     }
 
-
     public void getComment(String url) {
-        CommentApi.getComment(url, new Subscriber<GetCommentModel>() {
-            @Override
-            public void onCompleted() {
-
-            }
+        CommentApi.getComment(url, new ApiCallBack<GetCommentModel>(composite) {
 
             @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(GetCommentModel list) {
+            protected void onSuccess(GetCommentModel list) {
                 view.getDataSuccessful(list.getResults(), true);
+
+            }
+
+            @Override
+            protected void onFail(Throwable e) {
+
             }
         });
     }
 
     public void comment(CommentModel model, final String url) {
 
-        CommentApi.comment(model, new Subscriber<Void>() {
-            @Override
-            public void onCompleted() {
-
-            }
+        CommentApi.comment(model, new ApiCallBack<Void>(composite) {
 
             @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Void aVoid) {
+            protected void onSuccess(Void data) {
                 view.commentSuccessful();
                 getComment(url);
+            }
+
+            @Override
+            protected void onFail(Throwable e) {
+
             }
         });
     }
 
     public void admirePic(String objectId, CommentModel model) {
-        CommentApi.admirePic(objectId, model, new Subscriber<Void>() {
+        CommentApi.admirePic(objectId, model, new ApiCallBack<Void>(composite) {
             @Override
-            public void onCompleted() {
+            protected void onSuccess(Void data) {
 
             }
 
             @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Void aVoid) {
+            protected void onFail(Throwable e) {
 
             }
         });
-    }
-
-    @Override
-    public void unBind() {
-        this.view = null;
     }
 }

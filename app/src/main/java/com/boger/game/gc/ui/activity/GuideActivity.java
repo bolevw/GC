@@ -15,7 +15,6 @@ import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**
@@ -115,11 +114,6 @@ public class GuideActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-
-    }
-
-    @Override
-    protected void unBind() {
 
     }
 

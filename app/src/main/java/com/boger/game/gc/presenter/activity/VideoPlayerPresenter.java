@@ -3,66 +3,53 @@ package com.boger.game.gc.presenter.activity;
 import android.util.Log;
 
 import com.boger.game.gc.api.VideoApi;
-import com.boger.game.gc.base.BasePresenter;
+import com.boger.game.gc.base.ActivityPresenter;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.model.VideoChannelModel;
 import com.boger.game.gc.model.VideoPlayerCoverModel;
 import com.boger.game.gc.ui.activity.VideoPlayerActivity;
 
 import java.util.List;
 
-import rx.Subscriber;
-
 /**
  * Created by Administrator on 2016/4/27.
  */
-public class VideoPlayerPresenter implements BasePresenter<VideoPlayerActivity> {
+public class VideoPlayerPresenter extends ActivityPresenter<VideoPlayerActivity> {
 
-    private VideoPlayerActivity view;
 
-    @Override
-    public void bind(VideoPlayerActivity view) {
-        this.view = view;
+    public VideoPlayerPresenter(VideoPlayerActivity view) {
+        super(view);
     }
+
 
     public void getData(String url) {
-        VideoApi.getVideo(url, new Subscriber<VideoPlayerCoverModel>() {
+        VideoApi.getVideo(url, new ApiCallBack<VideoPlayerCoverModel>(composite) {
+
             @Override
-            public void onCompleted() {
+            protected void onSuccess(VideoPlayerCoverModel data) {
+                view.getVideoStart(data);
 
             }
 
             @Override
-            public void onError(Throwable e) {
+            protected void onFail(Throwable e) {
 
-            }
-
-            @Override
-            public void onNext(VideoPlayerCoverModel model) {
-                view.getVideoStart(model);
             }
         });
 
 
-        VideoApi.getRecVideoList(url, new Subscriber<List<VideoChannelModel>>() {
+        VideoApi.getRecVideoList(url, new ApiCallBack<List<VideoChannelModel>>(composite) {
             @Override
-            public void onCompleted() {
+            protected void onSuccess(List<VideoChannelModel> data) {
+                view.getList(data);
 
             }
 
             @Override
-            public void onError(Throwable e) {
+            protected void onFail(Throwable e) {
                 Log.e("TAG", "onError: " + e.toString());
-            }
 
-            @Override
-            public void onNext(List<VideoChannelModel> videoChannelModels) {
-                view.getList(videoChannelModels);
             }
         });
-    }
-
-    @Override
-    public void unBind() {
-        this.view = null;
     }
 }

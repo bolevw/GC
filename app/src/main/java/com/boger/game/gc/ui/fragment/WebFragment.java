@@ -46,8 +46,7 @@ public class WebFragment extends BaseFragment {
 
     @Override
     protected void bind() {
-        this.presenter = new WebPresenter();
-        this.presenter.bind(this);
+        this.presenter = new WebPresenter(this);
         this.presenter.getData();
 
     }
@@ -65,11 +64,6 @@ public class WebFragment extends BaseFragment {
                 }
             }
         });
-    }
-
-    @Override
-    protected void unbind() {
-        this.presenter.unBind();
     }
 
     @Override

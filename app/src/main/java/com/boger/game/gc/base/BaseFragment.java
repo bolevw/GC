@@ -29,6 +29,7 @@ public abstract class BaseFragment extends Fragment {
     private AppCompatActivity activity;
     protected Cache cache = Cache.getInstance(BaseApplication.getContext());
     private Unbinder unbinder;
+    private OnDestroyListener onDestroyListener;
 
     @Nullable
     @Override
@@ -99,14 +100,18 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract void setListener();
 
-    protected abstract void unbind();
-
     @Override
     public void onDestroy() {
-        unbind();
+        if (onDestroyListener != null) {
+            onDestroyListener.onDestroy();
+        }
         hideSoftKeyboard();
         unbinder.unbind();
         super.onDestroy();
+    }
+
+    public void setOnDestroyListener(OnDestroyListener onDestroyListener) {
+        this.onDestroyListener = onDestroyListener;
     }
 
     @Override

@@ -1,19 +1,20 @@
 package com.boger.game.gc.restApi;
 
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.model.PictureListModel;
 import com.boger.game.gc.restApi.connection.HttpConnection;
 import com.boger.game.gc.restApi.service.GankService;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by liubo on 2016/6/3.
  */
 public class GankApi {
-    public static void getPicture(Integer index, Subscriber<PictureListModel> sub) {
+    public static void getPicture(Integer index, ApiCallBack<PictureListModel> sub) {
         HttpConnection connection = new HttpConnection.Builder(Urls.GANK_BASE_URL)
                 .build();
 

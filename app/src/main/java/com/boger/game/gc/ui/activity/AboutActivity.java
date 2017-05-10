@@ -24,11 +24,6 @@ public class AboutActivity extends BaseSwipeBackActivity {
     }
 
     @Override
-    protected void unBind() {
-
-    }
-
-    @Override
     protected boolean isSupportSwipeBack() {
         return false;
     }

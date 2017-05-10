@@ -1,12 +1,9 @@
 package com.boger.game.gc.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,7 +16,6 @@ import com.boger.game.gc.widget.LoadingFailView;
 import com.boger.game.gc.widget.LoadingView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -130,8 +126,7 @@ public class LevelFragment extends BaseFragment implements AreaListFragment.OnIt
 
     @Override
     protected void bind() {
-        presenter = new LevelPresenter();
-        presenter.bind(this);
+        presenter = new LevelPresenter(this);
     }
 
     @Override
@@ -149,10 +144,5 @@ public class LevelFragment extends BaseFragment implements AreaListFragment.OnIt
     @Override
     public void onReload() {
         search();
-    }
-
-    @Override
-    protected void unbind() {
-        presenter.unBind();
     }
 }

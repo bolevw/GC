@@ -23,8 +23,7 @@ import butterknife.Unbinder;
  * Created by liubo on 2017/4/11.
  */
 
-public abstract class BaseActivity extends AppCompatActivity
-        {
+public abstract class BaseActivity extends AppCompatActivity {
 
     public static String TAG;
 
@@ -34,6 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity
     public Cache cache;
     protected Context mContext;
     private Unbinder unbinder;
+    private OnDestroyListener onDestroyListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,8 +49,6 @@ public abstract class BaseActivity extends AppCompatActivity
         initViewData();
         setListener();
         bind();
-        /*  getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);*/
     }
 
     @Override
@@ -76,12 +74,6 @@ public abstract class BaseActivity extends AppCompatActivity
         });
         loadingView = (LoadingView) findViewById(R.id.loadingView);
         failView = (LoadingFailView) findViewById(R.id.loadingFailView);
-
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = getWindow();
-            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }*/
     }
 
     public void startLoading() {
@@ -129,13 +121,17 @@ public abstract class BaseActivity extends AppCompatActivity
 
     protected abstract void bind();
 
-    protected abstract void unBind();
-
     @Override
     protected void onDestroy() {
-        unBind();
+        if (onDestroyListener != null) {
+            onDestroyListener.onDestroy();
+        }
         unbinder.unbind();
         super.onDestroy();
+    }
+
+    public void setOnDestroyListener(OnDestroyListener onDestroyListener) {
+        this.onDestroyListener = onDestroyListener;
     }
 
     @Override

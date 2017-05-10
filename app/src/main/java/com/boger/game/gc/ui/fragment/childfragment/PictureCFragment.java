@@ -57,8 +57,7 @@ public class PictureCFragment extends BaseFragment {
 
     @Override
     protected void bind() {
-        presenter = new PicturePresenter();
-        presenter.bind(this);
+        presenter = new PicturePresenter(this);
         presenter.getPicture(index);
     }
 
@@ -87,11 +86,6 @@ public class PictureCFragment extends BaseFragment {
             }
         }
     };
-
-    @Override
-    protected void unbind() {
-        presenter.unBind();
-    }
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

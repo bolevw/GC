@@ -122,8 +122,7 @@ public class RecommendCFragment extends BaseFragment {
 
     @Override
     protected void bind() {
-        this.presenter = new RecommendPresenter();
-        presenter.bind(this);
+        this.presenter = new RecommendPresenter(this);
     }
 
     @Override
@@ -142,11 +141,6 @@ public class RecommendCFragment extends BaseFragment {
         if (null != swipeRefreshLayout && swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
-    }
-
-    @Override
-    protected void unbind() {
-        presenter.unBind();
     }
 
     private class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

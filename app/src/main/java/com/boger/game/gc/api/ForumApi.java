@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.boger.game.gc.api.http.Fields;
 import com.boger.game.gc.api.web.GetWebObservable;
-import com.boger.game.gc.base.BaseSub;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.model.ArticleCoverListModel;
 import com.boger.game.gc.model.ArticleCoverModel;
 import com.boger.game.gc.model.ChildrenModuleCoverModel;
@@ -15,7 +15,6 @@ import com.boger.game.gc.model.PostBodyModel;
 import com.boger.game.gc.model.PostDetailHeaderModel;
 import com.boger.game.gc.model.PostDetailModel;
 import com.boger.game.gc.model.UserMessageModel;
-import com.boger.game.gc.ui.activity.PostDetailActivity;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,10 +23,11 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by Administrator on 2016/4/7.
@@ -40,13 +40,13 @@ public class ForumApi {
      * 获取论坛分类
      *
      * @param url
-     * @param subscriber
      */
-    public static void getForumDetail(String url, Subscriber<ForumIndexModel> subscriber) {
-        GetWebObservable.getInstance(Urls.BASE_URL + url)
-                .map(new Func1<Document, ForumIndexModel>() {
+    public static void getForumDetail(String url, ApiCallBack<ForumIndexModel> callBack) {
+        GetWebObservable
+                .getInstance(Urls.BASE_URL + url)
+                .map(new Function<Document, ForumIndexModel>() {
                     @Override
-                    public ForumIndexModel call(Document document) {
+                    public ForumIndexModel apply(@NonNull Document document) throws Exception {
                         Element el = document.body();
                         Log.d(TAG, "call() called with: document = [" + el.toString() + "]");
                         String title = "";
@@ -178,15 +178,15 @@ public class ForumApi {
 
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(callBack);
     }
 
 
-    public static void getPostList(String urls, Subscriber<ArticleCoverListModel> subscriber) {
+    public static void getPostList(String urls, ApiCallBack<ArticleCoverListModel> callBack) {
         GetWebObservable.getInstance(Urls.BASE_URL + urls)
-                .map(new Func1<Document, ArticleCoverListModel>() {
+                .map(new Function<Document, ArticleCoverListModel>() {
                     @Override
-                    public ArticleCoverListModel call(Document document) {
+                    public ArticleCoverListModel apply(@NonNull Document document) throws Exception {
                         ArticleCoverListModel itemModel = new ArticleCoverListModel();
                         ArrayList<ArticleCoverModel> list = new ArrayList<ArticleCoverModel>();
                         Element el = document.body();
@@ -218,17 +218,16 @@ public class ForumApi {
 
                         return itemModel;
                     }
-
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(callBack);
     }
 
 
-    public static void getPostDetail(String urls, final boolean getNextPage, BaseSub<PostBodyModel, PostDetailActivity> subscriber) {
-        GetWebObservable.getInstance(Urls.BASE_URL + urls).map(new Func1<Document, PostBodyModel>() {
+    public static void getPostDetail(String urls, final boolean getNextPage, ApiCallBack<PostBodyModel> callBack) {
+        GetWebObservable.getInstance(Urls.BASE_URL + urls).map(new Function<Document, PostBodyModel>() {
             @Override
-            public PostBodyModel call(Document document) {
+            public PostBodyModel apply(@NonNull Document document) throws Exception {
 
                 PostBodyModel body = new PostBodyModel();
                 List<PostDetailModel> detailModels = new ArrayList<PostDetailModel>();
@@ -286,7 +285,7 @@ public class ForumApi {
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(callBack);
     }
 
 }

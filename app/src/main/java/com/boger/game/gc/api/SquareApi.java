@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.boger.game.gc.api.http.Fields;
 import com.boger.game.gc.api.web.GetWebObservable;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.model.SquareItemModel;
 import com.boger.game.gc.model.SquareListModel;
 
@@ -15,10 +16,9 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/3/23.
@@ -32,14 +32,14 @@ public class SquareApi {
      *
      * @param subscriber
      */
-    public static void getIndex(Subscriber<List<SquareListModel>> subscriber) {
+    public static void getIndex(ApiCallBack<List<SquareListModel>> subscriber) {
 
 
         GetWebObservable
                 .getInstance(Urls.INDEX_URL)
-                .map(new Func1<Document, List<SquareListModel>>() {
+                .map(new Function<Document, List<SquareListModel>>() {
                     @Override
-                    public List<SquareListModel> call(Document document) {
+                    public List<SquareListModel> apply(@io.reactivex.annotations.NonNull Document document) throws Exception {
                         Element bodyE = document.body();
                         List<SquareListModel> result = new ArrayList<SquareListModel>();
                         result = getSquareData(bodyE);

@@ -62,11 +62,6 @@ public class LoLActivity extends BaseSwipeBackActivity {
     }
 
     @Override
-    protected void unBind() {
-
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);

@@ -191,19 +191,13 @@ public class SearchUserInfoFragment extends BaseFragment implements AreaListFrag
 
     @Override
     protected void bind() {
-        presenter = new SearchUserInfoPresenter();
-        presenter.bind(this);
+        presenter = new SearchUserInfoPresenter(this);
     }
 
     @Override
     protected void setListener() {
         fragment.setOnItemClickListener(SearchUserInfoFragment.this);
         loadingFailView.setReloadClickListener(SearchUserInfoFragment.this);
-    }
-
-    @Override
-    protected void unbind() {
-        presenter.unBind();
     }
 
     @Override

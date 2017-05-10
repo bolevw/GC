@@ -70,9 +70,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void bind() {
-        presenter = new MinePresenter();
-        presenter.bind(this);
-
+        presenter = new MinePresenter(this);
     }
 
     @Override
@@ -113,10 +111,5 @@ public class MineFragment extends BaseFragment {
             loginButton.setText("登录");
             usernameTextView.setText("");
         }
-    }
-
-    @Override
-    protected void unbind() {
-        presenter.unBind();
     }
 }

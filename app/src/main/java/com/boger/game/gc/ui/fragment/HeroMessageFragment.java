@@ -135,8 +135,7 @@ public class HeroMessageFragment extends BaseFragment implements AreaListFragmen
 
     @Override
     protected void bind() {
-        presenter = new HeroMessagePresenter();
-        presenter.bind(this);
+        presenter = new HeroMessagePresenter(this);
     }
 
     @Override
@@ -146,11 +145,6 @@ public class HeroMessageFragment extends BaseFragment implements AreaListFragmen
         resultRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
         resultRecyclerView.setAdapter(new RVAdapter());
 
-    }
-
-    @Override
-    protected void unbind() {
-        presenter.unBind();
     }
 
     @Override

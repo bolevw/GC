@@ -48,9 +48,4 @@ public class WelcomeActivity extends BaseActivity {
     protected void bind() {
 
     }
-
-    @Override
-    protected void unBind() {
-
-    }
 }

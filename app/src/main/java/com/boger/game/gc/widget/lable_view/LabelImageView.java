@@ -2,13 +2,14 @@ package com.boger.game.gc.widget.lable_view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
  * Created by liubo on 2016/5/26.
  */
-public class LabelImageView extends ImageView {
+public class LabelImageView extends AppCompatImageView {
     private LabelViewHelper helper;
 
 

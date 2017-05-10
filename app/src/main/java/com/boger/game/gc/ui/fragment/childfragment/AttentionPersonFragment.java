@@ -27,9 +27,4 @@ public class AttentionPersonFragment extends BaseFragment {
     protected void setListener() {
 
     }
-
-    @Override
-    protected void unbind() {
-
-    }
 }

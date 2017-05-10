@@ -88,8 +88,7 @@ public class PersonalHomePageActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-        this.presenter = new PersonalHomePagePresenter();
-        this.presenter.bind(this);
+        this.presenter = new PersonalHomePagePresenter(this);
         this.presenter.getData(url);
     }
 
@@ -114,10 +113,5 @@ public class PersonalHomePageActivity extends BaseSwipeBackActivity {
         });
         hisFriendLinearLayout.setTag(model.getFriendUrl());
         hisThemeLinearLayout.setTag(model.getThemeUrl());
-    }
-
-    @Override
-    protected void unBind() {
-        this.presenter.unBind();
     }
 }

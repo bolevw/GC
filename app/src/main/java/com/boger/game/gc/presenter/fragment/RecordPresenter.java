@@ -1,9 +1,7 @@
 package com.boger.game.gc.presenter.fragment;
 
-import android.util.Log;
-
-import com.boger.game.gc.base.BasePresenter;
-import com.boger.game.gc.base.BaseSub;
+import com.boger.game.gc.base.ApiCallBack;
+import com.boger.game.gc.base.FragmentPresenter;
 import com.boger.game.gc.model.RecordModel;
 import com.boger.game.gc.restApi.LoLApi;
 import com.boger.game.gc.ui.fragment.RecordFragment;
@@ -11,25 +9,17 @@ import com.boger.game.gc.ui.fragment.RecordFragment;
 /**
  * Created by liubo on 2016/5/30.
  */
-public class RecordPresenter implements BasePresenter<RecordFragment> {
-    private RecordFragment view;
+public class RecordPresenter extends FragmentPresenter<RecordFragment> {
 
-    @Override
-    public void bind(RecordFragment view) {
-        this.view = view;
+    public RecordPresenter(RecordFragment view) {
+        super(view);
     }
 
     public void getRecord(String serverName, String username) {
         view.loading();
-        LoLApi.getRecord(serverName, username, new BaseSub<RecordModel, RecordFragment>(view) {
+        LoLApi.getRecord(serverName, username, new ApiCallBack<RecordModel>(composite) {
             @Override
-            protected void error(String e) {
-                Log.e("error", e);
-                view.loadingFail();
-            }
-
-            @Override
-            protected void next(RecordModel recordModel) {
+            protected void onSuccess(RecordModel recordModel) {
                 view.stopLoading();
                 if (null == recordModel) {
                     view.loadingFail();
@@ -37,11 +27,11 @@ public class RecordPresenter implements BasePresenter<RecordFragment> {
                     view.setResult(recordModel);
                 }
             }
-        });
-    }
 
-    @Override
-    public void unBind() {
-        this.view = null;
+            @Override
+            protected void onFail(Throwable e) {
+                view.loadingFail();
+            }
+        });
     }
 }

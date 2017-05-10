@@ -5,13 +5,14 @@ import com.boger.game.gc.model.FollowResponse;
 import com.boger.game.gc.model.GetFollowPostResponse;
 import com.boger.game.gc.model.IsFollowResponse;
 
+import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import rx.Observable;
+
 
 /**
  * Created by liubo on 5/18/16.

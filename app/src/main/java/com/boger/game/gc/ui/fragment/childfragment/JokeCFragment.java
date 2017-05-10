@@ -54,8 +54,7 @@ public class JokeCFragment extends BaseFragment {
 
     @Override
     protected void bind() {
-        presenter = new JokePresenter();
-        presenter.bind(this);
+        presenter = new JokePresenter(this);
         presenter.getData(index);
     }
 
@@ -88,11 +87,6 @@ public class JokeCFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         presenter.getData(index);
-    }
-
-    @Override
-    protected void unbind() {
-        presenter.unBind();
     }
 
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {

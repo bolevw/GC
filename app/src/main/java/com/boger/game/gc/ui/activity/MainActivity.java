@@ -107,10 +107,6 @@ public class MainActivity extends BaseActivity {
     protected void bind() {
     }
 
-    @Override
-    protected void unBind() {
-    }
-
     private long times;
 
     @Override

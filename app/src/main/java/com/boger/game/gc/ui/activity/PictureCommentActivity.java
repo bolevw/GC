@@ -29,7 +29,7 @@ import com.boger.game.gc.model.CommentModel;
 import com.boger.game.gc.presenter.activity.PictureCommentPresenter;
 import com.boger.game.gc.utils.ImageLoaderUtils;
 import com.boger.game.gc.utils.ToastUtils;
-import com.boger.game.gc.widget.CommentDialog;
+import com.boger.game.gc.widget.dialog.CommentDialog;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
@@ -171,14 +171,8 @@ public class PictureCommentActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-        presenter = new PictureCommentPresenter();
-        presenter.bind(this);
+        presenter = new PictureCommentPresenter(this);
         presenter.getComment(url);
-    }
-
-    @Override
-    protected void unBind() {
-        presenter.unBind();
     }
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

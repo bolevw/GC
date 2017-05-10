@@ -82,8 +82,7 @@ public class GameCFragment extends BaseFragment {
 
     @Override
     protected void bind() {
-        this.presenter = new GamePresenter();
-        this.presenter.bind(this);
+        this.presenter = new GamePresenter(this);
         presenter.getData(false);
     }
 
@@ -156,10 +155,5 @@ public class GameCFragment extends BaseFragment {
                 name1 = (TextView) itemView.findViewById(R.id.itemGameTextView1);
             }
         }
-    }
-
-    @Override
-    protected void unbind() {
-        this.presenter.unBind();
     }
 }

@@ -1,14 +1,15 @@
 package com.boger.game.gc.restApi;
 
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.model.CommentModel;
 import com.boger.game.gc.model.GetCommentModel;
 import com.boger.game.gc.restApi.connection.HttpConnection;
 import com.boger.game.gc.restApi.service.CommentService;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by liubo on 16/8/2.
@@ -18,7 +19,7 @@ public class CommentApi {
 
     private static final String DATABASE_NAME = "PicComment";
 
-    public static void comment(CommentModel model, Subscriber<Void> subscriber) {
+    public static void comment(CommentModel model, ApiCallBack<Void> subscriber) {
         HttpConnection httpConnection = new HttpConnection.Builder(Urls.BASE_URL)
                 .build();
 
@@ -28,7 +29,7 @@ public class CommentApi {
                 .subscribe(subscriber);
     }
 
-    public static void getComment(String url, Subscriber<GetCommentModel> subscriber) {
+    public static void getComment(String url, ApiCallBack<GetCommentModel> subscriber) {
         HttpConnection httpConnection = new HttpConnection.Builder(Urls.BASE_URL)
                 .build();
 
@@ -43,7 +44,7 @@ public class CommentApi {
                 .subscribe(subscriber);
     }
 
-    public static void admirePic(String objectId, CommentModel model, Subscriber<Void> subscriber) {
+    public static void admirePic(String objectId, CommentModel model, ApiCallBack<Void> subscriber) {
         HttpConnection httpConnection = new HttpConnection.Builder(Urls.BASE_URL)
                 .build();
         Observable<Void> observable = httpConnection.getConnection().create(CommentService.class).admire(DATABASE_NAME, objectId, model);

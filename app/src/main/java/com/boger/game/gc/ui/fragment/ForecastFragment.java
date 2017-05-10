@@ -40,9 +40,4 @@ public class ForecastFragment extends BaseFragment {
     protected void setListener() {
 
     }
-
-    @Override
-    protected void unbind() {
-
-    }
 }

@@ -1,7 +1,7 @@
 package com.boger.game.gc.presenter.fragment;
 
-import com.boger.game.gc.base.BasePresenter;
-import com.boger.game.gc.base.BaseSub;
+import com.boger.game.gc.base.ApiCallBack;
+import com.boger.game.gc.base.FragmentPresenter;
 import com.boger.game.gc.model.LevelModel;
 import com.boger.game.gc.restApi.LoLApi;
 import com.boger.game.gc.ui.fragment.LevelFragment;
@@ -9,24 +9,18 @@ import com.boger.game.gc.ui.fragment.LevelFragment;
 /**
  * Created by liubo on 2016/6/2.
  */
-public class LevelPresenter implements BasePresenter<LevelFragment> {
-    private LevelFragment view;
+public class LevelPresenter extends FragmentPresenter<LevelFragment> {
 
-    @Override
-    public void bind(LevelFragment view) {
-        this.view = view;
+    public LevelPresenter(LevelFragment view) {
+        super(view);
     }
+
 
     public void getPlayerLevel(String serverName, String playerName) {
         view.loading();
-        LoLApi.getPlayerLevel(serverName, playerName, new BaseSub<LevelModel, LevelFragment>(view) {
+        LoLApi.getPlayerLevel(serverName, playerName, new ApiCallBack<LevelModel>(composite) {
             @Override
-            protected void error(String e) {
-                view.loadingFail();
-            }
-
-            @Override
-            protected void next(LevelModel levelModel) {
+            protected void onSuccess(LevelModel levelModel) {
                 if (levelModel == null) {
                     view.loadingFail();
                 } else {
@@ -34,11 +28,12 @@ public class LevelPresenter implements BasePresenter<LevelFragment> {
                     view.setResult(levelModel);
                 }
             }
-        });
-    }
 
-    @Override
-    public void unBind() {
-        this.view = null;
+            @Override
+            protected void onFail(Throwable e) {
+                view.loadingFail();
+
+            }
+        });
     }
 }

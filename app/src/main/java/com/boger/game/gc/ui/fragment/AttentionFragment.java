@@ -50,11 +50,6 @@ public class AttentionFragment extends BaseFragment {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    @Override
-    protected void unbind() {
-
-    }
-
     private class VPAdapter extends FragmentPagerAdapter {
 
         public VPAdapter(FragmentManager fm) {

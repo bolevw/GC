@@ -119,8 +119,7 @@ public class SquareFragment extends BaseFragment {
 
     @Override
     protected void bind() {
-        this.presenter = new SquarePresenter();
-        this.presenter.bind(this);
+        this.presenter = new SquarePresenter(this);
     }
 
     public void notifyChange(List<SquareListModel> model) {
@@ -134,11 +133,6 @@ public class SquareFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         this.presenter.getData();
-    }
-
-    @Override
-    protected void unbind() {
-        this.presenter.unBind();
     }
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

@@ -6,7 +6,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SlidingPaneLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +27,7 @@ import butterknife.Unbinder;
 /**
  * Created by Administrator on 2016/3/21.
  */
-public abstract class BaseSwipeBackActivity extends AppCompatActivity
+public abstract class BaseSwipeBackActivity extends BaseActivity
         implements SlidingPaneLayout.PanelSlideListener {
     public static String TAG;
 
@@ -54,8 +53,6 @@ public abstract class BaseSwipeBackActivity extends AppCompatActivity
         initViewData();
         setListener();
         bind();
-        /*  getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);*/
     }
 
 
@@ -140,12 +137,6 @@ public abstract class BaseSwipeBackActivity extends AppCompatActivity
         });
         loadingView = (LoadingView) findViewById(R.id.loadingView);
         failView = (LoadingFailView) findViewById(R.id.loadingFailView);
-
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = getWindow();
-            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }*/
     }
 
     public void startLoading() {
@@ -193,11 +184,8 @@ public abstract class BaseSwipeBackActivity extends AppCompatActivity
 
     protected abstract void bind();
 
-    protected abstract void unBind();
-
     @Override
     protected void onDestroy() {
-        unBind();
         unbinder.unbind();
         super.onDestroy();
     }

@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.boger.game.gc.R;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.restApi.DownLoad;
 import com.boger.game.gc.utils.ImageLoad;
@@ -28,7 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Subscriber;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by liubo on 2016/5/20.
@@ -103,20 +104,15 @@ public class PhotoActivity extends BaseSwipeBackActivity {
 
     @OnClick(R.id.saveButton)
     void saveImage() {
-        DownLoad.downLoadImage(PhotoActivity.this, urls.get(startPosition), new Subscriber<String>() {
+        DownLoad.downLoadImage(PhotoActivity.this, urls.get(startPosition), new ApiCallBack<String>(new CompositeDisposable()) {
             @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(String s) {
+            protected void onSuccess(String s) {
                 ToastUtils.showNormalToast("图片保存成功" + s);
+
+            }
+
+            @Override
+            protected void onFail(Throwable e) {
             }
         });
     }
@@ -198,11 +194,6 @@ public class PhotoActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-
-    }
-
-    @Override
-    protected void unBind() {
 
     }
 

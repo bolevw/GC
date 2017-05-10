@@ -5,7 +5,7 @@ import com.boger.game.gc.restApi.client.OkClient;
 import java.lang.reflect.Proxy;
 
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -30,7 +30,7 @@ public class HttpConnection<T> {
         retrofit = new Retrofit.Builder()
                 .client(OkClient.getInstance())
                 .baseUrl(b.urls)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

@@ -118,11 +118,6 @@ public class ChildModuleFragment extends BaseFragment {
         areaRecyclerView.setAdapter(new RVAdapter());
     }
 
-    @Override
-    protected void unbind() {
-
-    }
-
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override

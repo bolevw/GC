@@ -7,7 +7,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.text.TextUtils;
 
 import com.boger.game.gc.R;
-import com.boger.game.gc.base.BaseSub;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.model.RegisterModel;
 import com.boger.game.gc.model.UserModel;
@@ -17,6 +17,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by Administrator on 2016/4/6.
@@ -62,14 +63,9 @@ public class RegisterActivity extends BaseSwipeBackActivity {
         RegisterModel model = new RegisterModel();
         model.setUsername(username.getText().toString());
         model.setPassword(password.getText().toString());
-        UserApi.register(model, new BaseSub<UserModel, RegisterActivity>(this) {
+        UserApi.register(model, new ApiCallBack<UserModel>(new CompositeDisposable()) {
             @Override
-            protected void error(String e) {
-                showWarning(e);
-            }
-
-            @Override
-            protected void next(UserModel userModel) {
+            protected void onSuccess(UserModel userModel) {
                 Snackbar sk = Snackbar.make(coordinatorLayout, "注册成功！", Snackbar.LENGTH_SHORT);
                 SnackbarUtils.setBackground(sk, RegisterActivity.this);
                 sk.show();
@@ -82,6 +78,13 @@ public class RegisterActivity extends BaseSwipeBackActivity {
                         finish();
                     }
                 }, 400);
+
+            }
+
+            @Override
+            protected void onFail(Throwable e) {
+                showWarning(e.toString());
+
             }
         });
     }
@@ -108,11 +111,6 @@ public class RegisterActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-
-    }
-
-    @Override
-    protected void unBind() {
 
     }
 

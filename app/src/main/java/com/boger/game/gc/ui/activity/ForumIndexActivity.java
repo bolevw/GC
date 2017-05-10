@@ -198,17 +198,11 @@ public class ForumIndexActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-        this.presenter = new ForumDetailListPresenter();
-        this.presenter.bind(this);
+        this.presenter = new ForumDetailListPresenter(this);
         if (TextUtils.isEmpty(urls)) {
             return;
         }
         this.presenter.getData(urls);
-    }
-
-    @Override
-    protected void unBind() {
-        this.presenter.unBind();
     }
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

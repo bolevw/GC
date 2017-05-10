@@ -123,19 +123,13 @@ public class RecordFragment extends BaseFragment implements AreaListFragment.OnI
 
     @Override
     protected void bind() {
-        presenter = new RecordPresenter();
-        presenter.bind(this);
+        presenter = new RecordPresenter(this);
     }
 
     @Override
     protected void setListener() {
         fragment.setOnItemClickListener(RecordFragment.this);
         loadingFailView.setReloadClickListener(RecordFragment.this);
-    }
-
-    @Override
-    protected void unbind() {
-
     }
 
     @Override

@@ -50,8 +50,7 @@ public class AttentionPostFragment extends BaseFragment {
 
     @Override
     protected void bind() {
-        this.presenter = new AttentionPostPresenter();
-        this.presenter.bind(this);
+        this.presenter = new AttentionPostPresenter(this);
     }
 
     @Override
@@ -68,11 +67,6 @@ public class AttentionPostFragment extends BaseFragment {
     public void setViewData(List<FollowPostModel> viewData) {
         this.viewData = viewData;
         attentionRecyclerView.getAdapter().notifyDataSetChanged();
-    }
-
-    @Override
-    protected void unbind() {
-        presenter.unBind();
     }
 
     private class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

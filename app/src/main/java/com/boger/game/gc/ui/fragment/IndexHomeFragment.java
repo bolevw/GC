@@ -54,11 +54,6 @@ public class IndexHomeFragment extends BaseFragment implements RecommendCFragmen
     }
 
     @Override
-    protected void unbind() {
-
-    }
-
-    @Override
     public void click() {
         indexHomeViewPager.setCurrentItem(1, true);
     }

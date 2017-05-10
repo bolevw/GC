@@ -1,4 +1,4 @@
-package com.boger.game.gc.widget;
+package com.boger.game.gc.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

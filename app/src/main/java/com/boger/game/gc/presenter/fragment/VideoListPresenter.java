@@ -1,45 +1,35 @@
 package com.boger.game.gc.presenter.fragment;
 
 import com.boger.game.gc.api.VideoApi;
-import com.boger.game.gc.base.BasePresenter;
+import com.boger.game.gc.base.ApiCallBack;
+import com.boger.game.gc.base.FragmentPresenter;
 import com.boger.game.gc.model.VideoIndexModel;
 import com.boger.game.gc.ui.fragment.VideoListFragment;
-
-import rx.Subscriber;
 
 /**
  * Created by liubo on 2017/4/25.
  */
 
-public class VideoListPresenter implements BasePresenter<VideoListFragment> {
-    private VideoListFragment view;
+public class VideoListPresenter extends FragmentPresenter<VideoListFragment> {
 
-    @Override
-    public void bind(VideoListFragment view) {
-        this.view = view;
+    public VideoListPresenter(VideoListFragment view) {
+        super(view);
     }
 
     public void getData(String url) {
-        VideoApi.getVideoList(url, new Subscriber<VideoIndexModel>() {
+        VideoApi.getVideoList(url, new ApiCallBack<VideoIndexModel>(composite) {
+
             @Override
-            public void onCompleted() {
+            protected void onSuccess(VideoIndexModel data) {
+                view.getDataSuccess(data);
 
             }
 
             @Override
-            public void onError(Throwable e) {
+            protected void onFail(Throwable e) {
 
             }
 
-            @Override
-            public void onNext(VideoIndexModel videoIndexModel) {
-                view.getDataSuccess(videoIndexModel);
-            }
         });
-    }
-
-    @Override
-    public void unBind() {
-        this.view = null;
     }
 }

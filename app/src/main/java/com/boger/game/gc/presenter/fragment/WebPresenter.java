@@ -1,44 +1,33 @@
 package com.boger.game.gc.presenter.fragment;
 
 import com.boger.game.gc.api.ImageApi;
-import com.boger.game.gc.base.BasePresenter;
+import com.boger.game.gc.base.ApiCallBack;
+import com.boger.game.gc.base.FragmentPresenter;
 import com.boger.game.gc.ui.fragment.WebFragment;
-
-import rx.Subscriber;
 
 /**
  * Created by liubo on 2017/5/3.
  */
 
-public class WebPresenter implements BasePresenter<WebFragment> {
-    WebFragment view;
+public class WebPresenter extends FragmentPresenter<WebFragment> {
 
-    @Override
-    public void bind(WebFragment view) {
-        this.view = view;
+    public WebPresenter(WebFragment view) {
+        super(view);
     }
 
+
     public void getData() {
-        ImageApi.getImageCoverList("http://tu.duowan.com/scroll/133591.html", new Subscriber<Void>() {
+        ImageApi.getImageCoverList("http://tu.duowan.com/scroll/133591.html", new ApiCallBack<Void>(composite) {
+
             @Override
-            public void onCompleted() {
+            protected void onSuccess(Void data) {
 
             }
 
             @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Void aVoid) {
+            protected void onFail(Throwable e) {
 
             }
         });
-    }
-
-    @Override
-    public void unBind() {
-        this.view = null;
     }
 }

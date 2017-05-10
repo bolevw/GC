@@ -1,68 +1,56 @@
 package com.boger.game.gc.presenter.fragment;
 
-import com.boger.game.gc.base.BasePresenter;
-import com.boger.game.gc.base.BaseSub;
+import com.boger.game.gc.base.ApiCallBack;
+import com.boger.game.gc.base.FragmentPresenter;
 import com.boger.game.gc.model.PlayerInfoModel;
 import com.boger.game.gc.restApi.LoLApi;
 import com.boger.game.gc.restApi.UserApi;
 import com.boger.game.gc.ui.fragment.SearchUserInfoFragment;
 import com.boger.game.gc.utils.ToastUtils;
 
-import rx.Subscriber;
-
 /**
  * Created by liubo on 2016/5/24.
  */
-public class SearchUserInfoPresenter implements BasePresenter<SearchUserInfoFragment> {
-    private SearchUserInfoFragment view;
+public class SearchUserInfoPresenter extends FragmentPresenter<SearchUserInfoFragment> {
 
-    @Override
-    public void bind(SearchUserInfoFragment view) {
-        this.view = view;
+
+    public SearchUserInfoPresenter(SearchUserInfoFragment view) {
+        super(view);
     }
 
     public void search(String serverName, String playerName) {
         view.loading();
-        LoLApi.getPlayerInfo(serverName, playerName, new BaseSub<PlayerInfoModel, SearchUserInfoFragment>(view) {
+        LoLApi.getPlayerInfo(serverName, playerName, new ApiCallBack<PlayerInfoModel>(composite) {
             @Override
-            protected void error(String e) {
-                view.loadingFail();
+            protected void onSuccess(PlayerInfoModel data) {
+                view.stopLoading();
+                view.setResult(data);
             }
 
             @Override
-            protected void next(PlayerInfoModel playerInfoModel) {
-                view.stopLoading();
-                view.setResult(playerInfoModel);
+            protected void onFail(Throwable e) {
+                view.loadingFail();
             }
+
         });
     }
 
 
     public void saveAvatar(String avatarUrl, String id) {
         view.saveAva();
-        UserApi.saveUserAvatar(avatarUrl, id, new Subscriber<Void>() {
+        UserApi.saveUserAvatar(avatarUrl, id, new ApiCallBack<Void>(composite) {
             @Override
-            public void onCompleted() {
-
+            protected void onSuccess(Void data) {
+                view.saveAvaSuccess();
+                ToastUtils.showNormalToast("保存成功！");
             }
 
             @Override
-            public void onError(Throwable e) {
+            protected void onFail(Throwable e) {
                 view.saveAvaFail();
                 ToastUtils.showNormalToast("保存失败！");
                 view.logError(e);
             }
-
-            @Override
-            public void onNext(Void s) {
-                view.saveAvaSuccess();
-                ToastUtils.showNormalToast("保存成功！");
-            }
         });
-    }
-
-    @Override
-    public void unBind() {
-        this.view = null;
     }
 }

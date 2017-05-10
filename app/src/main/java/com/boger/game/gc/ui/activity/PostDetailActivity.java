@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.boger.game.gc.R;
 import com.boger.game.gc.api.Urls;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.base.BaseSwipeBackActivity;
 import com.boger.game.gc.base.ItemData;
 import com.boger.game.gc.model.FollowPostModel;
@@ -57,11 +58,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+
 
 /**
  * Created by Administrator on 2016/4/8.
@@ -80,7 +86,7 @@ public class PostDetailActivity extends BaseSwipeBackActivity {
     private boolean isLoading = false;
     private boolean isLogin;
     private String objectId;
-    private Subscriber subscriber;
+    private DisposableObserver subscriber;
     private boolean isFollow = false;
 
     private ArrayList<ItemData> viewData = new ArrayList<>();
@@ -149,9 +155,9 @@ public class PostDetailActivity extends BaseSwipeBackActivity {
     public void followSuccess() {
         hideSoftKeyboard();
         showWarning("关注成功");
-        Observable.just(null).doOnNext(new Action1<Object>() {
+        io.reactivex.Observable.just(null).doOnNext(new Consumer<Object>() {
             @Override
-            public void call(Object o) {
+            public void accept(@NonNull Object o) throws Exception {
 
             }
         })
@@ -162,18 +168,12 @@ public class PostDetailActivity extends BaseSwipeBackActivity {
 
     @Override
     protected void bind() {
-        presenter = new PostDetailPresenter();
-        presenter.bind(this);
+        presenter = new PostDetailPresenter(this);
         presenter.getData(urls, false);
         IsFollowModel model = new IsFollowModel();
         model.setPostUrl(urls);
         model.setUserId(cache.readStringValue("userId", "0"));
         presenter.isFollow(model);
-    }
-
-    @Override
-    protected void unBind() {
-        presenter.unBind();
     }
 
     public void notifyChange(PostBodyModel model, boolean getNextPage) {
@@ -354,38 +354,39 @@ public class PostDetailActivity extends BaseSwipeBackActivity {
                     ClipData clipData = ClipData.newPlainText("copy", vh.itemBodyContentTextView.getText().toString().trim());
                     clipboardManager.setPrimaryClip(clipData);
 
-                    Observable.create(new Observable.OnSubscribe<Void>() {
+                    DisposableObserver disposableObserver = new DisposableObserver<Void>() {
                         @Override
-                        public void call(Subscriber<? super Void> subscriber) {
-                            subscriber.onNext(null);
-                            subscriber.onError(null);
-                            subscriber.onCompleted();
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
+                            ClipData.Item paseData = clipboardManager.getPrimaryClip().getItemAt(0);
+                            String paseString = (String) paseData.getText();
+                            Log.d("pase", "pasteData: " + paseString);
+                        }
+
+                        @Override
+                        public void onNext(Void aVoid) {
+                            ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
+                            ClipData.Item paseData = clipboardManager.getPrimaryClip().getItemAt(0);
+                            String paseString = (String) paseData.getText();
+                            Log.d("pase", "pasteData: " + paseString);
+                        }
+                    };
+                    Observable.create(new ObservableOnSubscribe<Object>() {
+                        @Override
+                        public void subscribe(@NonNull ObservableEmitter<Object> emitter) throws Exception {
+                            emitter.onNext(null);
+                            emitter.onError(null);
+                            emitter.onComplete();
                         }
                     })
                             .subscribeOn(Schedulers.newThread())
-                            .delay(50000, TimeUnit.MILLISECONDS)
-                            .subscribe(new Subscriber<Void>() {
-                                @Override
-                                public void onCompleted() {
-                                    ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
-                                    ClipData.Item paseData = clipboardManager.getPrimaryClip().getItemAt(0);
-                                    String paseString = (String) paseData.getText();
-                                    Log.d("pase", "pasteData: " + paseString);
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    e.printStackTrace();
-                                }
-
-                                @Override
-                                public void onNext(Void aVoid) {
-                                    ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
-                                    ClipData.Item paseData = clipboardManager.getPrimaryClip().getItemAt(0);
-                                    String paseString = (String) paseData.getText();
-                                    Log.d("pase", "pasteData: " + paseString);
-                                }
-                            });
+                            .delay(5, TimeUnit.SECONDS)
+                            .subscribe(disposableObserver);
                     return true;
                 }
             });
@@ -432,37 +433,35 @@ public class PostDetailActivity extends BaseSwipeBackActivity {
                     ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
                     ClipData clipData = ClipData.newPlainText("copy", vh.itemBodyContentTextView.getText().toString().trim());
                     clipboardManager.setPrimaryClip(clipData);
-
-                    Observable.create(new Observable.OnSubscribe<Void>() {
+                    ApiCallBack callBack = new ApiCallBack<Void>(new CompositeDisposable()) {
                         @Override
-                        public void call(Subscriber<? super Void> subscriber) {
-                            subscriber.onNext(null);
-                            subscriber.onError(null);
-                            subscriber.onCompleted();
+                        protected void onSuccess(Void data) {
+                            ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
+                            ClipData.Item paseData = clipboardManager.getPrimaryClip().getItemAt(0);
+                            String paseString = (String) paseData.getText();
+                            Log.d("pase", "pasteData: " + paseString);
                         }
-                    })
+
+                        @Override
+                        protected void onFail(Throwable e) {
+                            e.printStackTrace();
+
+                        }
+                    };
+                    Observable
+                            .create(new ObservableOnSubscribe<Object>() {
+                                @Override
+                                public void subscribe(@NonNull ObservableEmitter<Object> emitter) throws Exception {
+                                    emitter.onNext(null);
+                                    emitter.onError(null);
+                                    emitter.onComplete();
+                                }
+                            })
                             .subscribeOn(Schedulers.io())
-//                            .delay(2000, TimeUnit.SECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<Void>() {
-                                @Override
-                                public void onCompleted() {
+                            .subscribe(callBack);
 
-                                }
 
-                                @Override
-                                public void onError(Throwable e) {
-                                    e.printStackTrace();
-                                }
-
-                                @Override
-                                public void onNext(Void aVoid) {
-                                    ClipboardManager clipboardManager = (ClipboardManager) PostDetailActivity.this.getSystemService(CLIPBOARD_SERVICE);
-                                    ClipData.Item paseData = clipboardManager.getPrimaryClip().getItemAt(0);
-                                    String paseString = (String) paseData.getText();
-                                    Log.d("pase", "pasteData: " + paseString);
-                                }
-                            });
                     return true;
                 }
             });
@@ -479,19 +478,21 @@ public class PostDetailActivity extends BaseSwipeBackActivity {
                     }
                 }
             });
-            subscriber = new Subscriber() {
-                @Override
-                public void onCompleted() {
-                }
+            subscriber = new ApiCallBack(new CompositeDisposable()) {
 
                 @Override
                 public void onError(Throwable e) {
                 }
 
                 @Override
-                public void onNext(Object o) {
+                protected void onSuccess(Object data) {
                     isFollow = true;
                     vh.itemFollowButton.setText("取消关注");
+
+                }
+
+                @Override
+                protected void onFail(Throwable e) {
 
                 }
             };

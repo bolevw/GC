@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.boger.game.gc.api.http.Fields;
 import com.boger.game.gc.api.web.GetWebObservable;
+import com.boger.game.gc.base.ApiCallBack;
 import com.boger.game.gc.model.ForumModel;
 import com.boger.game.gc.model.GroupItemModel;
 import com.boger.game.gc.model.HotRankingModel;
@@ -17,10 +18,10 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by liubo on 2016/3/23.
@@ -33,27 +34,29 @@ public class IndexApi {
      * 获取首页数据
      *
      * @param url
-     * @param subscriber
+     * @param callBack
      */
-    public static void getIndex(final String url, Subscriber<IndexModel> subscriber) {
+    public static void getIndex(final String url, ApiCallBack<IndexModel> callBack) {
 
-        GetWebObservable.getInstance(url).map(new Func1<Document, IndexModel>() {
-            @Override
-            public IndexModel call(Document document) {
-                IndexModel model = new IndexModel();
-                List<PreviewGroup> previewGroups = new ArrayList<PreviewGroup>();
-                List<HotRankingModel> hotRankingModels = new ArrayList<HotRankingModel>();
-                Element bodyE = document.body();
-                hotRankingModels = getHotRankingLit(bodyE);
-                previewGroups = getPreviewGroupList(bodyE);
+        GetWebObservable
+                .getInstance(url)
+                .map(new Function<Document, IndexModel>() {
+                    @Override
+                    public IndexModel apply(@NonNull Document document) throws Exception {
+                        IndexModel model = new IndexModel();
+                        List<PreviewGroup> previewGroups = new ArrayList<PreviewGroup>();
+                        List<HotRankingModel> hotRankingModels = new ArrayList<HotRankingModel>();
+                        Element bodyE = document.body();
+                        hotRankingModels = getHotRankingLit(bodyE);
+                        previewGroups = getPreviewGroupList(bodyE);
 
-                model.setPreviewGroupList(previewGroups);
-                model.setHotRankingList(hotRankingModels);
-                return model;
-            }
-        }).subscribeOn(Schedulers.io())
+                        model.setPreviewGroupList(previewGroups);
+                        model.setHotRankingList(hotRankingModels);
+                        return model;
+                    }
+                }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(callBack);
     }
 
     private static List<HotRankingModel> getHotRankingLit(Element bodyE) {
@@ -136,12 +139,13 @@ public class IndexApi {
     }
 
 
-    public static void getIndexDetail(Subscriber<List<ForumModel>> subscriber) {
-        GetWebObservable.getInstance(Urls.INDEX_URL)
-                .map(new Func1<Document, List<ForumModel>>() {
+    public static void getIndexDetail(ApiCallBack<List<ForumModel>> apiCallBack) {
+        GetWebObservable
+                .getInstance(Urls.INDEX_URL)
+                .map(new Function<Document, List<ForumModel>>() {
 
                     @Override
-                    public List<ForumModel> call(Document document) {
+                    public List<ForumModel> apply(@NonNull Document document) throws Exception {
                         ArrayList<ForumModel> list = new ArrayList<ForumModel>();
                         Element bodyEl = document.body();
                         Log.d(TAG, "call() called with: document = [" + bodyEl.toString() + "]");
@@ -165,6 +169,6 @@ public class IndexApi {
                     }
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(apiCallBack);
     }
 }

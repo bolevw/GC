@@ -1,9 +1,9 @@
 package com.boger.game.gc.restApi.service;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * Created by liubo on 2016/5/20.
