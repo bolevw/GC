@@ -56,7 +56,7 @@ public class WebFragment extends BaseFragment {
         ((MainActivity) (getActivity())).setOnBackPressListener(new MainActivity.OnBackPressListener() {
             @Override
             public boolean onBack() {
-                if (webView.canGoBack()) {
+                if (webView != null && webView.canGoBack()) {
                     webView.goBack();
                     return false;
                 } else {

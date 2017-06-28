@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Scroller;
 
-import com.boger.game.gc.utils.ToastUtils;
-
 import static android.support.v4.widget.ViewDragHelper.INVALID_POINTER;
 
 /**
@@ -405,8 +403,6 @@ public class PullToRefreshLayout extends ViewGroup {
                     break;
             }
         }
-
-        ToastUtils.showNormalToast(state.toString());
     }
 
     public void refreshComplete() {
