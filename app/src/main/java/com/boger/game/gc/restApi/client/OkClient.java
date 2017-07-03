@@ -27,8 +27,8 @@ public class OkClient {
 
         client = new OkHttpClient.Builder()
                 .writeTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.SECONDS)
-                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
                 .cache(cache)
                 .addInterceptor(new NormalIn())
                 .addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -40,8 +40,8 @@ public class OkClient {
     public static OkHttpClient getUpdateUserClient(String session) {
         client = new OkHttpClient.Builder()
                 .writeTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(5, TimeUnit.SECONDS)
-                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
                 .addInterceptor(new UserIn(session))
                 .addInterceptor(new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)

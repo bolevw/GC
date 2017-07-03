@@ -122,10 +122,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void bind();
 
     @Override
-    protected void onDestroy() {
+    protected void onStop() {
         if (onDestroyListener != null) {
             onDestroyListener.onDestroy();
         }
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+
         unbinder.unbind();
         super.onDestroy();
     }

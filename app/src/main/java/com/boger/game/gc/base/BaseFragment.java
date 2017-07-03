@@ -23,7 +23,7 @@ import butterknife.Unbinder;
  * Created by liubo on 2016/3/21.
  */
 public abstract class BaseFragment extends Fragment {
-    public static String TAG = null;
+    public String TAG = getClass().getSimpleName();
 
     private LoadingView loadingView;
     private AppCompatActivity activity;
@@ -43,7 +43,7 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadingView = (LoadingView) view.findViewById(R.id.loadingView);
-        TAG = this.getClass().getSimpleName();
+//        TAG = this.getClass().getSimpleName();
         startLoading();
         initViewData();
         setListener();

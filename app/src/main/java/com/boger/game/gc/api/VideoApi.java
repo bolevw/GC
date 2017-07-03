@@ -49,26 +49,25 @@ public class VideoApi {
                     }
 
                     private List<VideoIndexItemModel> getItems(Element el) {
-                        Elements elements = el.getElementsByAttributeValue(Fields.WebField.CLASS, "video-channel");
+                        Elements elements = el.getElementsByAttributeValue(Fields.WebField.CLASS, "fun-videos");
                         if (elements.size() > 0) {
                             List<VideoIndexItemModel> list = new ArrayList<VideoIndexItemModel>();
                             for (Element node : elements) {
                                 VideoIndexItemModel itemModel = new VideoIndexItemModel();
-                                String channelTitle = node.getElementsByTag("h2").get(0).text();
+                                String channelTitle = node.getElementsByTag("h3").get(0).text();
                                 String channelHref = node.getElementsByTag("a").get(0).attr("href");
                                 VideoChannelTitleModel titleModel = new VideoChannelTitleModel(channelTitle, channelHref);
                                 itemModel.setTitle(titleModel);
                                 List<VideoChannelModel> videoList = new ArrayList<VideoChannelModel>();
-                                Elements videoNode = node.getElementsByTag("li");
+                                Elements videoNode = node.getElementsByAttributeValue(Fields.WebField.CLASS, "video-list_item");
                                 if (videoNode.size() > 0) {
                                     for (Element videoItem : videoNode) {
-
-                                        String cover = videoItem.getElementsByTag("img").get(0).attr("data-echo");
-                                        String title = videoItem.getElementsByTag("img").get(0).attr("alt");
-                                        String time = videoItem.getElementsByTag("span").get(0).text();
-                                        String href = videoItem.getElementsByAttributeValue(Fields.WebField.CLASS, "video-meta").get(0).getElementsByTag("a").attr("href");
-                                        String user = videoItem.getElementsByAttributeValue(Fields.WebField.CLASS, "video-user").get(0).text();
-                                        String num = videoItem.getElementsByAttributeValue(Fields.WebField.CLASS, "video-num").get(0).text();
+                                        String cover = videoItem.getElementsByAttributeValue(Fields.WebField.CLASS, "video-cover").get(0).attr("src");
+                                        String title = videoItem.getElementsByAttributeValue(Fields.WebField.CLASS, "video-title").get(0).text();
+                                        String time = videoItem.getElementsByAttributeValue(Fields.WebField.CLASS, "video-duration").get(0).text();
+                                        String href = videoItem.getElementsByTag("a").attr("href");
+                                        String user = videoItem.getElementsByAttributeValue(Fields.WebField.CLASS, "user-name").get(0).text();
+                                        String num = videoItem.getElementsByAttributeValue(Fields.WebField.CLASS, "play-time").get(0).text();
                                         VideoChannelModel videoChannelModel = new VideoChannelModel(href, user, num, cover, time, title);
                                         videoList.add(videoChannelModel);
                                     }
@@ -83,7 +82,7 @@ public class VideoApi {
                     }
 
                     private List<VideoBannerModel> getBanners(Element el) {
-                        Elements elements = el.getElementsByAttributeValue(Fields.WebField.CLASS, "swiper-slide swiper-item");
+                        Elements elements = el.getElementsByAttributeValue(Fields.WebField.CLASS, "swiper-slide");
                         if (elements.size() > 0) {
                             List<VideoBannerModel> list = new ArrayList<VideoBannerModel>();
                             for (Element element : elements) {

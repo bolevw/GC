@@ -41,12 +41,11 @@ public class MainActivity extends BaseActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.black));
         }
 
-        bottomNav
-                .addItem(new BottomNavChild
-                        .Builder(mContext)
-                        .setTitle(R.string.attention)
-                        .setImageRes(R.drawable.tab_attention)
-                        .build())
+        bottomNav.addItem(new BottomNavChild
+                .Builder(mContext)
+                .setTitle(R.string.attention)
+                .setImageRes(R.drawable.tab_attention)
+                .build())
                 .addItem(new BottomNavChild
                         .Builder(mContext)
                         .setImageRes(R.drawable.tab_square)
@@ -100,7 +99,7 @@ public class MainActivity extends BaseActivity {
                     break;
             }
         }
-        FragmentUtils.replaceFragment(getSupportFragmentManager(), R.id.containerFrameLayout, fragments[p], false, BaseFragment.TAG);
+        FragmentUtils.replaceFragment(getSupportFragmentManager(), R.id.containerFrameLayout, fragments[p], false, fragments[p].TAG);
     }
 
     @Override

@@ -16,8 +16,8 @@ public class HttpClient {
 
     private static OkHttpClient client = new OkHttpClient.Builder()
             .writeTimeout(10, TimeUnit.SECONDS)
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
             .addInterceptor(new UserAgentInterceptor(""))
             .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build();

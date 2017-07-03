@@ -32,7 +32,7 @@ public class GetWebObservable {
                             emitter.onNext(document);
                             emitter.onComplete();
                         } catch (Exception e) {
-                            emitter.onError(e);
+//                            emitter.onError(e);
                         }
                     }
                 })
